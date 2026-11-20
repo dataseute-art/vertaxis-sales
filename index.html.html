@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VERTAXIS — LED Sales Dashboard</title>
+  <!-- Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              950: '#07142E',
+              900: '#081736',
+              850: '#0A1B3D',
+              800: '#0C2047',
+            },
+            brand: {
+              blue: '#1665F5',
+              cyan: '#22A7F0',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #F3F6FA;
+      color: #0F172A;
+    }
+
+    /* Subtle diagonal light streaks for the top header bar */
+    .header-bg {
+      background-color: #0A1B3D;
+      background-image:
+        linear-gradient(125deg, rgba(22, 101, 245, 0) 42%, rgba(22, 101, 245, 0.22) 50%, rgba(22, 101, 245, 0) 58%),
+        linear-gradient(125deg, rgba(34, 167, 240, 0) 56%, rgba(34, 167, 240, 0.14) 63%, rgba(34, 167, 240, 0) 70%),
+        radial-gradient(circle at 80% 20%, rgba(29, 78, 216, 0.25), transparent 55%);
+    }
+
+    /* Crisp funnel trapezoid hover transition */
+    .funnel-bar {
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+    .funnel-row:hover .funnel-bar {
+      filter: brightness(1.06);
+      transform: scale(1.015);
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+  </style>
+</head>
+<body class="min-h-screen overflow-x-hidden antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="mobileBackdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 hidden lg:hidden" onclick="toggleMobileSidebar(false)"></div>
+
+  <div class="flex min-h-screen">
+    <!-- ========================================== -->
+    <!-- LEFT SIDEBAR                               -->
+    <!-- ========================================== -->
+    <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-50 h-screen w-[235px] shrink-0 bg-[#081736] text-white flex flex-col justify-between transition-transform duration-200 -translate-x-full lg:translate-x-0 shadow-xl lg:shadow-none select-none">
+
+      <!-- Top Section: Brand + Navigation -->
+      <div>
+        <!-- Brand Header -->
+        <div class="px-5 pt-6 pb-6 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <!-- Geometric Blue "V" Logo SVG -->
+            <svg width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0">
+              <path d="M5 7L16.5 34H22.5L11 7H5Z" fill="#1665F5"/>
+              <path d="M18.5 34H23.5L35 7H29L18.5 34Z" fill="#22A7F0"/>
+              <path d="M13 7L20 24L27 7H22L20 12.5L18 7H13Z" fill="#60A5FA" opacity="0.85"/>
+            </svg>
+            <div class="leading-tight">
+              <div class="text-[19px] font-extrabold tracking-wide text-white">VERTAXIS</div>
+              <div class="text-[10.5px] font-medium text-blue-200/80 tracking-tight">LED Display Solutions</div>
+            </div>
+          </div>
+          <!-- Close button on mobile -->
+          <button onclick="toggleMobileSidebar(false)" class="lg:hidden p-1.5 rounded-lg text-slate-300 hover:bg-white/10" aria-label="Close sidebar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="px-3 space-y-1.5" id="sidebarNav">
+          <button data-tab="dashboard" onclick="switchTab('dashboard')" class="nav-item w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[14px] font-medium transition-colors">
+            <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+            <span>Dashboard</span>
+          </button>
+
+          <button data-tab="companies" onclick="switchTab('companies')" class="nav-item w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[14px] font-medium transition-colors">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            <span>Companies</span>
+          </button>
+
+          <button data-tab="opportunities" onclick="switchTab('opportunities')" class="nav-item w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[14px] font-medium transition-colors">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span>Opportunities</span>
+          </button>
+
+          <button data-tab="followups" onclick="switchTab('followups')" class="nav-item w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[14px] font-medium transition-colors">
+            <div class="flex items-center gap-3.5">
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span>Follow-ups</span>
+            </div>
+            <span id="sidebarFollowupBadge" class="inline-flex items-center justify-center min-w-[21px] h-[21px] px-1.5 text-[11px] font-bold text-white bg-red-600 rounded-full shadow-xs">3</span>
+          </button>
+
+          <button data-tab="reports" onclick="switchTab('reports')" class="nav-item w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[14px] font-medium transition-colors">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Reports</span>
+          </button>
+
+          <button data-tab="settings" onclick="switchTab('settings')" class="nav-item w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-[14px] font-medium transition-colors">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span>Settings</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Bottom Sidebar Banner: Stylized Offline Cityscape + LED Display SVG -->
+      <div class="relative mt-4 h-[230px] w-full overflow-hidden shrink-0">
+        <!-- Offline Vector Cityscape with Glowing LED Billboard -->
+        <svg viewBox="0 0 235 230" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute inset-0 w-full h-full object-cover">
+          <defs>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#081736"/>
+              <stop offset="45%" stop-color="#0E2A5C"/>
+              <stop offset="100%" stop-color="#07142E"/>
+            </linearGradient>
+            <linearGradient id="ledScreen" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#22D3EE"/>
+              <stop offset="45%" stop-color="#6366F1"/>
+              <stop offset="78%" stop-color="#EC4899"/>
+              <stop offset="100%" stop-color="#F59E0B"/>
+            </linearGradient>
+            <linearGradient id="bottomFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#081736" stop-opacity="0"/>
+              <stop offset="55%" stop-color="#081736" stop-opacity="0.72"/>
+              <stop offset="100%" stop-color="#07142E" stop-opacity="0.98"/>
+            </linearGradient>
+            <filter id="ledGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="8" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+          </defs>
+          <rect width="235" height="230" fill="url(#skyGrad)"/>
+          <!-- Background skyline silhouettes -->
+          <rect x="8" y="88" width="28" height="110" fill="#0B2149"/>
+          <rect x="38" y="65" width="32" height="133" fill="#0F2C5E"/>
+          <rect x="75" y="102" width="24" height="96" fill="#0A1E42"/>
+          <rect x="195" y="40" width="40" height="158" fill="#0D2754"/>
+          <!-- Main foreground building -->
+          <polygon points="100,52 235,18 235,190 100,190" fill="#10254D"/>
+          <!-- Glowing curved LED Billboard on facade -->
+          <polygon points="110,76 218,48 218,124 110,138" fill="url(#ledScreen)" filter="url(#ledGlow)" opacity="0.95"/>
+          <!-- LED grid pixel lines -->
+          <line x1="138" y1="69" x2="138" y2="134" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <line x1="166" y1="61" x2="166" y2="130" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <line x1="194" y1="54" x2="194" y2="127" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <line x1="110" y1="98" x2="218" y2="74" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <line x1="110" y1="118" x2="218" y2="98" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <!-- Light streaks along street -->
+          <path d="M0 164 Q120 170 235 186" stroke="#38BDF8" stroke-width="1.5" stroke-opacity="0.55" fill="none"/>
+          <path d="M0 172 Q125 182 235 202" stroke="#F472B6" stroke-width="1.2" stroke-opacity="0.45" fill="none"/>
+          <!-- Window dots -->
+          <g fill="#93C5FD" opacity="0.35">
+            <rect x="44" y="75" width="4" height="4"/><rect x="52" y="75" width="4" height="4"/>
+            <rect x="44" y="85" width="4" height="4"/><rect x="52" y="85" width="4" height="4"/>
+            <rect x="44" y="95" width="4" height="4"/><rect x="52" y="95" width="4" height="4"/>
+            <rect x="14" y="98" width="4" height="4"/><rect x="22" y="98" width="4" height="4"/>
+            <rect x="14" y="108" width="4" height="4"/><rect x="22" y="108" width="4" height="4"/>
+          </g>
+          <!-- Smooth bottom dark fade for text readability -->
+          <rect x="0" y="90" width="235" height="140" fill="url(#bottomFade)"/>
+        </svg>
+
+        <!-- Overlaid Tagline -->
+        <div class="absolute bottom-5 left-5 right-4 leading-[1.15]">
+          <div class="text-[20px] font-bold text-white tracking-tight">Bigger</div>
+          <div class="text-[20px] font-bold text-white tracking-tight">Brighter</div>
+          <div class="text-[20px] font-bold text-[#22A7F0] tracking-tight">Smarter</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========================================== -->
+    <!-- MAIN COLUMN (HEADER + WORKSPACE)           -->
+    <!-- ========================================== -->
+    <div class="flex-1 flex flex-col min-w-0">
+
+      <!-- TOP HEADER BAR -->
+      <header class="header-bg text-white px-5 sm:px-7 py-4 flex flex-wrap items-center justify-between gap-4 border-b border-white/10">
+        <!-- Left Title & Mobile Menu Button -->
+        <div class="flex items-center gap-3.5">
+          <button onclick="toggleMobileSidebar(true)" class="lg:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white" aria-label="Open menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div>
+            <h1 id="headerTitle" class="text-2xl sm:text-[26px] font-bold tracking-tight leading-tight">Sales Dashboard</h1>
+            <p id="headerSubtitle" class="text-[13px] text-blue-200/85 mt-0.5">Track your LED Sales Pipeline at a Glance</p>
+          </div>
+        </div>
+
+        <!-- Right Controls: Timeframe Dropdown + User Profile -->
+        <div class="flex items-center gap-4 ml-auto">
+          <!-- Timeframe Selector -->
+          <div class="relative">
+            <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-700">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <select id="timeframeSelect" onchange="handleTimeframeChange()" class="appearance-none bg-white text-slate-800 text-[13px] font-semibold pl-9 pr-8 py-2 rounded-lg shadow-sm border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer">
+              <option value="This Month" selected>This Month</option>
+              <option value="Last Month">Last Month</option>
+              <option value="This Quarter">This Quarter</option>
+              <option value="All Time">All Time</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-2.5 flex items-center text-slate-600">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+
+          <!-- Vertical Divider -->
+          <div class="hidden sm:block h-7 w-px bg-white/20"></div>
+
+          <!-- Profile Badge -->
+          <div class="flex items-center gap-2.5 cursor-pointer group" onclick="switchTab('settings')" title="Account & Settings">
+            <div class="w-9 h-9 rounded-full bg-[#132952] border border-blue-400/50 flex items-center justify-center text-[13px] font-bold text-white shadow-inner group-hover:border-blue-300 transition-colors">
+              KP
+            </div>
+            <div class="hidden sm:flex items-center gap-1.5 text-[13.5px] font-medium text-blue-100 group-hover:text-white">
+              <span>Kiran Patil</span>
+              <svg class="w-3.5 h-3.5 text-blue-300" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ========================================== -->
+      <!-- MAIN CONTENT VIEWS                         -->
+      <!-- ========================================== -->
+      <main class="flex-1 p-4 sm:p-6 max-w-[1440px] w-full mx-auto">
+
+        <!-- ==================== -->
+        <!-- TAB 1: DASHBOARD     -->
+        <!-- ==================== -->
+        <section id="view-dashboard" class="space-y-5">
+
+          <!-- ROW 1: 4 PASTEL KPI CARDS -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <!-- Card 1: Total Pipeline -->
+            <div class="bg-[#EBF3FF] border border-[#D4E5FF] rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-xs hover:shadow-md transition-shadow">
+              <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#CFE2FF] text-[#1665F5] flex items-center justify-center shrink-0">
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 11.5L3.8 9.4 2 10.3l10 5 10-5-1.8-.9L12 13.5zm0 4L3.8 13.4 2 14.3l10 5 10-5-1.8-.9L12 17.5z"/></svg>
+              </div>
+              <div class="min-w-0">
+                <div class="text-[13px] font-semibold text-slate-700">Total Pipeline</div>
+                <div id="kpiTotalPipeline" class="text-[26px] sm:text-[28px] font-extrabold text-slate-900 tracking-tight leading-tight mt-0.5">₹82.5 L</div>
+                <div id="kpiTotalPipelineSub" class="text-[12px] font-semibold text-emerald-700 mt-1 flex items-center gap-1">
+                  <span>↑ +12% vs last month</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: In Nurturing -->
+            <div class="bg-[#EAF9F0] border border-[#CEF0DC] rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-xs hover:shadow-md transition-shadow">
+              <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#C7F0D8] text-[#15803D] flex items-center justify-center shrink-0">
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22v-9m0 0C12 8.5 8.5 5 4 5c0 4.5 3.5 8 8 8zm0 0c0-4.5 3.5-8 8-8 0 4.5-3.5 8-8 8z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="min-w-0">
+                <div class="text-[13px] font-semibold text-slate-700">In Nurturing</div>
+                <div id="kpiNurturing" class="text-[26px] sm:text-[28px] font-extrabold text-slate-900 tracking-tight leading-tight mt-0.5">₹24.0 L</div>
+                <div id="kpiNurturingSub" class="text-[12px] font-semibold text-slate-700 mt-1">≈ 29% of Pipeline</div>
+              </div>
+            </div>
+
+            <!-- Card 3: Active Opportunities -->
+            <div class="bg-[#FFF6E6] border border-[#FDE5BE] rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-xs hover:shadow-md transition-shadow">
+              <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#FDE3B8] text-[#D97706] flex items-center justify-center shrink-0">
+                <!-- Handshake / Active Deals Icon -->
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 9l-2 2-2-2m7.5 3.5l-3.25 3.25a2.121 2.121 0 01-3 0L9.5 14m-5-2l3.5-3.5a2 2 0 012.828 0L12 9.672l1.172-1.172a2 2 0 012.828 0L19.5 12m-15 0l3.25 3.25a2.121 2.121 0 003 0"/></svg>
+              </div>
+              <div class="min-w-0">
+                <div class="text-[13px] font-semibold text-slate-700">Active Opportunities</div>
+                <div id="kpiActive" class="text-[26px] sm:text-[28px] font-extrabold text-slate-900 tracking-tight leading-tight mt-0.5">₹52.5 L</div>
+                <div id="kpiActiveSub" class="text-[12px] font-semibold text-[#C26A09] mt-1">≈ 64% of Pipeline</div>
+              </div>
+            </div>
+
+            <!-- Card 4: Won This Month -->
+            <div class="bg-[#EAF9F0] border border-[#CEF0DC] rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-xs hover:shadow-md transition-shadow">
+              <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#C7F0D8] text-[#15803D] flex items-center justify-center shrink-0">
+                <!-- Trophy Icon -->
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M18 4V2H6v2H2v3c0 2.76 2.24 5 5 5h.18A5.99 5.99 0 0011 15.92V19H8v2h8v-2h-3v-3.08A5.99 5.99 0 0016.82 12H17c2.76 0 5-2.24 5-5V4h-4zM4 7V6h2v4c-1.1 0-2-.9-2-2V7zm16 1c0 1.1-.9 2-2 2V6h2v2z"/></svg>
+              </div>
+              <div class="min-w-0">
+                <div class="text-[13px] font-semibold text-slate-700">Won This Month</div>
+                <div id="kpiWon" class="text-[26px] sm:text-[28px] font-extrabold text-slate-900 tracking-tight leading-tight mt-0.5">₹5.0 L</div>
+                <div id="kpiWonSub" class="text-[12px] font-semibold text-emerald-700 mt-1">↑ +25% vs last month</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 2: SALES FUNNEL (LEFT ~55%) + FOLLOW-UPS (RIGHT ~45%) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+            <!-- LEFT CARD: SALES FUNNEL -->
+            <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col">
+              <!-- Dark Navy Card Header -->
+              <div class="bg-[#0C2047] text-white px-5 py-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M3 4a1 1 0 011-1h16a1 1 0 01.8 1.6L14 13.5V19a1 1 0 01-.55.89l-3 1.5A1 1 0 019 20.5v-7L3.2 4.6A1 1 0 013 4z"/></svg>
+                  <h2 class="text-[16px] font-bold tracking-tight">Sales Funnel</h2>
+                </div>
+                <span class="text-[13px] font-medium text-blue-100/90">Value (₹)</span>
+              </div>
+
+              <!-- Funnel Body -->
+              <div id="funnelContainer" class="p-4 sm:p-5 flex-1 flex flex-col justify-center space-y-1">
+                <!-- Dynamically rendered funnel rows -->
+              </div>
+            </div>
+
+            <!-- RIGHT CARD: FOLLOW-UPS -->
+            <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden flex flex-col">
+              <!-- Dark Navy Card Header -->
+              <div class="bg-[#0C2047] text-white px-5 py-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 002.45-2h-4.9A2.5 2.5 0 0012 22zm6.36-5.5l-1.36-1.36V10a5 5 0 00-4-4.9V4a1 1 0 10-2 0v1.1A5 5 0 007 10v5.14L5.64 16.5A1 1 0 006.35 18.2h11.3a1 1 0 00.71-1.7z"/></svg>
+                  <h2 class="text-[16px] font-bold tracking-tight">Follow-ups</h2>
+                </div>
+                <button onclick="switchTab('followups')" class="text-[13px] font-semibold text-[#3B82F6] hover:text-blue-300 transition-colors flex items-center gap-1 cursor-pointer">
+                  <span>View All</span>
+                  <span>→</span>
+                </button>
+              </div>
+
+              <!-- Follow-ups List -->
+              <div id="dashboardFollowupsList" class="divide-y divide-slate-100 px-5 py-2 flex-1 flex flex-col justify-center">
+                <!-- Dynamically rendered follow-up rows -->
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 3: PIPELINE TREND CHART (FULL WIDTH) -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-5">
+            <!-- Card Header & Legend -->
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+              <div class="flex items-center gap-2.5">
+                <svg class="w-5 h-5 text-[#0C2047]" fill="currentColor" viewBox="0 0 24 24"><path d="M5 13h3v7H5v-7zm5.5-5h3v12h-3V8zM16 4h3v16h-3V4z"/></svg>
+                <h2 class="text-[16.5px] font-bold text-slate-900 tracking-tight">Pipeline Trend</h2>
+              </div>
+              <div class="flex items-center gap-5 text-[12.5px] font-medium text-slate-700">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#1665F5] inline-block"></span>
+                  <span>Pipeline Value</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-[#16A34A] inline-block"></span>
+                  <span>Won Revenue</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Responsive SVG Dual-Line Chart -->
+            <div class="w-full overflow-x-auto">
+              <div id="trendChartWrapper" class="min-w-[540px] w-full">
+                <!-- Rendered via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== -->
+        <!-- TAB 2: COMPANIES     -->
+        <!-- ==================== -->
+        <section id="view-companies" class="hidden space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Client Companies</h2>
+              <p class="text-sm text-slate-500">Manage LED display accounts and track their active pipeline value.</p>
+            </div>
+            <button onclick="openCompanyModal()" class="px-4 py-2.5 bg-[#1665F5] hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-xs transition-colors flex items-center gap-2 cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+              <span>Add Company</span>
+            </button>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-[#0C2047] text-white text-[12.5px] uppercase tracking-wider">
+                    <th class="py-3.5 px-5 font-semibold">Company Name</th>
+                    <th class="py-3.5 px-5 font-semibold">Contact Person</th>
+                    <th class="py-3.5 px-5 font-semibold">City</th>
+                    <th class="py-3.5 px-5 font-semibold text-right">Total Deals</th>
+                    <th class="py-3.5 px-5 font-semibold text-right">Pipeline Value</th>
+                    <th class="py-3.5 px-5 font-semibold text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="companiesTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== -->
+        <!-- TAB 3: OPPORTUNITIES -->
+        <!-- ==================== -->
+        <section id="view-opportunities" class="hidden space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Opportunities &amp; Leads</h2>
+              <p class="text-sm text-slate-500">Add leads or change any deal's stage — your Dashboard KPIs &amp; Sales Funnel update instantly.</p>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <select id="oppStageFilter" onchange="renderOpportunitiesTable()" class="bg-white border border-slate-200 text-slate-700 text-sm font-medium rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="All">All Stages</option>
+                <option value="Prospect Identified">Prospect Identified</option>
+                <option value="In Nurturing">In Nurturing</option>
+                <option value="Qualified">Qualified</option>
+                <option value="Quotation Sent">Quotation Sent</option>
+                <option value="Negotiation">Negotiation</option>
+                <option value="Won">Won</option>
+              </select>
+              <button onclick="openOppModal()" class="px-4 py-2.5 bg-[#1665F5] hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-xs transition-colors flex items-center gap-2 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                <span>Add Opportunity</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-[#0C2047] text-white text-[12.5px] uppercase tracking-wider">
+                    <th class="py-3.5 px-5 font-semibold">Company / Deal</th>
+                    <th class="py-3.5 px-5 font-semibold">Month</th>
+                    <th class="py-3.5 px-5 font-semibold text-right">Value (₹ Lakhs)</th>
+                    <th class="py-3.5 px-5 font-semibold">Funnel Stage</th>
+                    <th class="py-3.5 px-5 font-semibold text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="opportunitiesTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== -->
+        <!-- TAB 4: FOLLOW-UPS    -->
+        <!-- ==================== -->
+        <section id="view-followups" class="hidden space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Follow-up Tasks</h2>
+              <p class="text-sm text-slate-500">Track upcoming client calls, quotations, and site visits.</p>
+            </div>
+            <button onclick="openFollowupModal()" class="px-4 py-2.5 bg-[#1665F5] hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-xs transition-colors flex items-center gap-2 cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+              <span>Add Follow-up</span>
+            </button>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="bg-[#0C2047] text-white px-5 py-3.5 flex items-center justify-between">
+              <span class="text-sm font-bold">All Scheduled Follow-ups</span>
+              <span id="followupsPendingSummary" class="text-xs font-medium text-blue-200">3 pending</span>
+            </div>
+            <div id="allFollowupsList" class="divide-y divide-slate-100"></div>
+          </div>
+        </section>
+
+        <!-- ==================== -->
+        <!-- TAB 5: REPORTS       -->
+        <!-- ==================== -->
+        <section id="view-reports" class="hidden space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Pipeline Reports</h2>
+              <p class="text-sm text-slate-500">Quick conversion metrics and stage breakdown.</p>
+            </div>
+            <button onclick="exportOpportunitiesCSV()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl shadow-xs transition-colors flex items-center gap-2 cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>Download CSV</span>
+            </button>
+          </div>
+
+          <div id="reportsSummaryCards" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="bg-[#0C2047] text-white px-5 py-3.5 text-sm font-bold">Stage-wise Value Breakdown</div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="bg-slate-50 text-slate-600 text-xs uppercase border-b border-slate-200">
+                    <th class="py-3 px-5 font-semibold">Stage</th>
+                    <th class="py-3 px-5 font-semibold text-right">Deal Count</th>
+                    <th class="py-3 px-5 font-semibold text-right">Total Value (₹)</th>
+                    <th class="py-3 px-5 font-semibold text-right">Share of Pipeline</th>
+                  </tr>
+                </thead>
+                <tbody id="reportsTableBody" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== -->
+        <!-- TAB 6: SETTINGS      -->
+        <!-- ==================== -->
+        <section id="view-settings" class="hidden space-y-5 max-w-2xl">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900">Settings &amp; Data Backup</h2>
+            <p class="text-sm text-slate-500">All your dashboard data is saved automatically in this browser (no server needed).</p>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 space-y-5">
+            <div class="flex items-start justify-between gap-4 pb-5 border-b border-slate-100">
+              <div>
+                <h3 class="font-bold text-slate-900">Export Data (JSON)</h3>
+                <p class="text-sm text-slate-500 mt-0.5">Download a backup file of all companies, opportunities, and follow-ups.</p>
+              </div>
+              <button onclick="exportDataJSON()" class="px-4 py-2 bg-[#1665F5] hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shrink-0 cursor-pointer">
+                Export JSON
+              </button>
+            </div>
+
+            <div class="flex items-start justify-between gap-4 pb-5 border-b border-slate-100">
+              <div>
+                <h3 class="font-bold text-slate-900">Import Data (JSON)</h3>
+                <p class="text-sm text-slate-500 mt-0.5">Restore previously exported VERTAXIS dashboard data.</p>
+              </div>
+              <label class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-semibold rounded-xl shrink-0 cursor-pointer">
+                Import JSON
+                <input type="file" accept=".json" class="hidden" onchange="importDataJSON(event)" />
+              </label>
+            </div>
+
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h3 class="font-bold text-red-700">Reset Sample Data</h3>
+                <p class="text-sm text-slate-500 mt-0.5">Restore the original VERTAXIS sample numbers (₹82.5 L pipeline, 3 follow-ups).</p>
+              </div>
+              <button onclick="openResetConfirmModal()" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-sm font-semibold rounded-xl shrink-0 cursor-pointer">
+                Reset Data
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODALS (ADD OPPORTUNITY / FOLLOW-UP / ETC) -->
+  <!-- ========================================== -->
+
+  <!-- Add Opportunity Modal -->
+  <div id="oppModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+      <div class="bg-[#0C2047] text-white px-5 py-4 flex items-center justify-between">
+        <h3 class="font-bold text-base">Add New Opportunity</h3>
+        <button onclick="closeModal('oppModal')" class="text-blue-200 hover:text-white cursor-pointer">✕</button>
+      </div>
+      <form id="oppForm" onsubmit="saveOpportunity(event)" class="p-5 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Company Name</label>
+          <input id="oppCompany" type="text" required placeholder="e.g., Horizon Retail Mall" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Project / LED Requirement</label>
+          <input id="oppTitle" type="text" required placeholder="e.g., Outdoor P6 LED Billboard" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Deal Value (₹ Lakhs)</label>
+            <input id="oppValue" type="number" step="0.5" min="0.5" required placeholder="e.g., 12.5" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Month</label>
+            <select id="oppMonth" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="Nov" selected>Nov</option>
+              <option value="Oct">Oct</option>
+              <option value="Sep">Sep</option>
+              <option value="Aug">Aug</option>
+              <option value="Jul">Jul</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Funnel Stage</label>
+          <select id="oppStage" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="Prospect Identified">Prospect Identified</option>
+            <option value="In Nurturing">In Nurturing</option>
+            <option value="Qualified">Qualified</option>
+            <option value="Quotation Sent">Quotation Sent</option>
+            <option value="Negotiation">Negotiation</option>
+            <option value="Won">Won</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-2.5 pt-2">
+          <button type="button" onclick="closeModal('oppModal')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-sm font-semibold bg-[#1665F5] hover:bg-blue-700 text-white rounded-xl cursor-pointer">Save Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Follow-up Modal -->
+  <div id="followupModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+      <div class="bg-[#0C2047] text-white px-5 py-4 flex items-center justify-between">
+        <h3 class="font-bold text-base">Add Follow-up Task</h3>
+        <button onclick="closeModal('followupModal')" class="text-blue-200 hover:text-white cursor-pointer">✕</button>
+      </div>
+      <form id="followupForm" onsubmit="saveFollowup(event)" class="p-5 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Company Name</label>
+          <input id="fuCompany" type="text" required placeholder="e.g., ABC AV Solutions" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Task Description</label>
+          <input id="fuTask" type="text" required placeholder="e.g., Send revised quotation for P2.5 wall" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Priority</label>
+            <select id="fuPriority" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Due Label</label>
+            <input id="fuDue" type="text" required placeholder="Today, Tomorrow, 25 Nov" value="Today" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+        <div class="flex justify-end gap-2.5 pt-2">
+          <button type="button" onclick="closeModal('followupModal')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-sm font-semibold bg-[#1665F5] hover:bg-blue-700 text-white rounded-xl cursor-pointer">Save Follow-up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Company Modal -->
+  <div id="companyModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+      <div class="bg-[#0C2047] text-white px-5 py-4 flex items-center justify-between">
+        <h3 class="font-bold text-base">Add Client Company</h3>
+        <button onclick="closeModal('companyModal')" class="text-blue-200 hover:text-white cursor-pointer">✕</button>
+      </div>
+      <form id="companyForm" onsubmit="saveCompany(event)" class="p-5 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Company Name</label>
+          <input id="compName" type="text" required placeholder="e.g., SkyLine Media" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Contact Person</label>
+            <input id="compContact" type="text" required placeholder="e.g., Rohan Mehta" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">City</label>
+            <input id="compCity" type="text" required placeholder="e.g., Pune" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+        <div class="flex justify-end gap-2.5 pt-2">
+          <button type="button" onclick="closeModal('companyModal')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-sm font-semibold bg-[#1665F5] hover:bg-blue-700 text-white rounded-xl cursor-pointer">Save Company</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Reset Confirmation Modal (No browser confirm()) -->
+  <div id="resetConfirmModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4">
+      <div class="w-12 h-12 mx-auto rounded-full bg-red-100 text-red-600 flex items-center justify-center">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-slate-900">Reset to Sample Data?</h3>
+        <p class="text-sm text-slate-500 mt-1">This will replace your current leads and follow-ups with the default VERTAXIS sample data.</p>
+      </div>
+      <div class="flex justify-center gap-3 pt-1">
+        <button onclick="closeModal('resetConfirmModal')" class="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl cursor-pointer">Cancel</button>
+        <button onclick="confirmResetData()" class="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer">Yes, Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 bg-[#0C2047] text-white text-sm font-medium px-4 py-3 rounded-xl shadow-lg flex items-center gap-2.5 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+    <span id="toastMessage">Saved successfully</span>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- APPLICATION LOGIC                          -->
+  <!-- ========================================== -->
+  <script>
+    const STORAGE_KEY = 'vertaxis_led_sales_dashboard_v1';
+
+    // Funnel stage visual configuration matching the VERTAXIS reference image
+    const FUNNEL_STAGES = [
+      { name: 'Prospect Identified', color: '#0D6EFD', topW: 100, botW: 89 },
+      { name: 'In Nurturing',        color: '#08A7CC', topW: 88,  botW: 77 },
+      { name: 'Qualified',           color: '#24A745', topW: 76,  botW: 65 },
+      { name: 'Quotation Sent',      color: '#F3921F', topW: 64,  botW: 54 },
+      { name: 'Negotiation',         color: '#8E54E9', topW: 53,  botW: 43 },
+      { name: 'Won',                 color: '#12834A', topW: 42,  botW: 32 }
+    ];
+
+    // Default sample dataset matching the VERTAXIS LED Sales Dashboard
+    function getDefaultData() {
+      return {
+        companies: [
+          { id: 'c1', name: 'ABC AV Solutions',   contact: 'Vikram Deshmukh', city: 'Pune' },
+          { id: 'c2', name: 'Vision Systems',     contact: 'Sneha Kulkarni',  city: 'Mumbai' },
+          { id: 'c3', name: 'BuildTech',          contact: 'Arjun Nair',      city: 'Bengaluru' },
+          { id: 'c4', name: 'Metro Mall Group',   contact: 'Priya Sharma',    city: 'Pune' },
+          { id: 'c5', name: 'Apex Stadium Corp',  contact: 'Rajesh Verma',    city: 'Hyderabad' },
+          { id: 'c6', name: 'Nova Convention',    contact: 'Neha Joshi',      city: 'Nashik' }
+        ],
+        opportunities: [
+          { id: 'o1', company: 'Apex Stadium Corp', title: 'Perimeter P8 LED Board',      value: 18.5, stage: 'Prospect Identified', month: 'Nov' },
+          { id: 'o2', company: 'Metro Mall Group',  title: 'Atrium Hanging LED Cube',     value: 14.0, stage: 'Prospect Identified', month: 'Nov' },
+          { id: 'o3', company: 'Vision Systems',    title: 'Auditorium P2.5 LED Wall',    value: 15.0, stage: 'In Nurturing',        month: 'Nov' },
+          { id: 'o4', company: 'Nova Convention',   title: 'Main Stage Backdrop Display', value: 9.0,  stage: 'In Nurturing',        month: 'Nov' },
+          { id: 'o5', company: 'ABC AV Solutions',  title: 'P2.5 Fine-Pitch Video Wall',  value: 8.5,  stage: 'Qualified',           month: 'Nov' },
+          { id: 'o6', company: 'BuildTech',         title: 'Lobby Curved LED Facade',     value: 5.5,  stage: 'Qualified',           month: 'Nov' },
+          { id: 'o7', company: 'ABC AV Solutions',  title: 'Conference Room LED Screen',  value: 8.0,  stage: 'Quotation Sent',      month: 'Nov' },
+          { id: 'o8', company: 'BuildTech',         title: 'Experience Center LED Arch',  value: 5.0,  stage: 'Negotiation',         month: 'Nov' },
+          { id: 'o9', company: 'Vision Systems',    title: 'Retail Storefront P4 Display',value: 5.0,  stage: 'Won',                 month: 'Nov' }
+        ],
+        followups: [
+          { id: 'f1', priority: 'High',   company: 'ABC AV Solutions', task: 'Follow up quotation for P2.5 LED wall', due: 'Today',    done: false },
+          { id: 'f2', priority: 'Medium', company: 'Vision Systems',   task: 'Send product brochure',                 due: 'Tomorrow', done: false },
+          { id: 'f3', priority: 'High',   company: 'BuildTech',        task: 'Confirm project dimensions',            due: '20 Nov',   done: false }
+        ],
+        // Historical monthly snapshots for the Pipeline Trend chart (Nov dynamically syncs with live totals)
+        historicalTrend: [
+          { month: 'Jul', pipeline: 40,   won: 2 },
+          { month: 'Aug', pipeline: 52,   won: 3 },
+          { month: 'Sep', pipeline: 60,   won: 4.5 },
+          { month: 'Oct', pipeline: 68,   won: 5 },
+          { month: 'Nov', pipeline: 82.5, won: 5 }
+        ],
+        isPristineSample: true
+      };
+    }
+
+    let appData = loadData();
+    let activeTab = 'dashboard';
+    let currentTimeframe = 'This Month';
+
+    // Load from localStorage safely
+    function loadData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && Array.isArray(parsed.opportunities) && Array.isArray(parsed.followups)) {
+            return parsed;
+          }
+        }
+      } catch (err) {
+        console.warn('Could not load saved data, using defaults.', err);
+      }
+      return getDefaultData();
+    }
+
+    function persistData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+      } catch (err) {
+        console.warn('Could not save data to localStorage.', err);
+      }
+    }
+
+    // Format Lakhs cleanly (e.g., 82.5 -> "₹82.5 L")
+    function formatLakhs(num) {
+      return `₹${Number(num).toFixed(1)} L`;
+    }
+
+    // Format compact chart label (e.g., 40 -> "40L", 4.5 -> "4.5L", 82.5 -> "82.5L")
+    function formatCompactL(num) {
+      const rounded = Math.round(num * 10) / 10;
+      return `${rounded % 1 === 0 ? rounded.toFixed(0) : rounded.toFixed(1)}L`;
+    }
+
+    // Timeframe multiplier so switching the top-right dropdown gives meaningful visual feedback
+    function getTimeframeMultiplier() {
+      switch (currentTimeframe) {
+        case 'Last Month':   return 0.82;
+        case 'This Quarter': return 1.35;
+        case 'All Time':     return 1.85;
+        default:             return 1.0;
+      }
+    }
+
+    // ==========================================
+    // NAVIGATION & UI HELPERS
+    // ==========================================
+    function switchTab(tabName) {
+      activeTab = tabName;
+      const views = ['dashboard', 'companies', 'opportunities', 'followups', 'reports', 'settings'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.toggle('hidden', v !== tabName);
+      });
+
+      // Update sidebar active pill
+      document.querySelectorAll('#sidebarNav .nav-item').forEach(btn => {
+        const isActive = btn.dataset.tab === tabName;
+        if (isActive) {
+          btn.classList.add('bg-[#1665F5]', 'text-white', 'shadow-sm');
+          btn.classList.remove('text-blue-100/80', 'hover:bg-white/10', 'hover:text-white');
+        } else {
+          btn.classList.remove('bg-[#1665F5]', 'text-white', 'shadow-sm');
+          btn.classList.add('text-blue-100/80', 'hover:bg-white/10', 'hover:text-white');
+        }
+      });
+
+      // Update header title/subtitle cleanly
+      const titles = {
+        dashboard:     ['Sales Dashboard', 'Track your LED Sales Pipeline at a Glance'],
+        companies:     ['Companies', 'Manage your LED display clients and partners'],
+        opportunities: ['Opportunities', 'Add, edit, or move deals through your sales funnel'],
+        followups:     ['Follow-ups', 'Stay on top of quotations, brochures, and site visits'],
+        reports:       ['Sales Reports', 'Stage conversion breakdown and pipeline performance'],
+        settings:      ['Settings', 'Backup, restore, or reset your local dashboard data']
+      };
+      const [title, subtitle] = titles[tabName] || titles.dashboard;
+      document.getElementById('headerTitle').textContent = title;
+      document.getElementById('headerSubtitle').textContent = subtitle;
+
+      toggleMobileSidebar(false);
+      renderAll();
+    }
+
+    function toggleMobileSidebar(open) {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('mobileBackdrop');
+      if (open) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function handleTimeframeChange() {
+      currentTimeframe = document.getElementById('timeframeSelect').value;
+      renderAll();
+      showToast(`Showing data for: ${currentTimeframe}`);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2600);
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+    }
+
+    function openOppModal() {
+      document.getElementById('oppForm').reset();
+      openModal('oppModal');
+    }
+
+    function openFollowupModal() {
+      document.getElementById('followupForm').reset();
+      document.getElementById('fuDue').value = 'Today';
+      openModal('followupModal');
+    }
+
+    function openCompanyModal() {
+      document.getElementById('companyForm').reset();
+      openModal('companyModal');
+    }
+
+    function openResetConfirmModal() {
+      openModal('resetConfirmModal');
+    }
+
+    // ==========================================
+    // CORE METRICS CALCULATION
+    // ==========================================
+    function calculateMetrics() {
+      const mult = getTimeframeMultiplier();
+      const stageTotals = {};
+      FUNNEL_STAGES.forEach(s => stageTotals[s.name] = 0);
+
+      appData.opportunities.forEach(o => {
+        if (stageTotals[o.stage] !== undefined) {
+          stageTotals[o.stage] += Number(o.value) * mult;
+        }
+      });
+
+      const wonValue = stageTotals['Won'];
+      const nurturingValue = stageTotals['In Nurturing'];
+      const openPipelineRaw =
+        stageTotals['Prospect Identified'] +
+        stageTotals['In Nurturing'] +
+        stageTotals['Qualified'] +
+        stageTotals['Quotation Sent'] +
+        stageTotals['Negotiation'];
+
+      // When pristine default sample is viewed on "This Month", keep the exact reference KPI values (₹82.5 L & ₹52.5 L).
+      // As soon as the user adds/edits/deletes any lead, all KPIs recalculate 100% dynamically from the live leads list.
+      let totalPipeline = openPipelineRaw;
+      let activeOpps =
+        stageTotals['Prospect Identified'] +
+        stageTotals['Qualified'] +
+        stageTotals['Quotation Sent'] +
+        stageTotals['Negotiation'];
+
+      if (appData.isPristineSample && currentTimeframe === 'This Month') {
+        totalPipeline = 82.5;
+        activeOpps = 52.5;
+      }
+
+      const nurturingPct = totalPipeline > 0 ? Math.round((nurturingValue / totalPipeline) * 100) : 0;
+      const activePct = totalPipeline > 0 ? Math.round((activeOpps / totalPipeline) * 100) : 0;
+
+      return {
+        stageTotals,
+        totalPipeline,
+        nurturingValue,
+        nurturingPct,
+        activeOpps,
+        activePct,
+        wonValue
+      };
+    }
+
+    // ==========================================
+    // RENDER DASHBOARD COMPONENTS
+    // ==========================================
+    function renderKPIs(metrics) {
+      document.getElementById('kpiTotalPipeline').textContent = formatLakhs(metrics.totalPipeline);
+      document.getElementById('kpiNurturing').textContent = formatLakhs(metrics.nurturingValue);
+      document.getElementById('kpiNurturingSub').textContent = `≈ ${metrics.nurturingPct}% of Pipeline`;
+      document.getElementById('kpiActive').textContent = formatLakhs(metrics.activeOpps);
+      document.getElementById('kpiActiveSub').textContent = `≈ ${metrics.activePct}% of Pipeline`;
+      document.getElementById('kpiWon').textContent = formatLakhs(metrics.wonValue);
+    }
+
+    function renderSalesFunnel(metrics) {
+      const container = document.getElementById('funnelContainer');
+      const denom = metrics.totalPipeline > 0 ? metrics.totalPipeline : 1;
+
+      container.innerHTML = FUNNEL_STAGES.map((stage, idx) => {
+        const val = metrics.stageTotals[stage.name] || 0;
+        const pct = Math.round((val / denom) * 100);
+
+        // Calculate polygon clip-path percentages centered horizontally
+        const topLeft = (100 - stage.topW) / 2;
+        const topRight = 100 - topLeft;
+        const botLeft = (100 - stage.botW) / 2;
+        const botRight = 100 - botLeft;
+        const clip = `polygon(${topLeft}% 0%, ${topRight}% 0%, ${botRight}% 100%, ${botLeft}% 100%)`;
+
+        const borderClass = idx < FUNNEL_STAGES.length - 1 ? 'border-b border-slate-100' : '';
+
+        return `
+          <div onclick="jumpToStage('${stage.name}')" title="Click to view ${stage.name} deals" class="funnel-row grid grid-cols-12 items-center gap-2 py-0.5 cursor-pointer ${borderClass}">
+            <!-- Centered Trapezoid Bar -->
+            <div class="col-span-8 flex justify-center">
+              <div class="funnel-bar w-full h-[38px] sm:h-[40px] flex items-center justify-center text-white text-[13px] sm:text-[13.5px] font-semibold tracking-tight shadow-xs"
+                   style="background-color: ${stage.color}; clip-path: ${clip};">
+                <span class="truncate px-3 drop-shadow-xs">${stage.name}</span>
+              </div>
+            </div>
+            <!-- Right-aligned Value & Percentage -->
+            <div class="col-span-4 flex items-center justify-end gap-2 sm:gap-3 pr-1">
+              <span class="text-[14px] sm:text-[15px] font-extrabold text-slate-900 tabular-nums whitespace-nowrap">${formatLakhs(val)}</span>
+              <span class="text-[13px] font-medium text-slate-500 w-11 text-right tabular-nums">(${pct}%)</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function jumpToStage(stageName) {
+      document.getElementById('oppStageFilter').value = stageName;
+      switchTab('opportunities');
+    }
+
+    function getPriorityBadgeHTML(priority) {
+      if (priority === 'High') {
+        return `<span class="inline-flex items-center justify-center min-w-[66px] px-3 py-1 rounded-full text-[12px] font-bold bg-[#FDE4E4] text-[#C81E1E]">High</span>`;
+      }
+      if (priority === 'Medium') {
+        return `<span class="inline-flex items-center justify-center min-w-[66px] px-3 py-1 rounded-full text-[12px] font-bold bg-[#FDECC8] text-[#B45309]">Medium</span>`;
+      }
+      return `<span class="inline-flex items-center justify-center min-w-[66px] px-3 py-1 rounded-full text-[12px] font-bold bg-slate-100 text-slate-600">Low</span>`;
+    }
+
+    function getDueColorClass(due) {
+      const lower = due.toLowerCase();
+      if (lower.includes('today')) return 'text-[#DC2626] font-bold';
+      if (lower.includes('tomorrow')) return 'text-[#1665F5] font-bold';
+      return 'text-slate-700 font-semibold';
+    }
+
+    function renderDashboardFollowups() {
+      const pending = appData.followups.filter(f => !f.done);
+      const badge = document.getElementById('sidebarFollowupBadge');
+      badge.textContent = pending.length;
+      badge.classList.toggle('hidden', pending.length === 0);
+
+      const listEl = document.getElementById('dashboardFollowupsList');
+      if (pending.length === 0) {
+        listEl.innerHTML = `
+          <div class="py-10 text-center text-slate-400 text-sm">
+            All caught up! No pending follow-ups.
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = pending.slice(0, 4).map(f => `
+        <div class="py-4 flex items-center justify-between gap-3 group">
+          <div class="flex items-center gap-3.5 min-w-0">
+            <div class="shrink-0">${getPriorityBadgeHTML(f.priority)}</div>
+            <div class="min-w-0">
+              <div class="text-[14.5px] font-bold text-slate-900 truncate">${escapeHTML(f.company)}</div>
+              <div class="text-[12.5px] text-slate-500 truncate mt-0.5">${escapeHTML(f.task)}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <div class="flex items-center gap-1.5 text-[13px] ${getDueColorClass(f.due)}">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span class="whitespace-nowrap">${escapeHTML(f.due)}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ==========================================
+    // RENDER RESPONSIVE SVG PIPELINE TREND CHART
+    // ==========================================
+    function renderTrendChart(metrics) {
+      const wrapper = document.getElementById('trendChartWrapper');
+      const mult = getTimeframeMultiplier();
+
+      // Sync latest month (Nov) with live dashboard metrics
+      const points = appData.historicalTrend.map((pt, i) => {
+        if (i === appData.historicalTrend.length - 1) {
+          return {
+            month: pt.month,
+            pipeline: Number(metrics.totalPipeline.toFixed(1)),
+            won: Number(metrics.wonValue.toFixed(1))
+          };
+        }
+        return {
+          month: pt.month,
+          pipeline: Number((pt.pipeline * mult).toFixed(1)),
+          won: Number((pt.won * mult).toFixed(1))
+        };
+      });
+
+      const width = 920;
+      const height = 195;
+      const padLeft = 48;
+      const padRight = 56;
+      const padTop = 26;
+      const padBottom = 34;
+      const plotW = width - padLeft - padRight;
+      const plotH = height - padTop - padBottom;
+
+      // Dynamic Y-axis ceiling (defaults to 85 so 0L, 25L, 50L, 75L ticks match the image cleanly)
+      const maxVal = Math.max(85, ...points.map(p => p.pipeline)) * 1.05;
+      const yStep = maxVal <= 95 ? 25 : Math.ceil(maxVal / 3 / 25) * 25;
+      const yTicks = [0, yStep, yStep * 2, yStep * 3];
+      const yMax = Math.max(maxVal, yStep * 3 + 8);
+
+      const getX = idx => padLeft + (idx / (points.length - 1)) * plotW;
+      const getY = val => padTop + plotH - (val / yMax) * plotH;
+
+      const pipelinePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${getX(i).toFixed(1)} ${getY(p.pipeline).toFixed(1)}`).join(' ');
+      const wonPath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${getX(i).toFixed(1)} ${getY(p.won).toFixed(1)}`).join(' ');
+
+      const gridLinesSVG = yTicks.map(tick => {
+        const y = getY(tick).toFixed(1);
+        return `
+          <line x1="${padLeft}" y1="${y}" x2="${width - padRight + 24}" y2="${y}" stroke="#E2E8F0" stroke-width="1" />
+          <text x="${padLeft - 10}" y="${Number(y) + 4}" text-anchor="end" fill="#475569" font-size="12" font-weight="600">${tick}L</text>
+        `;
+      }).join('');
+
+      const xLabelsSVG = points.map((p, i) => {
+        const x = getX(i).toFixed(1);
+        return `<text x="${x}" y="${height - 8}" text-anchor="middle" fill="#1E293B" font-size="12.5" font-weight="600">${p.month}</text>`;
+      }).join('');
+
+      const pipelineDotsSVG = points.map((p, i) => {
+        const x = getX(i);
+        const y = getY(p.pipeline);
+        const label = formatCompactL(p.pipeline);
+        const isLast = i === points.length - 1;
+
+        const labelMarkup = isLast
+          ? `<g transform="translate(${x + 8}, ${y - 9})">
+               <rect x="0" y="0" width="44" height="19" rx="5" fill="#E0EDFF"/>
+               <text x="22" y="13" text-anchor="middle" fill="#1665F5" font-size="11.5" font-weight="700">${label}</text>
+             </g>`
+          : `<text x="${x}" y="${y - 10}" text-anchor="middle" fill="#1665F5" font-size="11.5" font-weight="700">${label}</text>`;
+
+        return `
+          <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.8" fill="#1665F5" stroke="#FFFFFF" stroke-width="1.8" />
+          ${labelMarkup}
+        `;
+      }).join('');
+
+      const wonDotsSVG = points.map((p, i) => {
+        const x = getX(i);
+        const y = getY(p.won);
+        const label = formatCompactL(p.won);
+        return `
+          <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="#16A34A" stroke="#FFFFFF" stroke-width="1.8" />
+          <text x="${x + (i === 0 ? 10 : 0)}" y="${y - 9}" text-anchor="middle" fill="#15803D" font-size="11.5" font-weight="700">${label}</text>
+        `;
+      }).join('');
+
+      wrapper.innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" class="w-full h-auto overflow-visible" role="img" aria-label="Pipeline Trend Line Chart">
+          ${gridLinesSVG}
+          ${xLabelsSVG}
+          <!-- Pipeline Value Blue Line -->
+          <path d="${pipelinePath}" fill="none" stroke="#1665F5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+          <!-- Won Revenue Green Line -->
+          <path d="${wonPath}" fill="none" stroke="#16A34A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          ${pipelineDotsSVG}
+          ${wonDotsSVG}
+        </svg>
+      `;
+    }
+
+    // ==========================================
+    // RENDER SECONDARY TABS (SIMPLE CRUD)
+    // ==========================================
+    function renderOpportunitiesTable() {
+      const tbody = document.getElementById('opportunitiesTableBody');
+      const filter = document.getElementById('oppStageFilter').value;
+      const list = filter === 'All'
+        ? appData.opportunities
+        : appData.opportunities.filter(o => o.stage === filter);
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-slate-400">No opportunities in this stage yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(o => `
+        <tr class="hover:bg-slate-50/80 transition-colors">
+          <td class="py-3.5 px-5">
+            <div class="font-bold text-slate-900">${escapeHTML(o.company)}</div>
+            <div class="text-xs text-slate-500">${escapeHTML(o.title)}</div>
+          </td>
+          <td class="py-3.5 px-5 text-slate-600 font-medium">${escapeHTML(o.month)}</td>
+          <td class="py-3.5 px-5 text-right font-bold text-slate-900 tabular-nums">${formatLakhs(o.value)}</td>
+          <td class="py-3.5 px-5">
+            <select onchange="updateOppStage('${o.id}', this.value)" class="text-xs font-semibold rounded-lg border border-slate-200 px-2.5 py-1.5 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+              ${FUNNEL_STAGES.map(s => `<option value="${s.name}" ${s.name === o.stage ? 'selected' : ''}>${s.name}</option>`).join('')}
+            </select>
+          </td>
+          <td class="py-3.5 px-5 text-right">
+            <button onclick="deleteOpportunity('${o.id}')" class="text-xs font-semibold text-red-600 hover:text-red-800 hover:bg-red-50 px-2.5 py-1.5 rounded-lg cursor-pointer">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderAllFollowups() {
+      const container = document.getElementById('allFollowupsList');
+      const pendingCount = appData.followups.filter(f => !f.done).length;
+      document.getElementById('followupsPendingSummary').textContent = `${pendingCount} pending`;
+
+      if (appData.followups.length === 0) {
+        container.innerHTML = `<div class="py-10 text-center text-slate-400 text-sm">No follow-ups scheduled. Click "+ Add Follow-up" to create one.</div>`;
+        return;
+      }
+
+      container.innerHTML = appData.followups.map(f => `
+        <div class="px-5 py-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4 ${f.done ? 'bg-slate-50/70 opacity-65' : ''}">
+          <div class="flex items-center gap-3.5 min-w-0">
+            ${getPriorityBadgeHTML(f.priority)}
+            <div class="min-w-0">
+              <div class="font-bold text-slate-900 ${f.done ? 'line-through' : ''}">${escapeHTML(f.company)}</div>
+              <div class="text-xs text-slate-500 ${f.done ? 'line-through' : ''}">${escapeHTML(f.task)}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 ml-auto">
+            <span class="text-xs ${getDueColorClass(f.due)}">${escapeHTML(f.due)}</span>
+            <button onclick="toggleFollowupDone('${f.id}')" class="px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors cursor-pointer ${f.done ? 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'}">
+              ${f.done ? 'Undo' : 'Mark Done'}
+            </button>
+            <button onclick="deleteFollowup('${f.id}')" class="text-xs font-semibold text-red-500 hover:text-red-700 px-2 py-1.5 cursor-pointer">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderCompaniesTable() {
+      const tbody = document.getElementById('companiesTableBody');
+      if (appData.companies.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-10 text-center text-slate-400">No companies added yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = appData.companies.map(c => {
+        const deals = appData.opportunities.filter(o => o.company.toLowerCase() === c.name.toLowerCase());
+        const totalVal = deals.reduce((acc, d) => acc + Number(d.value), 0);
+        return `
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="py-3.5 px-5 font-bold text-slate-900">${escapeHTML(c.name)}</td>
+            <td class="py-3.5 px-5 text-slate-600">${escapeHTML(c.contact)}</td>
+            <td class="py-3.5 px-5 text-slate-600">${escapeHTML(c.city)}</td>
+            <td class="py-3.5 px-5 text-right font-semibold text-slate-700">${deals.length}</td>
+            <td class="py-3.5 px-5 text-right font-bold text-slate-900 tabular-nums">${formatLakhs(totalVal)}</td>
+            <td class="py-3.5 px-5 text-right">
+              <button onclick="deleteCompany('${c.id}')" class="text-xs font-semibold text-red-600 hover:bg-red-50 px-2.5 py-1.5 rounded-lg cursor-pointer">Delete</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderReports(metrics) {
+      const totalDeals = appData.opportunities.length;
+      const wonDeals = appData.opportunities.filter(o => o.stage === 'Won').length;
+      const winRate = totalDeals > 0 ? Math.round((wonDeals / totalDeals) * 100) : 0;
+      const avgDeal = totalDeals > 0
+        ? appData.opportunities.reduce((s, o) => s + Number(o.value), 0) / totalDeals
+        : 0;
+
+      document.getElementById('reportsSummaryCards').innerHTML = `
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
+          <div class="text-xs font-semibold text-slate-500 uppercase">Total Leads Tracked</div>
+          <div class="text-2xl font-extrabold text-slate-900 mt-1">${totalDeals}</div>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
+          <div class="text-xs font-semibold text-slate-500 uppercase">Average Deal Size</div>
+          <div class="text-2xl font-extrabold text-[#1665F5] mt-1">${formatLakhs(avgDeal)}</div>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
+          <div class="text-xs font-semibold text-slate-500 uppercase">Win Rate (By Count)</div>
+          <div class="text-2xl font-extrabold text-emerald-600 mt-1">${winRate}%</div>
+        </div>
+      `;
+
+      const denom = metrics.totalPipeline > 0 ? metrics.totalPipeline : 1;
+      document.getElementById('reportsTableBody').innerHTML = FUNNEL_STAGES.map(s => {
+        const count = appData.opportunities.filter(o => o.stage === s.name).length;
+        const val = metrics.stageTotals[s.name] || 0;
+        const pct = Math.round((val / denom) * 100);
+        return `
+          <tr>
+            <td class="py-3 px-5 font-semibold text-slate-800 flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full inline-block" style="background-color: ${s.color}"></span>
+              <span>${s.name}</span>
+            </td>
+            <td class="py-3 px-5 text-right text-slate-700 font-medium">${count}</td>
+            <td class="py-3 px-5 text-right font-bold text-slate-900 tabular-nums">${formatLakhs(val)}</td>
+            <td class="py-3 px-5 text-right text-slate-600 font-semibold">${pct}%</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ==========================================
+    // CRUD ACTIONS
+    // ==========================================
+    function saveOpportunity(e) {
+      e.preventDefault();
+      const company = document.getElementById('oppCompany').value.trim();
+      const title = document.getElementById('oppTitle').value.trim();
+      const value = parseFloat(document.getElementById('oppValue').value);
+      const month = document.getElementById('oppMonth').value;
+      const stage = document.getElementById('oppStage').value;
+
+      if (!company || isNaN(value) || value <= 0) return;
+
+      appData.opportunities.unshift({
+        id: 'o_' + Date.now(),
+        company,
+        title,
+        value,
+        stage,
+        month
+      });
+
+      // Automatically add company if it doesn't exist yet
+      if (!appData.companies.some(c => c.name.toLowerCase() === company.toLowerCase())) {
+        appData.companies.push({ id: 'c_' + Date.now(), name: company, contact: 'Primary Contact', city: 'India' });
+      }
+
+      appData.isPristineSample = false;
+      persistData();
+      closeModal('oppModal');
+      renderAll();
+      showToast('Opportunity added — Dashboard updated!');
+    }
+
+    function updateOppStage(id, newStage) {
+      const opp = appData.opportunities.find(o => o.id === id);
+      if (!opp) return;
+      opp.stage = newStage;
+      appData.isPristineSample = false;
+      persistData();
+      renderAll();
+      showToast(`Moved "${opp.company}" to ${newStage}`);
+    }
+
+    function deleteOpportunity(id) {
+      appData.opportunities = appData.opportunities.filter(o => o.id !== id);
+      appData.isPristineSample = false;
+      persistData();
+      renderAll();
+      showToast('Opportunity removed');
+    }
+
+    function saveFollowup(e) {
+      e.preventDefault();
+      const company = document.getElementById('fuCompany').value.trim();
+      const task = document.getElementById('fuTask').value.trim();
+      const priority = document.getElementById('fuPriority').value;
+      const due = document.getElementById('fuDue').value.trim();
+      if (!company || !task) return;
+
+      appData.followups.unshift({
+        id: 'f_' + Date.now(),
+        priority,
+        company,
+        task,
+        due,
+        done: false
+      });
+
+      persistData();
+      closeModal('followupModal');
+      renderAll();
+      showToast('Follow-up added');
+    }
+
+    function toggleFollowupDone(id) {
+      const item = appData.followups.find(f => f.id === id);
+      if (!item) return;
+      item.done = !item.done;
+      persistData();
+      renderAll();
+      showToast(item.done ? 'Marked as Done' : 'Marked as Pending');
+    }
+
+    function deleteFollowup(id) {
+      appData.followups = appData.followups.filter(f => f.id !== id);
+      persistData();
+      renderAll();
+      showToast('Follow-up deleted');
+    }
+
+    function saveCompany(e) {
+      e.preventDefault();
+      const name = document.getElementById('compName').value.trim();
+      const contact = document.getElementById('compContact').value.trim();
+      const city = document.getElementById('compCity').value.trim();
+      if (!name) return;
+
+      appData.companies.unshift({ id: 'c_' + Date.now(), name, contact, city });
+      persistData();
+      closeModal('companyModal');
+      renderAll();
+      showToast('Company added');
+    }
+
+    function deleteCompany(id) {
+      appData.companies = appData.companies.filter(c => c.id !== id);
+      persistData();
+      renderAll();
+      showToast('Company removed');
+    }
+
+    // ==========================================
+    // SETTINGS: EXPORT / IMPORT / RESET
+    // ==========================================
+    function exportDataJSON() {
+      const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'vertaxis_sales_dashboard_backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('JSON backup downloaded');
+    }
+
+    function importDataJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!Array.isArray(parsed.opportunities) || !Array.isArray(parsed.followups)) {
+            throw new Error('Invalid format');
+          }
+          appData = parsed;
+          persistData();
+          renderAll();
+          showToast('Data imported successfully!');
+        } catch (err) {
+          showToast('Invalid JSON file selected');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function exportOpportunitiesCSV() {
+      const headers = ['Company', 'Requirement', 'Value (Lakhs)', 'Stage', 'Month'];
+      const rows = appData.opportunities.map(o => [
+        `"${o.company.replace(/"/g, '""')}"`,
+        `"${o.title.replace(/"/g, '""')}"`,
+        o.value,
+        `"${o.stage}"`,
+        `"${o.month}"`
+      ]);
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'vertaxis_opportunities.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('CSV report downloaded');
+    }
+
+    function confirmResetData() {
+      appData = getDefaultData();
+      persistData();
+      closeModal('resetConfirmModal');
+      document.getElementById('timeframeSelect').value = 'This Month';
+      currentTimeframe = 'This Month';
+      renderAll();
+      showToast('Sample data restored');
+    }
+
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Master render cycle
+    function renderAll() {
+      const metrics = calculateMetrics();
+      renderKPIs(metrics);
+      renderSalesFunnel(metrics);
+      renderDashboardFollowups();
+      renderTrendChart(metrics);
+      renderOpportunitiesTable();
+      renderAllFollowups();
+      renderCompaniesTable();
+      renderReports(metrics);
+    }
+
+    // Initialize app on load
+    window.addEventListener('DOMContentLoaded', () => {
+      switchTab('dashboard');
+    });
+  </script>
+</body>
+</html>
