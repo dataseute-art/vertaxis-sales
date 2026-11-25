@@ -35,12 +35,8 @@
     };
   </script>
 
-  <!-- Chart.js & DataLabels Plugin -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-
-  <!-- PDF.js CDN for 100% Client-Side Quotation PDF Parsing -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- PDF.js CDN loaded with defer so it never blocks initial dashboard rendering -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <style>
     body {
@@ -81,9 +77,9 @@
 
   <div class="flex min-h-screen">
     <!-- ========================================== -->
-    <!-- LEFT SIDEBAR (#0B172A, ~240px)             -->
+    <!-- LEFT SIDEBAR (#0B172A, ~230px)             -->
     <!-- ========================================== -->
-    <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-50 h-screen w-[240px] shrink-0 bg-[#0B172A] text-white flex flex-col justify-between transition-transform duration-200 -translate-x-full lg:translate-x-0 shadow-xl lg:shadow-none select-none">
+    <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-50 h-screen w-[230px] shrink-0 bg-[#0B172A] text-white flex flex-col justify-between transition-transform duration-200 -translate-x-full lg:translate-x-0 shadow-xl lg:shadow-none select-none">
 
       <!-- Top: Brand + Navigation -->
       <div>
@@ -100,7 +96,7 @@
               <div class="text-[10.5px] font-medium text-blue-200/80 tracking-tight">LED Display Solutions</div>
             </div>
           </div>
-          <button onclick="toggleMobileSidebar(false)" class="lg:hidden p-1.5 rounded-lg text-slate-300 hover:bg-white/10" aria-label="Close menu">
+          <button onclick="toggleMobileSidebar(false)" class="lg:hidden p-1.5 rounded-lg text-slate-300 hover:bg-white/10 cursor-pointer" aria-label="Close menu">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -143,8 +139,8 @@
       </div>
 
       <!-- Bottom Promotional Banner: Stylized Cityscape + LED Billboard SVG -->
-      <div class="relative mt-4 h-[225px] w-full overflow-hidden shrink-0">
-        <svg viewBox="0 0 240 225" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute inset-0 w-full h-full object-cover">
+      <div class="relative mt-4 h-[220px] w-full overflow-hidden shrink-0">
+        <svg viewBox="0 0 230 220" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute inset-0 w-full h-full object-cover">
           <defs>
             <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#0B172A"/>
@@ -167,21 +163,21 @@
               <feComposite in="SourceGraphic" in2="blur" operator="over"/>
             </filter>
           </defs>
-          <rect width="240" height="225" fill="url(#skyGrad)"/>
+          <rect width="230" height="220" fill="url(#skyGrad)"/>
           <rect x="8" y="88" width="28" height="110" fill="#0D234A"/>
           <rect x="38" y="65" width="32" height="133" fill="#112E61"/>
           <rect x="75" y="102" width="24" height="96" fill="#0B1F42"/>
-          <rect x="198" y="40" width="42" height="158" fill="#0F2A59"/>
-          <polygon points="100,52 240,18 240,190 100,190" fill="#122852"/>
+          <rect x="190" y="40" width="40" height="158" fill="#0F2A59"/>
+          <polygon points="98,52 230,18 230,190 98,190" fill="#122852"/>
           <!-- Glowing LED Billboard -->
-          <polygon points="110,76 222,48 222,124 110,138" fill="url(#ledScreen)" filter="url(#ledGlow)" opacity="0.95"/>
-          <line x1="138" y1="69" x2="138" y2="134" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
-          <line x1="166" y1="61" x2="166" y2="130" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
-          <line x1="194" y1="54" x2="194" y2="127" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
-          <line x1="110" y1="98" x2="222" y2="74" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
-          <line x1="110" y1="118" x2="222" y2="98" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
-          <path d="M0 164 Q120 170 240 186" stroke="#38BDF8" stroke-width="1.5" stroke-opacity="0.55" fill="none"/>
-          <path d="M0 172 Q125 182 240 202" stroke="#F472B6" stroke-width="1.2" stroke-opacity="0.45" fill="none"/>
+          <polygon points="108,76 214,48 214,124 108,138" fill="url(#ledScreen)" filter="url(#ledGlow)" opacity="0.95"/>
+          <line x1="134" y1="69" x2="134" y2="134" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <line x1="160" y1="61" x2="160" y2="130" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <line x1="186" y1="54" x2="186" y2="127" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <line x1="108" y1="98" x2="214" y2="74" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <line x1="108" y1="118" x2="214" y2="98" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
+          <path d="M0 164 Q115 170 230 186" stroke="#38BDF8" stroke-width="1.5" stroke-opacity="0.55" fill="none"/>
+          <path d="M0 172 Q120 182 230 202" stroke="#F472B6" stroke-width="1.2" stroke-opacity="0.45" fill="none"/>
           <g fill="#93C5FD" opacity="0.35">
             <rect x="44" y="75" width="4" height="4"/><rect x="52" y="75" width="4" height="4"/>
             <rect x="44" y="85" width="4" height="4"/><rect x="52" y="85" width="4" height="4"/>
@@ -189,7 +185,7 @@
             <rect x="14" y="98" width="4" height="4"/><rect x="22" y="98" width="4" height="4"/>
             <rect x="14" y="108" width="4" height="4"/><rect x="22" y="108" width="4" height="4"/>
           </g>
-          <rect x="0" y="90" width="240" height="135" fill="url(#bottomFade)"/>
+          <rect x="0" y="90" width="230" height="130" fill="url(#bottomFade)"/>
         </svg>
 
         <div class="absolute bottom-5 left-5 right-4 leading-[1.15]">
@@ -207,25 +203,33 @@
 
       <!-- TOP HEADER BAR -->
       <header class="header-bg text-white px-5 sm:px-7 py-4 flex flex-wrap items-center justify-between gap-4 border-b border-white/10">
-        <!-- Left Title & Mobile Menu Trigger -->
+        <!-- Left Title & Mobile Menu Button -->
         <div class="flex items-center gap-3.5">
           <button onclick="toggleMobileSidebar(true)" class="lg:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer" aria-label="Open menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div>
+            <h1 id="headerTitle" class="text-xl sm:text-[25px] font-bold tracking-tight leading-tight">Sales Dashboard</h1>
+            <p id="headerSubtitle" class="text-[12.5px] text-blue-200/85 mt-0.5">Track your LED Sales Pipeline at a Glance</p>
+          </div>
+        </div>
+
         <!-- Right Controls: Upload Quote PDF + Sync Pill + Timeframe Dropdown + Profile -->
-        <div class="flex items-center gap-3 sm:gap-4 ml-auto flex-wrap">
+        <div class="flex items-center gap-3 sm:gap-3.5 ml-auto flex-wrap">
           <!-- Hidden PDF File Input -->
           <input type="file" id="quotePdfInput" accept="application/pdf,.pdf" class="hidden" onchange="handleQuotePdfUpload(event)" />
 
-          <!-- Prominent Upload Quote PDF Button -->
+          <!-- Upload Quote PDF Button -->
           <button onclick="triggerQuotePdfUpload()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13px] font-semibold bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm transition-colors cursor-pointer">
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
             <span>Upload Quote PDF</span>
           </button>
 
-          <!-- Live Cloud Sync Status Pill -->
-          <div id="syncStatusPill" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold bg-white/10 border border-white/15 text-blue-100 transition-colors">
+          <!-- Clickable Cloud Sync Status Pill -->
+          <button id="syncStatusPill" onclick="loadFromSupabase(true)" title="Click to reload latest data from Supabase" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold bg-white/10 hover:bg-white/20 border border-white/15 text-blue-100 transition-colors cursor-pointer">
             <span id="syncDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
             <span id="syncText">Connecting...</span>
-          </div>
+          </button>
 
           <!-- Timeframe Dropdown -->
           <div class="relative">
@@ -259,16 +263,36 @@
         </div>
       </header>
 
-      <!-- ERROR / RLS WARNING BANNER (Hidden unless Supabase fails) -->
-      <div id="supabaseErrorBanner" class="hidden bg-red-50 border-b border-red-200 px-5 py-3 text-red-800 text-sm flex items-start justify-between gap-4">
-        <div class="flex items-start gap-2.5">
-          <svg class="w-5 h-5 text-red-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      <!-- LOCAL DATA RECOVERY BANNER (Shown if Supabase is empty but localStorage has data) -->
+      <div id="localRecoveryBanner" class="hidden bg-amber-50 border-b border-amber-200 px-5 py-3 text-amber-900 text-sm flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <svg class="w-5 h-5 text-amber-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
           <div>
-            <strong class="font-bold">Supabase Sync Issue:</strong>
-            <span id="supabaseErrorText">Could not connect to table <code>dashboard_state</code>. Make sure the table exists and Row Level Security (RLS) is disabled.</span>
+            <strong class="font-bold">Local data found:</strong>
+            <span id="localRecoverySummary">Previous deals/companies were found in this browser while Cloud is empty.</span>
           </div>
         </div>
-        <button onclick="document.getElementById('supabaseErrorBanner').classList.add('hidden')" class="text-red-500 hover:text-red-700 font-bold cursor-pointer">✕</button>
+        <div class="flex items-center gap-2">
+          <button onclick="pushLocalDataToCloud()" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-lg shadow-xs cursor-pointer">
+            Local data found — Push to Cloud
+          </button>
+          <button onclick="document.getElementById('localRecoveryBanner').classList.add('hidden')" class="text-amber-700 hover:text-amber-900 px-2 py-1 text-xs font-bold cursor-pointer">Dismiss</button>
+        </div>
+      </div>
+
+      <!-- SUPABASE ERROR BANNER (Hidden unless a request fails) -->
+      <div id="supabaseErrorBanner" class="hidden bg-red-50 border-b border-red-200 px-5 py-3 text-red-800 text-sm flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <svg class="w-5 h-5 text-red-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          <div>
+            <strong class="font-bold">Supabase Sync Issue:</strong>
+            <span id="supabaseErrorText">Could not reach Supabase.</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="loadFromSupabase(true)" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg cursor-pointer">Retry</button>
+          <button onclick="document.getElementById('supabaseErrorBanner').classList.add('hidden')" class="text-red-500 hover:text-red-700 font-bold px-1.5 cursor-pointer">✕</button>
+        </div>
       </div>
 
       <!-- ========================================== -->
@@ -283,7 +307,7 @@
 
           <!-- ROW 1: 4 PASTEL KPI CARDS -->
           <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <!-- Card 1: Total Pipeline (Soft Blue) -->
+            <!-- Card 1: Total Pipeline (Light Blue) -->
             <div class="bg-[#EBF3FF] border border-[#D4E5FF] rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-xs hover:shadow-md transition-shadow">
               <div class="w-14 h-14 rounded-full bg-[#CFE2FF] text-[#1D63ED] flex items-center justify-center shrink-0">
                 <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 11.5L3.8 9.4 2 10.3l10 5 10-5-1.8-.9L12 13.5zm0 4L3.8 13.4 2 14.3l10 5 10-5-1.8-.9L12 17.5z"/></svg>
@@ -291,11 +315,11 @@
               <div class="min-w-0">
                 <div class="text-[13px] font-semibold text-slate-700">Total Pipeline</div>
                 <div id="kpiTotalPipeline" class="text-[26px] sm:text-[28px] font-extrabold text-slate-900 tracking-tight leading-tight mt-0.5">₹0.0 L</div>
-                <div id="kpiTotalPipelineSub" class="text-[12px] font-semibold text-emerald-700 mt-1">0 active deals</div>
+                <div id="kpiTotalPipelineSub" class="text-[12px] font-semibold text-emerald-700 mt-1">0 open deals</div>
               </div>
             </div>
 
-            <!-- Card 2: In Nurturing (Soft Mint) -->
+            <!-- Card 2: In Nurturing (Mint Green) -->
             <div class="bg-[#EAF9F0] border border-[#CEF0DC] rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-xs hover:shadow-md transition-shadow">
               <div class="w-14 h-14 rounded-full bg-[#C7F0D8] text-[#15803D] flex items-center justify-center shrink-0">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22v-9m0 0C12 8.5 8.5 5 4 5c0 4.5 3.5 8 8 8zm0 0c0-4.5 3.5-8 8-8 0 4.5-3.5 8-8 8z"/></svg>
@@ -307,7 +331,7 @@
               </div>
             </div>
 
-            <!-- Card 3: Active Opportunities (Soft Amber) -->
+            <!-- Card 3: Active Opportunities (Warm Amber) -->
             <div class="bg-[#FFF6E6] border border-[#FDE5BE] rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-xs hover:shadow-md transition-shadow">
               <div class="w-14 h-14 rounded-full bg-[#FDE3B8] text-[#D97706] flex items-center justify-center shrink-0">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 9l-2 2-2-2m7.5 3.5l-3.25 3.25a2.121 2.121 0 01-3 0L9.5 14m-5-2l3.5-3.5a2 2 0 012.828 0L12 9.672l1.172-1.172a2 2 0 012.828 0L19.5 12m-15 0l3.25 3.25a2.121 2.121 0 003 0"/></svg>
@@ -319,7 +343,7 @@
               </div>
             </div>
 
-            <!-- Card 4: Won This Month (Soft Green) -->
+            <!-- Card 4: Won This Month (Light Green) -->
             <div class="bg-[#EAF9F0] border border-[#CEF0DC] rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-xs hover:shadow-md transition-shadow">
               <div class="w-14 h-14 rounded-full bg-[#C7F0D8] text-[#15803D] flex items-center justify-center shrink-0">
                 <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M18 4V2H6v2H2v3c0 2.76 2.24 5 5 5h.18A5.99 5.99 0 0011 15.92V19H8v2h8v-2h-3v-3.08A5.99 5.99 0 0016.82 12H17c2.76 0 5-2.24 5-5V4h-4zM4 7V6h2v4c-1.1 0-2-.9-2-2V7zm16 1c0 1.1-.9 2-2 2V6h2v2z"/></svg>
@@ -369,9 +393,9 @@
             </div>
           </div>
 
-          <!-- ROW 3: PIPELINE TREND (CHART.JS) -->
+          <!-- ROW 3: PIPELINE TREND (PURE SVG DUAL-LINE CHART) -->
           <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-5">
-            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
               <div class="flex items-center gap-2.5">
                 <svg class="w-5 h-5 text-[#0C2047]" fill="currentColor" viewBox="0 0 24 24"><path d="M5 13h3v7H5v-7zm5.5-5h3v12h-3V8zM16 4h3v16h-3V4z"/></svg>
                 <h2 class="text-[16.5px] font-bold text-slate-900 tracking-tight">Pipeline Trend</h2>
@@ -388,8 +412,10 @@
               </div>
             </div>
 
-            <div class="relative h-[220px] sm:h-[240px] w-full">
-              <canvas id="pipelineTrendCanvas"></canvas>
+            <div class="w-full overflow-x-auto">
+              <div id="trendChartWrapper" class="min-w-[520px] w-full">
+                <!-- Pure SVG dual-line chart rendered via JS -->
+              </div>
             </div>
           </div>
         </section>
@@ -433,6 +459,10 @@
         <!-- ==================== -->
         <section id="view-opportunities" class="hidden space-y-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Opportunities &amp; Deals</h2>
+              <p class="text-sm text-slate-500">Add deals manually, upload a Vertaxis Quote PDF, or change stages inline.</p>
+            </div>
             <div class="flex items-center gap-2.5 flex-wrap">
               <select id="oppStageFilter" onchange="renderOpportunitiesTable()" class="bg-white border border-slate-200 text-slate-700 text-sm font-medium rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                 <option value="All">All Stages</option>
@@ -460,7 +490,7 @@
                 <thead>
                   <tr class="bg-[#0C2047] text-white text-[12.5px] uppercase tracking-wider">
                     <th class="py-3.5 px-5 font-semibold">Company / Deal Title</th>
-                    <th class="py-3.5 px-5 font-semibold">Expected Close</th>
+                    <th class="py-3.5 px-5 font-semibold">Date / Month</th>
                     <th class="py-3.5 px-5 font-semibold text-right">Value (₹ Lakhs)</th>
                     <th class="py-3.5 px-5 font-semibold">Funnel Stage</th>
                     <th class="py-3.5 px-5 font-semibold text-right">Actions</th>
@@ -503,7 +533,7 @@
           <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 class="text-xl font-bold text-slate-900">Reports &amp; Historical Trend</h2>
-              <p class="text-sm text-slate-500">Review stage breakdowns or update past monthly trend figures (Jul–Nov).</p>
+              <p class="text-sm text-slate-500">Review conversion metrics, stage breakdown, and monthly pipeline trends.</p>
             </div>
             <button onclick="exportOpportunitiesCSV()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl shadow-xs transition-colors flex items-center gap-2 cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
@@ -565,38 +595,48 @@
         <section id="view-settings" class="hidden space-y-5 max-w-2xl">
           <div>
             <h2 class="text-xl font-bold text-slate-900">Settings &amp; Cloud Sync</h2>
-            <p class="text-sm text-slate-500">Connected to Supabase (<code>dashboard_state</code>). All edits sync automatically across devices.</p>
+            <p class="text-sm text-slate-500">Connected to Supabase (<code>dashboard_state</code>). All edits save locally and sync to the cloud.</p>
           </div>
 
           <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 space-y-5">
             <div class="flex items-start justify-between gap-4 pb-5 border-b border-slate-100">
               <div>
+                <h3 class="font-bold text-slate-900">Force Sync from Cloud</h3>
+                <p class="text-sm text-slate-500 mt-0.5">Fetch the latest saved state from Supabase right now.</p>
+              </div>
+              <button onclick="loadFromSupabase(true)" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl shrink-0 cursor-pointer">
+                Force Sync from Cloud
+              </button>
+            </div>
+
+            <div class="flex items-start justify-between gap-4 pb-5 border-b border-slate-100">
+              <div>
                 <h3 class="font-bold text-slate-900">Export JSON Backup</h3>
-                <p class="text-sm text-slate-500 mt-0.5">Download a local copy of all companies, opportunities, follow-ups, and trend data.</p>
+                <p class="text-sm text-slate-500 mt-0.5">Download a local backup file of all companies, opportunities, follow-ups, and trend data.</p>
               </div>
               <button onclick="exportDataJSON()" class="px-4 py-2 bg-[#1D63ED] hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shrink-0 cursor-pointer">
-                Export JSON
+                Export JSON Backup
               </button>
             </div>
 
             <div class="flex items-start justify-between gap-4 pb-5 border-b border-slate-100">
               <div>
                 <h3 class="font-bold text-slate-900">Import JSON Backup</h3>
-                <p class="text-sm text-slate-500 mt-0.5">Restore a backup file and immediately push it to your Supabase database.</p>
+                <p class="text-sm text-slate-500 mt-0.5">Restore a backup file and immediately push it to Supabase.</p>
               </div>
               <label class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-semibold rounded-xl shrink-0 cursor-pointer">
-                Import JSON
+                Import JSON Backup
                 <input type="file" accept=".json" class="hidden" onchange="importDataJSON(event)" />
               </label>
             </div>
 
             <div class="flex items-start justify-between gap-4">
               <div>
-                <h3 class="font-bold text-red-700">Reset All Data to Zero</h3>
-                <p class="text-sm text-slate-500 mt-0.5">Permanently clear all opportunities, follow-ups, companies, and monthly trend values to 0.</p>
+                <h3 class="font-bold text-red-700">Clear All Data to Zero</h3>
+                <p class="text-sm text-slate-500 mt-0.5">Permanently clear all opportunities, follow-ups, companies, and trend values to 0.</p>
               </div>
               <button onclick="openModal('resetConfirmModal')" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-sm font-semibold rounded-xl shrink-0 cursor-pointer">
-                Reset to Zero
+                Clear All Data to Zero
               </button>
             </div>
           </div>
@@ -659,7 +699,7 @@
 
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1">Product / Deal Title</label>
-          <input id="qiTitle" type="text" required placeholder="e.g., Pitch 4 Outdoor Display Board" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <input id="qiTitle" type="text" required placeholder="e.g., Pitch 4 Outdoor LED Display" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
         <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2.5">
@@ -681,7 +721,7 @@
         <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-3.5 space-y-2.5">
           <label class="inline-flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer select-none">
             <input id="qiCreateFollowup" type="checkbox" checked onchange="toggleQuoteFollowupInput()" class="w-4 h-4 rounded text-[#1D63ED] focus:ring-blue-500 cursor-pointer" />
-            <span>Auto-create Follow-up (High Priority, due in 3 days)</span>
+            <span>Auto-create Follow-up (High priority, due in 3 days)</span>
           </label>
           <input id="qiFollowupTask" type="text" class="w-full px-3 py-2 text-xs bg-white border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
@@ -714,23 +754,29 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Value (₹ Lakhs)</label>
-            <input id="oppValue" type="number" step="0.1" min="0" required placeholder="e.g., 12.5" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input id="oppValue" type="number" step="0.01" min="0" required placeholder="e.g., 12.5" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Expected Close Date</label>
-            <input id="oppCloseDate" type="date" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Date</label>
+            <input id="oppDate" type="date" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
         </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Funnel Stage</label>
-          <select id="oppStage" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="Prospect Identified">Prospect Identified</option>
-            <option value="In Nurturing">In Nurturing</option>
-            <option value="Qualified">Qualified</option>
-            <option value="Quotation Sent">Quotation Sent</option>
-            <option value="Negotiation">Negotiation</option>
-            <option value="Won">Won</option>
-          </select>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Funnel Stage</label>
+            <select id="oppStage" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="Prospect Identified">Prospect Identified</option>
+              <option value="In Nurturing">In Nurturing</option>
+              <option value="Qualified">Qualified</option>
+              <option value="Quotation Sent">Quotation Sent</option>
+              <option value="Negotiation">Negotiation</option>
+              <option value="Won">Won</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Quote No (Optional)</label>
+            <input id="oppQuoteNo" type="text" placeholder="VA-26-27-..." class="w-full px-3.5 py-2.5 text-sm font-mono border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
         </div>
         <div class="flex justify-end gap-2.5 pt-2">
           <button type="button" onclick="closeModal('oppModal')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Cancel</button>
@@ -761,7 +807,7 @@
             <label class="block text-xs font-semibold text-slate-700 mb-1">Priority</label>
             <select id="fuPriority" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option value="High">High</option>
-              <option value="Medium">Medium</option>
+              <option value="Medium" selected>Medium</option>
               <option value="Low">Low</option>
             </select>
           </div>
@@ -808,19 +854,19 @@
     </div>
   </div>
 
-  <!-- Reset All Data to Zero Confirmation Modal -->
+  <!-- Reset All Data Confirmation Modal -->
   <div id="resetConfirmModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4">
       <div class="w-12 h-12 mx-auto rounded-full bg-red-100 text-red-600 flex items-center justify-center">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
       </div>
       <div>
-        <h3 class="text-base font-bold text-slate-900">Reset All Data to Zero?</h3>
-        <p class="text-sm text-slate-500 mt-1">This will permanently clear all leads, follow-ups, companies, and trend history in Supabase.</p>
+        <h3 class="text-base font-bold text-slate-900">Clear All Data to Zero?</h3>
+        <p class="text-sm text-slate-500 mt-1">This will permanently clear all leads, follow-ups, companies, and trend history in Supabase and local storage.</p>
       </div>
       <div class="flex justify-center gap-3 pt-1">
         <button onclick="closeModal('resetConfirmModal')" class="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl cursor-pointer">Cancel</button>
-        <button onclick="confirmResetToZero()" class="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer">Yes, Reset All</button>
+        <button onclick="confirmResetToZero()" class="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl cursor-pointer">Yes, Clear All</button>
       </div>
     </div>
   </div>
@@ -828,44 +874,47 @@
   <!-- Toast Notification -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 bg-[#0C2047] text-white text-sm font-medium px-4 py-3 rounded-xl shadow-lg flex items-center gap-2.5 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-    <span id="toastMessage">Saved to Cloud</span>
+    <span id="toastMessage">Synced to Cloud</span>
   </div>
 
   <!-- ========================================== -->
   <!-- APPLICATION LOGIC & SUPABASE SYNC          -->
   <!-- ========================================== -->
   <script>
-    // 1. SUPABASE REST CONFIGURATION
-    const SUPABASE_REST_URL = 'https://vpqzjqjgekxgizmvccuq.supabase.co/rest/v1/';
+    // ==========================================
+    // 1. SUPABASE CONFIGURATION (NO BEARER HEADER!)
+    // ==========================================
+    const SUPABASE_URL = 'https://vpqzjqjgekxgizmvccuq.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_5iBt0ud3A-fDu0g7z3GFug_9wqyMr8f';
     const TABLE_NAME = 'dashboard_state';
     const ROW_ID = 1;
 
-    // Configure PDF.js Web Worker
-    if (window.pdfjsLib) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
-
-    // Register Chart.js DataLabels plugin
-    Chart.register(ChartDataLabels);
-
-    // 6 Funnel Stages
-    const FUNNEL_STAGES = [
-      { name: 'Prospect Identified', color: '#0D6EFD', topW: 100, botW: 89 },
-      { name: 'In Nurturing',        color: '#08A7CC', topW: 88,  botW: 77 },
-      { name: 'Qualified',           color: '#24A745', topW: 76,  botW: 65 },
-      { name: 'Quotation Sent',      color: '#F3921F', topW: 64,  botW: 54 },
-      { name: 'Negotiation',         color: '#8E54E9', topW: 53,  botW: 43 },
-      { name: 'Won',                 color: '#12834A', topW: 42,  botW: 32 }
+    // LocalStorage keys for backup & legacy data recovery
+    const PRIMARY_LOCAL_KEY = 'vertaxis_sales_data';
+    const LEGACY_LOCAL_KEYS = [
+      'vertaxis_sales_data',
+      'vertaxis_dashboard_state',
+      'vertaxis_crm_state',
+      'vertaxis_led_sales_dashboard_v1'
     ];
 
-    // 100% ZERO / EMPTY default state
+    // 6 Funnel Stages matching exact VERTAXIS color palette
+    const FUNNEL_STAGES = [
+      { name: 'Prospect Identified', color: '#0A66E5', topW: 100, botW: 89 },
+      { name: 'In Nurturing',        color: '#00A9CE', topW: 88,  botW: 77 },
+      { name: 'Qualified',           color: '#1EB54B', topW: 76,  botW: 65 },
+      { name: 'Quotation Sent',      color: '#F3921F', topW: 64,  botW: 54 },
+      { name: 'Negotiation',         color: '#8854D0', topW: 53,  botW: 43 },
+      { name: 'Won',                 color: '#15803D', topW: 42,  botW: 32 }
+    ];
+
+    // Clean empty state starting at 0
     function getEmptyState() {
       return {
         companies: [],
         opportunities: [],
         followUps: [],
-        monthlyTrend: [
+        trend: [
           { month: 'Jul', pipeline: 0, won: 0 },
           { month: 'Aug', pipeline: 0, won: 0 },
           { month: 'Sep', pipeline: 0, won: 0 },
@@ -878,10 +927,100 @@
     let state = getEmptyState();
     let activeTab = 'dashboard';
     let currentTimeframe = 'This Month';
-    let trendChartInstance = null;
+    let pendingLocalRecoveryState = null;
 
     // ==========================================
-    // SUPABASE CLOUD SYNC FUNCTIONS
+    // 2. BACKWARD-COMPATIBLE STATE NORMALIZATION
+    // ==========================================
+    function normalizeState(raw) {
+      if (!raw || typeof raw !== 'object') return getEmptyState();
+
+      const rawCompanies = Array.isArray(raw.companies) ? raw.companies : [];
+      const companies = rawCompanies.map((c, idx) => ({
+        id: c.id || `c_${idx}_${Date.now()}`,
+        name: String(c.name || '').trim(),
+        contact: String(c.contact || c.contactPerson || '').trim(),
+        industry: String(c.industry || c.city || '').trim()
+      })).filter(c => c.name);
+
+      const rawOpps = Array.isArray(raw.opportunities)
+        ? raw.opportunities
+        : (Array.isArray(raw.deals) ? raw.deals : []);
+      const opportunities = rawOpps.map((o, idx) => ({
+        id: o.id || `o_${idx}_${Date.now()}`,
+        company: String(o.company || o.companyName || '').trim(),
+        title: String(o.title || o.project || o.description || '').trim(),
+        value: parseFloat(o.value ?? o.amount ?? 0) || 0,
+        stage: FUNNEL_STAGES.some(s => s.name === o.stage) ? o.stage : 'Prospect Identified',
+        month: String(o.month || 'Nov'),
+        quoteNo: String(o.quoteNo || '').trim(),
+        date: String(o.date || o.expectedCloseDate || '').trim()
+      }));
+
+      const rawFollowUps = Array.isArray(raw.followUps)
+        ? raw.followUps
+        : (Array.isArray(raw.followups) ? raw.followups : (Array.isArray(raw.follow_ups) ? raw.follow_ups : []));
+      const followUps = rawFollowUps.map((f, idx) => ({
+        id: f.id || `f_${idx}_${Date.now()}`,
+        company: String(f.company || '').trim(),
+        task: String(f.task || f.note || f.description || '').trim(),
+        priority: ['High', 'Medium', 'Low'].includes(f.priority) ? f.priority : 'Medium',
+        due: String(f.due || f.dueDate || 'Today').trim(),
+        done: Boolean(f.done || f.completed)
+      }));
+
+      const rawTrend = Array.isArray(raw.trend)
+        ? raw.trend
+        : (Array.isArray(raw.monthlyTrend) ? raw.monthlyTrend : (Array.isArray(raw.pipelineTrend) ? raw.pipelineTrend : null));
+
+      let trend = getEmptyState().trend;
+      if (rawTrend && rawTrend.length > 0) {
+        trend = rawTrend.map((m, idx) => ({
+          month: String(m.month || ['Jul', 'Aug', 'Sep', 'Oct', 'Nov'][idx] || `M${idx + 1}`),
+          pipeline: parseFloat(m.pipeline ?? 0) || 0,
+          won: parseFloat(m.won ?? 0) || 0
+        }));
+      }
+
+      return { companies, opportunities, followUps, trend };
+    }
+
+    function hasMeaningfulData(st) {
+      if (!st) return false;
+      const hasTrendVal = Array.isArray(st.trend) && st.trend.some(m => (m.pipeline || 0) > 0 || (m.won || 0) > 0);
+      return (st.companies && st.companies.length > 0) ||
+             (st.opportunities && st.opportunities.length > 0) ||
+             (st.followUps && st.followUps.length > 0) ||
+             hasTrendVal;
+    }
+
+    function saveLocalBackup(st) {
+      try {
+        localStorage.setItem(PRIMARY_LOCAL_KEY, JSON.stringify(st));
+      } catch (err) {
+        console.warn('LocalStorage write skipped:', err);
+      }
+    }
+
+    function findExistingLocalData() {
+      for (const key of LEGACY_LOCAL_KEYS) {
+        try {
+          const rawStr = localStorage.getItem(key);
+          if (!rawStr) continue;
+          const parsed = JSON.parse(rawStr);
+          const normalized = normalizeState(parsed);
+          if (hasMeaningfulData(normalized)) {
+            return { key, data: normalized };
+          }
+        } catch (err) {
+          // Ignore malformed key
+        }
+      }
+      return null;
+    }
+
+    // ==========================================
+    // 3. SUPABASE REST API (DIRECT FETCH + TIMEOUT)
     // ==========================================
     function setSyncStatus(mode, text) {
       const dot = document.getElementById('syncDot');
@@ -907,89 +1046,142 @@
       document.getElementById('supabaseErrorBanner').classList.add('hidden');
     }
 
-    async function loadFromSupabase() {
-      setSyncStatus('saving', 'Syncing...');
+    async function fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
       try {
-        const res = await fetch(`${SUPABASE_REST_URL}${TABLE_NAME}?id=eq.${ROW_ID}&select=data`, {
-          method: 'GET',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Accept': 'application/json'
-          }
-        });
+        const response = await fetch(url, { ...options, signal: controller.signal });
+        return response;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function loadFromSupabase(manualTrigger = false) {
+      setSyncStatus('saving', manualTrigger ? 'Syncing...' : 'Connecting...');
+      try {
+        const res = await fetchWithTimeout(
+          `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=id,data&order=id.asc&limit=10`,
+          {
+            method: 'GET',
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Content-Type': 'application/json'
+            }
+          },
+          10000
+        );
 
         if (!res.ok) {
-          const errText = await res.text();
-          throw new Error(errText || `HTTP ${res.status}`);
+          const errBody = await res.text();
+          throw new Error(`HTTP ${res.status}: ${errBody || res.statusText}`);
         }
 
         const rows = await res.json();
-        const rowData = rows && rows[0] ? rows[0].data : null;
+        let chosenRow = null;
 
-        if (rowData && Object.keys(rowData).length > 0) {
-          state = {
-            companies: Array.isArray(rowData.companies) ? rowData.companies : [],
-            opportunities: Array.isArray(rowData.opportunities) ? rowData.opportunities : [],
-            followUps: Array.isArray(rowData.followUps) ? rowData.followUps : [],
-            monthlyTrend: Array.isArray(rowData.monthlyTrend) && rowData.monthlyTrend.length === 5
-              ? rowData.monthlyTrend
-              : getEmptyState().monthlyTrend
-          };
-          hideSupabaseError();
-          setSyncStatus('synced', 'Synced');
-          renderAll();
-        } else {
-          // Empty {} or no row yet -> start cleanly at zero
-          state = getEmptyState();
-          hideSupabaseError();
-          setSyncStatus('synced', 'Synced');
-          renderAll();
+        if (Array.isArray(rows) && rows.length > 0) {
+          // Prefer row id === 1 if it has non-empty data, else first row with non-empty data, else row id === 1
+          const rowOne = rows.find(r => r.id === ROW_ID);
+          const firstNonEmpty = rows.find(r => r.data && typeof r.data === 'object' && Object.keys(r.data).length > 0);
+
+          if (rowOne && rowOne.data && Object.keys(rowOne.data).length > 0) {
+            chosenRow = rowOne;
+          } else if (firstNonEmpty) {
+            chosenRow = firstNonEmpty;
+          } else {
+            chosenRow = rowOne || rows[0];
+          }
         }
+
+        const rawData = chosenRow && chosenRow.data && typeof chosenRow.data === 'object' ? chosenRow.data : {};
+        const cloudHasKeys = Object.keys(rawData).length > 0;
+
+        if (cloudHasKeys) {
+          state = normalizeState(rawData);
+          saveLocalBackup(state);
+          document.getElementById('localRecoveryBanner').classList.add('hidden');
+          pendingLocalRecoveryState = null;
+        } else {
+          state = getEmptyState();
+          // Cloud row is empty ({}) -> check if localStorage has previously saved data
+          const localFound = findExistingLocalData();
+          if (localFound) {
+            pendingLocalRecoveryState = localFound.data;
+            const cCount = localFound.data.companies.length;
+            const oCount = localFound.data.opportunities.length;
+            const fCount = localFound.data.followUps.length;
+            document.getElementById('localRecoverySummary').textContent =
+              `Found ${oCount} deals, ${cCount} companies, and ${fCount} follow-ups saved locally in this browser.`;
+            document.getElementById('localRecoveryBanner').classList.remove('hidden');
+          }
+        }
+
+        hideSupabaseError();
+        setSyncStatus('synced', 'Synced');
+        renderAll();
+        if (manualTrigger) showToast('Cloud data synced');
       } catch (err) {
         console.error('Supabase load error:', err);
-        setSyncStatus('error', 'Sync Failed');
-        showSupabaseError(
-          `Could not load data from Supabase (${err.message || 'Check table dashboard_state and disable RLS'}).`
-        );
-        renderAll();
+        const msg = err.name === 'AbortError'
+          ? 'Connection timed out after 10 seconds.'
+          : (err.message || 'Unknown network error');
+        setSyncStatus('error', 'Sync Error');
+        showSupabaseError(`Load failed (${msg}).`);
+
+        // Still allow viewing local data if available while offline
+        const localFound = findExistingLocalData();
+        if (localFound && !hasMeaningfulData(state)) {
+          state = localFound.data;
+          renderAll();
+        }
       }
     }
 
     async function saveToSupabase(showNotification = true) {
-      setSyncStatus('saving', 'Syncing...');
+      // Always save locally first so edits are never lost
+      saveLocalBackup(state);
+      setSyncStatus('saving', 'Saving...');
       try {
-        const res = await fetch(`${SUPABASE_REST_URL}${TABLE_NAME}?id=eq.${ROW_ID}`, {
-          method: 'PATCH',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify({ data: state })
-        });
-
-        if (!res.ok) {
-          const errText = await res.text();
-          throw new Error(errText || `HTTP ${res.status}`);
-        }
-
-        const updated = await res.json();
-        // If row id=1 didn't exist yet, insert it
-        if (!Array.isArray(updated) || updated.length === 0) {
-          const postRes = await fetch(`${SUPABASE_REST_URL}${TABLE_NAME}`, {
-            method: 'POST',
+        const patchRes = await fetchWithTimeout(
+          `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${ROW_ID}`,
+          {
+            method: 'PATCH',
             headers: {
               'apikey': SUPABASE_KEY,
-              'Authorization': `Bearer ${SUPABASE_KEY}`,
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Prefer': 'return=representation'
             },
-            body: JSON.stringify({ id: ROW_ID, data: state })
-          });
+            body: JSON.stringify({ data: state })
+          },
+          10000
+        );
+
+        if (!patchRes.ok) {
+          const errBody = await patchRes.text();
+          throw new Error(`HTTP ${patchRes.status}: ${errBody || patchRes.statusText}`);
+        }
+
+        const updatedRows = await patchRes.json();
+        // If row id=1 didn't exist yet, POST it
+        if (!Array.isArray(updatedRows) || updatedRows.length === 0) {
+          const postRes = await fetchWithTimeout(
+            `${SUPABASE_URL}/rest/v1/${TABLE_NAME}`,
+            {
+              method: 'POST',
+              headers: {
+                'apikey': SUPABASE_KEY,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=representation'
+              },
+              body: JSON.stringify({ id: ROW_ID, data: state })
+            },
+            10000
+          );
+
           if (!postRes.ok) {
-            const errText = await postRes.text();
-            throw new Error(errText || `HTTP ${postRes.status}`);
+            const postErr = await postRes.text();
+            throw new Error(`HTTP ${postRes.status}: ${postErr || postRes.statusText}`);
           }
         }
 
@@ -998,56 +1190,38 @@
         if (showNotification) showToast('Synced to Supabase');
       } catch (err) {
         console.error('Supabase save error:', err);
-        setSyncStatus('error', 'Sync Failed');
-        showSupabaseError(
-          `Write blocked by Supabase (${err.message || 'RLS may be enabled'}).`
-        );
+        const msg = err.name === 'AbortError'
+          ? 'Save timed out after 10 seconds.'
+          : (err.message || 'Unknown error');
+        setSyncStatus('error', 'Sync Error');
+        showSupabaseError(`Save failed (${msg}).`);
       }
     }
 
+    async function pushLocalDataToCloud() {
+      if (!pendingLocalRecoveryState) return;
+      state = pendingLocalRecoveryState;
+      pendingLocalRecoveryState = null;
+      document.getElementById('localRecoveryBanner').classList.add('hidden');
+      renderAll();
+      await saveToSupabase(false);
+      showToast('Local data pushed to Supabase!');
+    }
+
     // ==========================================
-    // METRICS & CALCULATIONS
+    // 4. METRICS & FORMATTING
     // ==========================================
     function formatLakhs(num) {
       const n = Number(num || 0);
-      return `₹${n.toFixed(2)} L`;
-    }
-      } catch (err) {
-        console.error('Supabase load error:', err);
-        setSyncStatus('error', 'Sync Error');
-        showSupabaseError(
-          `Could not load data from Supabase (${err.message || 'Check table dashboard_state and disable RLS'}).`
-        );
-        renderAll();
-      }
+      const rounded = Math.round(n * 100) / 100;
+      // Show 1 decimal normally (e.g., ₹0.0 L, ₹12.5 L), or 2 decimals if needed (e.g., ₹4.11 L)
+      const hasSecondDecimal = Math.round(rounded * 100) % 10 !== 0;
+      return `₹${rounded.toFixed(hasSecondDecimal ? 2 : 1)} L`;
     }
 
-    async function saveToSupabase(showNotification = true) {
-      setSyncStatus('saving', 'Saving...');
-      try {
-        const { error } = await supabaseClient
-          .from(TABLE_NAME)
-          .upsert({ id: ROW_ID, data: state }, { onConflict: 'id' });
-
-        if (error) throw error;
-
-        hideSupabaseError();
-        setSyncStatus('synced', '☁️ Synced');
-        if (showNotification) showToast('☁️ Synced to Supabase');
-      } catch (err) {
-        console.error('Supabase save error:', err);
-        setSyncStatus('error', 'Sync Failed');
-        showSupabaseError(
-          `Write blocked by Supabase (${err.message || 'RLS may be enabled'}). Go to Supabase → Table Editor → dashboard_state → Disable RLS.`
-        );
-      }
-    }
-
-    // ==========================================
-    // METRICS & CALCULATIONS
-    // ==========================================
-    function formatLakhs(num) {
-      return `₹${Number(num || 0).toFixed(1)} L`;
+    function formatCompactL(num) {
+      const n = Math.round((Number(num) || 0) * 10) / 10;
+      return `${n % 1 === 0 ? n.toFixed(0) : n.toFixed(1)}L`;
     }
 
     function calculateMetrics() {
@@ -1067,7 +1241,6 @@
         stageTotals['Quotation Sent'] +
         stageTotals['Negotiation'];
 
-      // Total Pipeline = sum of all open opportunities (all stages except Won)
       const totalPipeline =
         stageTotals['Prospect Identified'] +
         stageTotals['In Nurturing'] +
@@ -1076,8 +1249,6 @@
         stageTotals['Negotiation'];
 
       const totalAllStages = totalPipeline + wonValue;
-      const denom = totalPipeline > 0 ? totalPipeline : (totalAllStages > 0 ? totalAllStages : 1);
-
       const nurturingPct = totalPipeline > 0 ? Math.round((nurturingValue / totalPipeline) * 100) : 0;
       const activePct = totalPipeline > 0 ? Math.round((activeOpps / totalPipeline) * 100) : 0;
 
@@ -1088,7 +1259,6 @@
         stageTotals,
         totalPipeline,
         totalAllStages,
-        denom,
         nurturingValue,
         nurturingPct,
         activeOpps,
@@ -1099,18 +1269,17 @@
       };
     }
 
-    // Keep latest month (Nov) in monthlyTrend synced with live pipeline & won revenue
     function syncCurrentMonthTrend() {
       const metrics = calculateMetrics();
-      if (state.monthlyTrend && state.monthlyTrend.length > 0) {
-        const lastIdx = state.monthlyTrend.length - 1;
-        state.monthlyTrend[lastIdx].pipeline = Number(metrics.totalPipeline.toFixed(1));
-        state.monthlyTrend[lastIdx].won = Number(metrics.wonValue.toFixed(1));
+      if (state.trend && state.trend.length > 0) {
+        const lastIdx = state.trend.length - 1;
+        state.trend[lastIdx].pipeline = Number(metrics.totalPipeline.toFixed(2));
+        state.trend[lastIdx].won = Number(metrics.wonValue.toFixed(2));
       }
     }
 
     // ==========================================
-    // UI NAVIGATION & HELPERS
+    // 5. UI NAVIGATION & HELPERS
     // ==========================================
     function switchTab(tabName) {
       activeTab = tabName;
@@ -1137,7 +1306,7 @@
         opportunities: ['Opportunities', 'Add, edit, or move deals through your sales funnel'],
         followups:     ['Follow-ups', 'Stay on top of quotations, brochures, and site visits'],
         reports:       ['Sales Reports', 'Stage conversion breakdown and editable monthly trends'],
-        settings:      ['Settings', 'Cloud sync status, JSON backups, and data reset']
+        settings:      ['Settings', 'Cloud sync, JSON backups, and data management']
       };
       const [title, subtitle] = titles[tabName] || titles.dashboard;
       document.getElementById('headerTitle').textContent = title;
@@ -1162,7 +1331,7 @@
     function handleTimeframeChange() {
       currentTimeframe = document.getElementById('timeframeSelect').value;
       renderAll();
-      showToast(`Filter: ${currentTimeframe}`);
+      showToast(`Showing: ${currentTimeframe}`);
     }
 
     function showToast(msg) {
@@ -1172,7 +1341,7 @@
       clearTimeout(window.__toastTimer);
       window.__toastTimer = setTimeout(() => {
         toast.classList.add('translate-y-20', 'opacity-0');
-      }, 2500);
+      }, 2600);
     }
 
     function openModal(id) {
@@ -1199,11 +1368,12 @@
           document.getElementById('oppTitle').value = opp.title;
           document.getElementById('oppValue').value = opp.value;
           document.getElementById('oppStage').value = opp.stage;
-          document.getElementById('oppCloseDate').value = opp.expectedCloseDate || '';
+          document.getElementById('oppDate').value = opp.date || '';
+          document.getElementById('oppQuoteNo').value = opp.quoteNo || '';
         }
       } else {
         document.getElementById('oppModalTitle').textContent = 'Add New Opportunity';
-        document.getElementById('oppCloseDate').value = new Date().toISOString().split('T')[0];
+        document.getElementById('oppDate').value = new Date().toISOString().split('T')[0];
       }
       openModal('oppModal');
     }
@@ -1219,43 +1389,46 @@
       openModal('companyModal');
     }
 
-    // Format date string into "Today", "Tomorrow", or "20 Nov"
-    function formatDueDisplay(dateStr) {
-      if (!dateStr) return { label: 'No date', colorClass: 'text-slate-500 font-medium' };
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const tomorrow = new Date(today);
-      tomorrow.setDate(today.getDate() + 1);
+    function formatDueDisplay(dueStr) {
+      if (!dueStr) return { label: 'No date', colorClass: 'text-slate-500 font-medium' };
+      const lower = dueStr.toLowerCase();
+      if (lower === 'today') return { label: 'Today', colorClass: 'text-[#DC2626] font-bold' };
+      if (lower === 'tomorrow') return { label: 'Tomorrow', colorClass: 'text-[#1D63ED] font-bold' };
 
-      const d = new Date(dateStr + 'T00:00:00');
-      if (isNaN(d.getTime())) return { label: dateStr, colorClass: 'text-slate-700 font-semibold' };
+      // Check ISO YYYY-MM-DD format
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dueStr)) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
 
-      if (d.getTime() === today.getTime()) {
-        return { label: 'Today', colorClass: 'text-[#DC2626] font-bold' };
+        const d = new Date(dueStr + 'T00:00:00');
+        if (!isNaN(d.getTime())) {
+          if (d.getTime() === today.getTime()) return { label: 'Today', colorClass: 'text-[#DC2626] font-bold' };
+          if (d.getTime() === tomorrow.getTime()) return { label: 'Tomorrow', colorClass: 'text-[#1D63ED] font-bold' };
+          const formatted = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+          const isOverdue = d.getTime() < today.getTime();
+          return {
+            label: formatted,
+            colorClass: isOverdue ? 'text-[#DC2626] font-bold' : 'text-slate-700 font-semibold'
+          };
+        }
       }
-      if (d.getTime() === tomorrow.getTime()) {
-        return { label: 'Tomorrow', colorClass: 'text-[#1D63ED] font-bold' };
-      }
-      const formatted = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-      const isOverdue = d.getTime() < today.getTime();
-      return {
-        label: formatted,
-        colorClass: isOverdue ? 'text-[#DC2626] font-bold' : 'text-slate-700 font-semibold'
-      };
+      return { label: dueStr, colorClass: 'text-slate-700 font-semibold' };
     }
 
     function getPriorityBadgeHTML(priority) {
       if (priority === 'High') {
-        return `<span class="inline-flex items-center justify-center min-w-[68px] px-3 py-1 rounded-full text-[12px] font-bold bg-[#FDE4E4] text-[#C81E1E]">High</span>`;
+        return `<span class="inline-flex items-center justify-center min-w-[66px] px-3 py-1 rounded-full text-[12px] font-bold bg-[#FDE4E4] text-[#C81E1E]">High</span>`;
       }
       if (priority === 'Medium') {
-        return `<span class="inline-flex items-center justify-center min-w-[68px] px-3 py-1 rounded-full text-[12px] font-bold bg-[#FDECC8] text-[#B45309]">Medium</span>`;
+        return `<span class="inline-flex items-center justify-center min-w-[66px] px-3 py-1 rounded-full text-[12px] font-bold bg-[#FDECC8] text-[#B45309]">Medium</span>`;
       }
-      return `<span class="inline-flex items-center justify-center min-w-[68px] px-3 py-1 rounded-full text-[12px] font-bold bg-[#E0EDFF] text-[#1D63ED]">Low</span>`;
+      return `<span class="inline-flex items-center justify-center min-w-[66px] px-3 py-1 rounded-full text-[12px] font-bold bg-slate-100 text-slate-600">Low</span>`;
     }
 
     // ==========================================
-    // RENDER DASHBOARD WIDGETS
+    // 6. RENDER DASHBOARD WIDGETS
     // ==========================================
     function renderKPIs(metrics) {
       document.getElementById('kpiTotalPipeline').textContent = formatLakhs(metrics.totalPipeline);
@@ -1288,7 +1461,7 @@
         const borderClass = idx < FUNNEL_STAGES.length - 1 ? 'border-b border-slate-100' : '';
 
         return `
-          <div onclick="jumpToStage('${stage.name}')" title="Click to filter ${stage.name}" class="funnel-row grid grid-cols-12 items-center gap-2 py-0.5 cursor-pointer ${borderClass}">
+          <div onclick="jumpToStage('${stage.name}')" title="Click to view ${stage.name} deals" class="funnel-row grid grid-cols-12 items-center gap-2 py-0.5 cursor-pointer ${borderClass}">
             <div class="col-span-8 flex justify-center">
               <div class="funnel-bar w-full h-[38px] sm:h-[40px] flex items-center justify-center text-white text-[13px] sm:text-[13.5px] font-semibold tracking-tight shadow-xs"
                    style="background-color: ${stage.color}; clip-path: ${clip};">
@@ -1327,19 +1500,22 @@
       }
 
       listEl.innerHTML = pending.slice(0, 4).map(f => {
-        const dueInfo = formatDueDisplay(f.dueDate);
+        const dueInfo = formatDueDisplay(f.due);
         return `
-          <div class="py-4 flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3.5 min-w-0">
+          <div class="py-3.5 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
               <div class="shrink-0">${getPriorityBadgeHTML(f.priority)}</div>
               <div class="min-w-0">
-                <div class="text-[14.5px] font-bold text-slate-900 truncate">${escapeHTML(f.company)}</div>
+                <div class="text-[14px] font-bold text-slate-900 truncate">${escapeHTML(f.company)}</div>
                 <div class="text-[12.5px] text-slate-500 truncate mt-0.5">${escapeHTML(f.task)}</div>
               </div>
             </div>
-            <div class="flex items-center gap-1.5 text-[13px] shrink-0 ${dueInfo.colorClass}">
-              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-              <span class="whitespace-nowrap">${escapeHTML(dueInfo.label)}</span>
+            <div class="flex items-center gap-2.5 shrink-0">
+              <div class="flex items-center gap-1 text-[12.5px] ${dueInfo.colorClass}">
+                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span class="whitespace-nowrap">${escapeHTML(dueInfo.label)}</span>
+              </div>
+              <button onclick="toggleFollowupDone('${f.id}')" title="Mark Done" class="px-2 py-1 text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-md cursor-pointer">Done</button>
             </div>
           </div>
         `;
@@ -1347,109 +1523,100 @@
     }
 
     // ==========================================
-    // RENDER PIPELINE TREND (CHART.JS)
+    // 7. PURE-SVG PIPELINE TREND CHART (ZERO DEPS)
     // ==========================================
     function renderTrendChart() {
-      const ctx = document.getElementById('pipelineTrendCanvas').getContext('2d');
-      const labels = state.monthlyTrend.map(m => m.month);
-      const pipelineValues = state.monthlyTrend.map(m => Number(m.pipeline) || 0);
-      const wonValues = state.monthlyTrend.map(m => Number(m.won) || 0);
+      const wrapper = document.getElementById('trendChartWrapper');
+      const points = (state.trend && state.trend.length >= 2) ? state.trend : getEmptyState().trend;
 
-      const maxVal = Math.max(10, ...pipelineValues, ...wonValues);
-      const suggestedMax = Math.ceil((maxVal * 1.25) / 5) * 5;
+      const width = 920;
+      const height = 200;
+      const padLeft = 48;
+      const padRight = 56;
+      const padTop = 28;
+      const padBottom = 34;
+      const plotW = width - padLeft - padRight;
+      const plotH = height - padTop - padBottom;
 
-      if (trendChartInstance) {
-        trendChartInstance.destroy();
-      }
+      const allVals = points.flatMap(p => [Number(p.pipeline) || 0, Number(p.won) || 0]);
+      const maxData = Math.max(0, ...allVals);
 
-      trendChartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [
-            {
-              label: 'Pipeline Value',
-              data: pipelineValues,
-              borderColor: '#1D63ED',
-              backgroundColor: '#1D63ED',
-              borderWidth: 2.5,
-              pointRadius: 5,
-              pointHoverRadius: 7,
-              pointBackgroundColor: '#1D63ED',
-              pointBorderColor: '#FFFFFF',
-              pointBorderWidth: 2,
-              tension: 0.15,
-              datalabels: {
-                align: 'top',
-                anchor: 'end',
-                offset: 4,
-                color: '#1D63ED',
-                font: { weight: '700', size: 11.5 },
-                formatter: (val) => `${Number(val).toFixed(val % 1 === 0 ? 0 : 1)}L`
-              }
-            },
-            {
-              label: 'Won Revenue',
-              data: wonValues,
-              borderColor: '#16A34A',
-              backgroundColor: '#16A34A',
-              borderWidth: 2.2,
-              pointRadius: 4.5,
-              pointHoverRadius: 6.5,
-              pointBackgroundColor: '#16A34A',
-              pointBorderColor: '#FFFFFF',
-              pointBorderWidth: 2,
-              tension: 0.15,
-              datalabels: {
-                align: 'top',
-                anchor: 'end',
-                offset: 4,
-                color: '#15803D',
-                font: { weight: '700', size: 11.5 },
-                formatter: (val) => `${Number(val).toFixed(val % 1 === 0 ? 0 : 1)}L`
-              }
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          layout: {
-            padding: { top: 24, right: 20, left: 4, bottom: 0 }
-          },
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: '#0B172A',
-              padding: 10,
-              callbacks: {
-                label: (ctx) => `${ctx.dataset.label}: ₹${ctx.parsed.y} L`
-              }
-            }
-          },
-          scales: {
-            x: {
-              grid: { display: false },
-              ticks: { color: '#1E293B', font: { weight: '600', size: 12 } }
-            },
-            y: {
-              beginAtZero: true,
-              suggestedMax,
-              border: { display: false },
-              grid: { color: '#E2E8F0' },
-              ticks: {
-                color: '#475569',
-                font: { weight: '600', size: 11.5 },
-                callback: (val) => `${val}L`
-              }
-            }
-          }
-        }
-      });
+      // Clean Y-axis scale even when all values are 0
+      let yStep = 5;
+      if (maxData > 60) yStep = 25;
+      else if (maxData > 30) yStep = 15;
+      else if (maxData > 15) yStep = 10;
+      else if (maxData > 6) yStep = 5;
+      else yStep = 2;
+
+      const yTicks = [0, yStep, yStep * 2, yStep * 3];
+      const yMax = Math.max(yStep * 3, maxData * 1.15);
+
+      const getX = idx => padLeft + (idx / (points.length - 1)) * plotW;
+      const getY = val => padTop + plotH - ((Number(val) || 0) / yMax) * plotH;
+
+      const pipelinePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${getX(i).toFixed(1)} ${getY(p.pipeline).toFixed(1)}`).join(' ');
+      const wonPath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${getX(i).toFixed(1)} ${getY(p.won).toFixed(1)}`).join(' ');
+
+      const gridLinesSVG = yTicks.map(tick => {
+        const y = getY(tick).toFixed(1);
+        return `
+          <line x1="${padLeft}" y1="${y}" x2="${width - padRight + 24}" y2="${y}" stroke="#E2E8F0" stroke-width="1" />
+          <text x="${padLeft - 10}" y="${Number(y) + 4}" text-anchor="end" fill="#475569" font-size="12" font-weight="600">${tick}L</text>
+        `;
+      }).join('');
+
+      const xLabelsSVG = points.map((p, i) => {
+        const x = getX(i).toFixed(1);
+        return `<text x="${x}" y="${height - 8}" text-anchor="middle" fill="#1E293B" font-size="12.5" font-weight="600">${escapeHTML(p.month)}</text>`;
+      }).join('');
+
+      const pipelineDotsSVG = points.map((p, i) => {
+        const x = getX(i);
+        const y = getY(p.pipeline);
+        const label = formatCompactL(p.pipeline);
+        const isLast = i === points.length - 1;
+
+        const labelMarkup = isLast
+          ? `<g transform="translate(${x + 8}, ${y - 10})">
+               <rect x="0" y="0" width="44" height="19" rx="5" fill="#E0EDFF"/>
+               <text x="22" y="13" text-anchor="middle" fill="#1D63ED" font-size="11.5" font-weight="700">${label}</text>
+             </g>`
+          : `<text x="${x}" y="${y - 10}" text-anchor="middle" fill="#1D63ED" font-size="11.5" font-weight="700">${label}</text>`;
+
+        return `
+          <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.8" fill="#1D63ED" stroke="#FFFFFF" stroke-width="1.8" />
+          ${labelMarkup}
+        `;
+      }).join('');
+
+      const wonDotsSVG = points.map((p, i) => {
+        const x = getX(i);
+        const y = getY(p.won);
+        const label = formatCompactL(p.won);
+        // Offset slightly if Pipeline and Won overlap at same value
+        const sameAsPipe = Math.abs((Number(p.pipeline) || 0) - (Number(p.won) || 0)) < 0.01;
+        const yTextOffset = sameAsPipe ? 16 : -9;
+        return `
+          <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.4" fill="#16A34A" stroke="#FFFFFF" stroke-width="1.8" />
+          <text x="${x + (i === 0 ? 10 : 0)}" y="${y + yTextOffset}" text-anchor="middle" fill="#15803D" font-size="11" font-weight="700">${label}</text>
+        `;
+      }).join('');
+
+      wrapper.innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" class="w-full h-auto overflow-visible" role="img" aria-label="Pipeline Trend Chart">
+          ${gridLinesSVG}
+          ${xLabelsSVG}
+          <path d="${pipelinePath}" fill="none" stroke="#1D63ED" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="${wonPath}" fill="none" stroke="#16A34A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          ${pipelineDotsSVG}
+          ${wonDotsSVG}
+        </svg>
+      `;
     }
 
     // ==========================================
-    // RENDER SECONDARY VIEWS
+    // 8. RENDER SECONDARY TABS
     // ==========================================
     function renderOpportunitiesTable() {
       const tbody = document.getElementById('opportunitiesTableBody');
@@ -1459,7 +1626,7 @@
         : state.opportunities.filter(o => o.stage === filter);
 
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-slate-400">No opportunities yet. Click "+ Add Opportunity" to create your first deal.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-slate-400">No opportunities yet. Click "+ Add Opportunity" or "Upload Quote PDF" to begin.</td></tr>`;
         return;
       }
 
@@ -1472,7 +1639,7 @@
             </div>
             <div class="text-xs text-slate-500 mt-0.5">${escapeHTML(o.title)}</div>
           </td>
-          <td class="py-3.5 px-5 text-slate-600 font-medium">${escapeHTML(o.expectedCloseDate || '—')}</td>
+          <td class="py-3.5 px-5 text-slate-600 font-medium">${escapeHTML(o.date || o.month || '—')}</td>
           <td class="py-3.5 px-5 text-right font-bold text-slate-900 tabular-nums">${formatLakhs(o.value)}</td>
           <td class="py-3.5 px-5">
             <select onchange="updateOppStage('${o.id}', this.value)" class="text-xs font-semibold rounded-lg border border-slate-200 px-2.5 py-1.5 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
@@ -1498,7 +1665,7 @@
       }
 
       container.innerHTML = state.followUps.map(f => {
-        const dueInfo = formatDueDisplay(f.dueDate);
+        const dueInfo = formatDueDisplay(f.due);
         return `
           <div class="px-5 py-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4 ${f.done ? 'bg-slate-50/70 opacity-65' : ''}">
             <div class="flex items-center gap-3.5 min-w-0">
@@ -1511,7 +1678,7 @@
             <div class="flex items-center gap-3 ml-auto">
               <span class="text-xs ${dueInfo.colorClass}">${escapeHTML(dueInfo.label)}</span>
               <button onclick="toggleFollowupDone('${f.id}')" class="px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors cursor-pointer ${f.done ? 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'}">
-                ${f.done ? 'Undo' : 'Complete'}
+                ${f.done ? 'Undo' : 'Mark Done'}
               </button>
               <button onclick="deleteFollowup('${f.id}')" class="text-xs font-semibold text-red-500 hover:text-red-700 px-2 py-1.5 cursor-pointer">✕</button>
             </div>
@@ -1533,8 +1700,8 @@
         return `
           <tr class="hover:bg-slate-50/80 transition-colors">
             <td class="py-3.5 px-5 font-bold text-slate-900">${escapeHTML(c.name)}</td>
-            <td class="py-3.5 px-5 text-slate-600">${escapeHTML(c.contact)}</td>
-            <td class="py-3.5 px-5 text-slate-600">${escapeHTML(c.industry)}</td>
+            <td class="py-3.5 px-5 text-slate-600">${escapeHTML(c.contact || '—')}</td>
+            <td class="py-3.5 px-5 text-slate-600">${escapeHTML(c.industry || '—')}</td>
             <td class="py-3.5 px-5 text-right font-semibold text-slate-700">${deals.length}</td>
             <td class="py-3.5 px-5 text-right font-bold text-slate-900 tabular-nums">${formatLakhs(totalVal)}</td>
             <td class="py-3.5 px-5 text-right">
@@ -1586,10 +1753,9 @@
         `;
       }).join('');
 
-      // Editable Monthly Trend Table
-      document.getElementById('monthlyTrendEditBody').innerHTML = state.monthlyTrend.map((m, idx) => `
+      document.getElementById('monthlyTrendEditBody').innerHTML = state.trend.map((m, idx) => `
         <tr>
-          <td class="py-2.5 pr-4 font-bold text-slate-800">${m.month}</td>
+          <td class="py-2.5 pr-4 font-bold text-slate-800">${escapeHTML(m.month)}</td>
           <td class="py-2.5 px-4">
             <input type="number" step="0.1" min="0" id="trendPipe_${idx}" value="${m.pipeline}" class="w-32 px-3 py-1.5 border border-slate-300 rounded-lg text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </td>
@@ -1601,7 +1767,7 @@
     }
 
     // ==========================================
-    // CLIENT-SIDE VERTAXIS PDF QUOTATION PARSER
+    // 9. CLIENT-SIDE VERTAXIS PDF QUOTATION PARSER
     // ==========================================
     function triggerQuotePdfUpload() {
       const input = document.getElementById('quotePdfInput');
@@ -1614,9 +1780,12 @@
       if (!file) return;
 
       if (!window.pdfjsLib) {
-        showToast('PDF.js failed to load. Check internet connection.');
+        showToast('PDF reader is still loading. Please try again in a second.');
         return;
       }
+
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
       showToast('Reading quotation PDF...');
       try {
@@ -1627,7 +1796,6 @@
         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
           const page = await pdf.getPage(pageNum);
           const textContent = await page.getTextContent();
-          // Preserve line breaks using Y-coordinate jumps
           let lastY = null;
           let pageLines = '';
           for (const item of textContent.items) {
@@ -1646,7 +1814,7 @@
         openModal('quoteImportModal');
       } catch (err) {
         console.error('PDF parse error:', err);
-        showToast('Could not read PDF. Please ensure it is a text-based PDF.');
+        showToast('Could not read PDF. Ensure it is a text-based PDF.');
       } finally {
         event.target.value = '';
       }
@@ -1664,7 +1832,7 @@
       const quoteDateMatch = flatText.match(/Quotation\s*Date\s*[:\-]?\s*([\d\-\/\.]+)/i);
       const quoteDate = quoteDateMatch ? quoteDateMatch[1].trim() : '';
 
-      // 3. Company / Client Name between "To," (or Greek "Το,") and "Kind Attention:"
+      // 3. Client / Company Name between "To," (or Greek "Το,") and "Kind Attention:"
       let company = '';
       const companyMatch = text.match(/(?:^|\n|\s)[TΤ][oο]\s*,\s*([\s\S]*?)(?=Kind\s*Attention)/i);
       if (companyMatch && companyMatch[1]) {
@@ -1681,7 +1849,7 @@
         contact = contactMatch[1].split(/Quotation/i)[0].trim();
       }
 
-      // 5. Product / Deal Title (Pitch + Display Size or Outdoor/Indoor Display board)
+      // 5. Product / Pitch description
       const pitchMatch = flatText.match(/Pitch\s*([0-9]+(?:\.[0-9]+)?)/i);
       const sizeMatch = flatText.match(/Display\s*Size\s*[:\-]+\s*([0-9]+\s*mm[^0-9]*x[^0-9]*[0-9]+\s*mm)/i);
       const boardTypeMatch = flatText.match(/(Outdoor|Indoor)\s+Display\s+board/i);
@@ -1693,7 +1861,7 @@
       if (sizeMatch) titleParts.push(`(${sizeMatch[1].replace(/\s+/g, ' ').trim()})`);
       const dealTitle = titleParts.join(' ');
 
-      // 6. Grand Total Amount (INR) right after standalone TOTAL (ignoring "TOTAL SQ FT RATE")
+      // 6. Grand Total in INR (Indian comma format like 4,11,213 -> ignoring "TOTAL SQ FT RATE")
       let totalInr = 0;
       const totalRegex = /\bTOTAL\b(?!\s*SQ)(?:\s*(?:₹|Rs\.?|INR))?\s*([0-9]{1,3}(?:,[0-9]{2,3})+|[0-9]{4,})(?:\.[0-9]+)?/gi;
       let match;
@@ -1771,7 +1939,6 @@
 
       if (!company || isNaN(value) || value < 0) return;
 
-      // 1. Add Company if it doesn't exist yet
       if (!state.companies.some(c => c.name.toLowerCase() === company.toLowerCase())) {
         state.companies.unshift({
           id: 'c_' + Date.now(),
@@ -1781,7 +1948,6 @@
         });
       }
 
-      // 2. Add Opportunity with Quote No
       const todayIso = new Date().toISOString().split('T')[0];
       state.opportunities.unshift({
         id: 'o_' + Date.now(),
@@ -1790,10 +1956,10 @@
         quoteNo,
         value: Number(value.toFixed(2)),
         stage,
-        expectedCloseDate: todayIso
+        month: 'Nov',
+        date: todayIso
       });
 
-      // 3. Auto-create Follow-up due in 3 days if checked
       if (createFollowup && followupTask) {
         const dueDateObj = new Date();
         dueDateObj.setDate(dueDateObj.getDate() + 3);
@@ -1802,7 +1968,7 @@
           priority: 'High',
           company,
           task: followupTask,
-          dueDate: dueDateObj.toISOString().split('T')[0],
+          due: dueDateObj.toISOString().split('T')[0],
           done: false
         });
       }
@@ -1815,7 +1981,7 @@
     }
 
     // ==========================================
-    // CRUD ACTIONS (AUTO-SYNC TO SUPABASE)
+    // 10. CRUD ACTIONS (LOCAL + SUPABASE SYNC)
     // ==========================================
     async function saveOpportunity(e) {
       e.preventDefault();
@@ -1824,7 +1990,8 @@
       const title = document.getElementById('oppTitle').value.trim();
       const value = parseFloat(document.getElementById('oppValue').value);
       const stage = document.getElementById('oppStage').value;
-      const expectedCloseDate = document.getElementById('oppCloseDate').value;
+      const date = document.getElementById('oppDate').value;
+      const quoteNo = document.getElementById('oppQuoteNo').value.trim();
 
       if (!company || isNaN(value) || value < 0) return;
 
@@ -1835,7 +2002,8 @@
           opp.title = title;
           opp.value = value;
           opp.stage = stage;
-          opp.expectedCloseDate = expectedCloseDate;
+          opp.date = date;
+          opp.quoteNo = quoteNo;
         }
       } else {
         state.opportunities.unshift({
@@ -1844,7 +2012,9 @@
           title,
           value,
           stage,
-          expectedCloseDate
+          month: 'Nov',
+          quoteNo,
+          date
         });
         if (!state.companies.some(c => c.name.toLowerCase() === company.toLowerCase())) {
           state.companies.push({ id: 'c_' + Date.now(), name: company, contact: 'Primary Contact', industry: 'LED Solutions' });
@@ -1878,7 +2048,7 @@
       const company = document.getElementById('fuCompany').value.trim();
       const task = document.getElementById('fuTask').value.trim();
       const priority = document.getElementById('fuPriority').value;
-      const dueDate = document.getElementById('fuDueDate').value;
+      const due = document.getElementById('fuDueDate').value;
       if (!company || !task) return;
 
       state.followUps.unshift({
@@ -1886,7 +2056,7 @@
         priority,
         company,
         task,
-        dueDate,
+        due,
         done: false
       });
 
@@ -1929,7 +2099,7 @@
     }
 
     async function saveMonthlyTrendEdits() {
-      state.monthlyTrend.forEach((m, idx) => {
+      state.trend.forEach((m, idx) => {
         const pVal = parseFloat(document.getElementById(`trendPipe_${idx}`).value);
         const wVal = parseFloat(document.getElementById(`trendWon_${idx}`).value);
         m.pipeline = isNaN(pVal) ? 0 : pVal;
@@ -1940,7 +2110,7 @@
     }
 
     // ==========================================
-    // SETTINGS: EXPORT / IMPORT / RESET TO ZERO
+    // 11. SETTINGS: BACKUP / RESTORE / CLEAR
     // ==========================================
     function exportDataJSON() {
       const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
@@ -1960,18 +2130,10 @@
       reader.onload = async function(e) {
         try {
           const parsed = JSON.parse(e.target.result);
-          if (!Array.isArray(parsed.opportunities) || !Array.isArray(parsed.followUps)) {
-            throw new Error('Invalid JSON structure');
-          }
-          state = {
-            companies: Array.isArray(parsed.companies) ? parsed.companies : [],
-            opportunities: parsed.opportunities,
-            followUps: parsed.followUps,
-            monthlyTrend: Array.isArray(parsed.monthlyTrend) ? parsed.monthlyTrend : getEmptyState().monthlyTrend
-          };
+          state = normalizeState(parsed);
           renderAll();
-          await saveToSupabase();
-          showToast('Backup imported & synced!');
+          await saveToSupabase(false);
+          showToast('Backup imported & synced to Supabase!');
         } catch (err) {
           showToast('Invalid JSON backup file');
         }
@@ -1981,13 +2143,14 @@
     }
 
     function exportOpportunitiesCSV() {
-      const headers = ['Company', 'Deal Title', 'Value (Lakhs)', 'Stage', 'Expected Close Date'];
+      const headers = ['Company', 'Deal Title', 'Quote No', 'Value (Lakhs)', 'Stage', 'Date'];
       const rows = state.opportunities.map(o => [
         `"${(o.company || '').replace(/"/g, '""')}"`,
         `"${(o.title || '').replace(/"/g, '""')}"`,
+        `"${(o.quoteNo || '').replace(/"/g, '""')}"`,
         o.value,
         `"${o.stage}"`,
-        `"${o.expectedCloseDate || ''}"`
+        `"${o.date || o.month || ''}"`
       ]);
       const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -2002,10 +2165,14 @@
 
     async function confirmResetToZero() {
       state = getEmptyState();
+      LEGACY_LOCAL_KEYS.forEach(k => {
+        try { localStorage.removeItem(k); } catch (e) {}
+      });
       closeModal('resetConfirmModal');
+      document.getElementById('localRecoveryBanner').classList.add('hidden');
       renderAll();
-      await saveToSupabase();
-      showToast('All data reset to zero');
+      await saveToSupabase(false);
+      showToast('All data cleared to zero');
     }
 
     function escapeHTML(str) {
@@ -2029,10 +2196,10 @@
       renderReports(metrics);
     }
 
-    // Initialize on load
+    // Startup: Render immediately FIRST so UI is never blank, then load Supabase
     window.addEventListener('DOMContentLoaded', () => {
       switchTab('dashboard');
-      loadFromSupabase();
+      loadFromSupabase(false);
     });
   </script>
 </body>
