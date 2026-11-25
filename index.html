@@ -39,8 +39,8 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
-  <!-- Supabase JS v2 CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- PDF.js CDN for 100% Client-Side Quotation PDF Parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <style>
     body {
@@ -210,16 +210,17 @@
         <!-- Left Title & Mobile Menu Trigger -->
         <div class="flex items-center gap-3.5">
           <button onclick="toggleMobileSidebar(true)" class="lg:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer" aria-label="Open menu">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          </button>
-          <div>
-            <h1 id="headerTitle" class="text-2xl sm:text-[26px] font-bold tracking-tight leading-tight">Sales Dashboard</h1>
-            <p id="headerSubtitle" class="text-[13px] text-blue-200/85 mt-0.5">Track your LED Sales Pipeline at a Glance</p>
-          </div>
-        </div>
-
-        <!-- Right Controls: Sync Pill + Timeframe Dropdown + Profile -->
+        <!-- Right Controls: Upload Quote PDF + Sync Pill + Timeframe Dropdown + Profile -->
         <div class="flex items-center gap-3 sm:gap-4 ml-auto flex-wrap">
+          <!-- Hidden PDF File Input -->
+          <input type="file" id="quotePdfInput" accept="application/pdf,.pdf" class="hidden" onchange="handleQuotePdfUpload(event)" />
+
+          <!-- Prominent Upload Quote PDF Button -->
+          <button onclick="triggerQuotePdfUpload()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13px] font-semibold bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm transition-colors cursor-pointer">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+            <span>Upload Quote PDF</span>
+          </button>
+
           <!-- Live Cloud Sync Status Pill -->
           <div id="syncStatusPill" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold bg-white/10 border border-white/15 text-blue-100 transition-colors">
             <span id="syncDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
@@ -432,11 +433,7 @@
         <!-- ==================== -->
         <section id="view-opportunities" class="hidden space-y-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h2 class="text-xl font-bold text-slate-900">Opportunities &amp; Leads</h2>
-              <p class="text-sm text-slate-500">Add, edit, or move deals—every change syncs live to Supabase and updates your Dashboard.</p>
-            </div>
-            <div class="flex items-center gap-2.5">
+            <div class="flex items-center gap-2.5 flex-wrap">
               <select id="oppStageFilter" onchange="renderOpportunitiesTable()" class="bg-white border border-slate-200 text-slate-700 text-sm font-medium rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
                 <option value="All">All Stages</option>
                 <option value="Prospect Identified">Prospect Identified</option>
@@ -446,6 +443,10 @@
                 <option value="Negotiation">Negotiation</option>
                 <option value="Won">Won</option>
               </select>
+              <button onclick="triggerQuotePdfUpload()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl shadow-xs transition-colors flex items-center gap-2 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                <span>Upload Quote PDF</span>
+              </button>
               <button onclick="openOppModal()" class="px-4 py-2.5 bg-[#1D63ED] hover:bg-blue-700 text-white text-sm font-semibold rounded-xl shadow-xs transition-colors flex items-center gap-2 cursor-pointer">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                 <span>Add Opportunity</span>
@@ -609,6 +610,90 @@
   <!-- MODALS                                     -->
   <!-- ========================================== -->
 
+  <!-- Review & Import Quotation PDF Modal -->
+  <div id="quoteImportModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden max-h-[92vh] flex flex-col">
+      <div class="bg-[#0C2047] text-white px-5 py-4 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2.5">
+          <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <h3 class="font-bold text-base">Review &amp; Import Quotation</h3>
+        </div>
+        <button onclick="closeModal('quoteImportModal')" class="text-blue-200 hover:text-white cursor-pointer">✕</button>
+      </div>
+      <form id="quoteImportForm" onsubmit="confirmQuoteImport(event)" class="p-5 space-y-4 overflow-y-auto">
+        <input type="hidden" id="qiBaseInr" value="0" />
+
+        <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-3.5 py-2.5 text-xs text-emerald-800 flex items-center justify-between gap-2">
+          <span id="qiFileName" class="font-semibold truncate">Quotation PDF parsed</span>
+          <span id="qiQuoteDateBadge" class="shrink-0 font-bold bg-white px-2 py-0.5 rounded-md border border-emerald-200"></span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Company / Client Name</label>
+            <input id="qiCompany" type="text" required placeholder="e.g., Kondhwa" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Contact Person</label>
+            <input id="qiContact" type="text" placeholder="e.g., Mr. Ramesh" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Quotation No</label>
+            <input id="qiQuoteNo" type="text" placeholder="e.g., VA-26-27-2135" class="w-full px-3.5 py-2 text-sm font-mono border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Funnel Stage</label>
+            <select id="qiStage" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="Prospect Identified">Prospect Identified</option>
+              <option value="In Nurturing">In Nurturing</option>
+              <option value="Qualified">Qualified</option>
+              <option value="Quotation Sent" selected>Quotation Sent</option>
+              <option value="Negotiation">Negotiation</option>
+              <option value="Won">Won</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Product / Deal Title</label>
+          <input id="qiTitle" type="text" required placeholder="e.g., Pitch 4 Outdoor Display Board" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex-1">
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Deal Value (₹ Lakhs)</label>
+              <input id="qiValueLakhs" type="number" step="0.01" min="0" required class="w-full px-3.5 py-2 text-sm font-bold text-slate-900 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div class="pt-5">
+              <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer select-none bg-white px-3 py-2 rounded-xl border border-slate-200 hover:bg-blue-50 transition-colors">
+                <input id="qiIncludeGst" type="checkbox" onchange="recalculateQuoteGst()" class="w-4 h-4 rounded text-[#1D63ED] focus:ring-blue-500 cursor-pointer" />
+                <span>Include 18% GST</span>
+              </label>
+            </div>
+          </div>
+          <div id="qiRawAmountHint" class="text-[11.5px] text-slate-500">Extracted Base Total: ₹0</div>
+        </div>
+
+        <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-3.5 space-y-2.5">
+          <label class="inline-flex items-center gap-2 text-xs font-bold text-slate-800 cursor-pointer select-none">
+            <input id="qiCreateFollowup" type="checkbox" checked onchange="toggleQuoteFollowupInput()" class="w-4 h-4 rounded text-[#1D63ED] focus:ring-blue-500 cursor-pointer" />
+            <span>Auto-create Follow-up (High Priority, due in 3 days)</span>
+          </label>
+          <input id="qiFollowupTask" type="text" class="w-full px-3 py-2 text-xs bg-white border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="flex justify-end gap-2.5 pt-2">
+          <button type="button" onclick="closeModal('quoteImportModal')" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-xs cursor-pointer">Import &amp; Update Dashboard</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Add / Edit Opportunity Modal -->
   <div id="oppModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
@@ -750,13 +835,16 @@
   <!-- APPLICATION LOGIC & SUPABASE SYNC          -->
   <!-- ========================================== -->
   <script>
-    // 1. SUPABASE CONFIGURATION
-    const SUPABASE_URL = 'https://vpqzjqjgekxgizmvccuq.supabase.co';
+    // 1. SUPABASE REST CONFIGURATION
+    const SUPABASE_REST_URL = 'https://vpqzjqjgekxgizmvccuq.supabase.co/rest/v1/';
     const SUPABASE_KEY = 'sb_publishable_5iBt0ud3A-fDu0g7z3GFug_9wqyMr8f';
     const TABLE_NAME = 'dashboard_state';
     const ROW_ID = 1;
 
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // Configure PDF.js Web Worker
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
 
     // Register Chart.js DataLabels plugin
     Chart.register(ChartDataLabels);
@@ -820,36 +908,110 @@
     }
 
     async function loadFromSupabase() {
-      setSyncStatus('saving', 'Loading...');
+      setSyncStatus('saving', 'Syncing...');
       try {
-        const { data, error } = await supabaseClient
-          .from(TABLE_NAME)
-          .select('data')
-          .eq('id', ROW_ID)
-          .maybeSingle();
+        const res = await fetch(`${SUPABASE_REST_URL}${TABLE_NAME}?id=eq.${ROW_ID}&select=data`, {
+          method: 'GET',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Accept': 'application/json'
+          }
+        });
 
-        if (error) throw error;
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(errText || `HTTP ${res.status}`);
+        }
 
-        if (data && data.data) {
-          // Merge safely with empty defaults in case any key is missing
-          const fetched = data.data;
+        const rows = await res.json();
+        const rowData = rows && rows[0] ? rows[0].data : null;
+
+        if (rowData && Object.keys(rowData).length > 0) {
           state = {
-            companies: Array.isArray(fetched.companies) ? fetched.companies : [],
-            opportunities: Array.isArray(fetched.opportunities) ? fetched.opportunities : [],
-            followUps: Array.isArray(fetched.followUps) ? fetched.followUps : [],
-            monthlyTrend: Array.isArray(fetched.monthlyTrend) && fetched.monthlyTrend.length === 5
-              ? fetched.monthlyTrend
+            companies: Array.isArray(rowData.companies) ? rowData.companies : [],
+            opportunities: Array.isArray(rowData.opportunities) ? rowData.opportunities : [],
+            followUps: Array.isArray(rowData.followUps) ? rowData.followUps : [],
+            monthlyTrend: Array.isArray(rowData.monthlyTrend) && rowData.monthlyTrend.length === 5
+              ? rowData.monthlyTrend
               : getEmptyState().monthlyTrend
           };
           hideSupabaseError();
-          setSyncStatus('synced', '☁️ Synced');
+          setSyncStatus('synced', 'Synced');
           renderAll();
         } else {
-          // Row id=1 does not exist yet -> initialize with ALL ZERO / EMPTY state and save
+          // Empty {} or no row yet -> start cleanly at zero
           state = getEmptyState();
+          hideSupabaseError();
+          setSyncStatus('synced', 'Synced');
           renderAll();
-          await saveToSupabase(false);
         }
+      } catch (err) {
+        console.error('Supabase load error:', err);
+        setSyncStatus('error', 'Sync Failed');
+        showSupabaseError(
+          `Could not load data from Supabase (${err.message || 'Check table dashboard_state and disable RLS'}).`
+        );
+        renderAll();
+      }
+    }
+
+    async function saveToSupabase(showNotification = true) {
+      setSyncStatus('saving', 'Syncing...');
+      try {
+        const res = await fetch(`${SUPABASE_REST_URL}${TABLE_NAME}?id=eq.${ROW_ID}`, {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({ data: state })
+        });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(errText || `HTTP ${res.status}`);
+        }
+
+        const updated = await res.json();
+        // If row id=1 didn't exist yet, insert it
+        if (!Array.isArray(updated) || updated.length === 0) {
+          const postRes = await fetch(`${SUPABASE_REST_URL}${TABLE_NAME}`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: ROW_ID, data: state })
+          });
+          if (!postRes.ok) {
+            const errText = await postRes.text();
+            throw new Error(errText || `HTTP ${postRes.status}`);
+          }
+        }
+
+        hideSupabaseError();
+        setSyncStatus('synced', 'Synced');
+        if (showNotification) showToast('Synced to Supabase');
+      } catch (err) {
+        console.error('Supabase save error:', err);
+        setSyncStatus('error', 'Sync Failed');
+        showSupabaseError(
+          `Write blocked by Supabase (${err.message || 'RLS may be enabled'}).`
+        );
+      }
+    }
+
+    // ==========================================
+    // METRICS & CALCULATIONS
+    // ==========================================
+    function formatLakhs(num) {
+      const n = Number(num || 0);
+      return `₹${n.toFixed(2)} L`;
+    }
       } catch (err) {
         console.error('Supabase load error:', err);
         setSyncStatus('error', 'Sync Error');
@@ -1304,8 +1466,11 @@
       tbody.innerHTML = list.map(o => `
         <tr class="hover:bg-slate-50/80 transition-colors">
           <td class="py-3.5 px-5">
-            <div class="font-bold text-slate-900">${escapeHTML(o.company)}</div>
-            <div class="text-xs text-slate-500">${escapeHTML(o.title)}</div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-bold text-slate-900">${escapeHTML(o.company)}</span>
+              ${o.quoteNo ? `<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-blue-50 text-[#1D63ED] border border-blue-200">${escapeHTML(o.quoteNo)}</span>` : ''}
+            </div>
+            <div class="text-xs text-slate-500 mt-0.5">${escapeHTML(o.title)}</div>
           </td>
           <td class="py-3.5 px-5 text-slate-600 font-medium">${escapeHTML(o.expectedCloseDate || '—')}</td>
           <td class="py-3.5 px-5 text-right font-bold text-slate-900 tabular-nums">${formatLakhs(o.value)}</td>
@@ -1433,6 +1598,220 @@
           </td>
         </tr>
       `).join('');
+    }
+
+    // ==========================================
+    // CLIENT-SIDE VERTAXIS PDF QUOTATION PARSER
+    // ==========================================
+    function triggerQuotePdfUpload() {
+      const input = document.getElementById('quotePdfInput');
+      input.value = '';
+      input.click();
+    }
+
+    async function handleQuotePdfUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!window.pdfjsLib) {
+        showToast('PDF.js failed to load. Check internet connection.');
+        return;
+      }
+
+      showToast('Reading quotation PDF...');
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let fullText = '';
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+          const page = await pdf.getPage(pageNum);
+          const textContent = await page.getTextContent();
+          // Preserve line breaks using Y-coordinate jumps
+          let lastY = null;
+          let pageLines = '';
+          for (const item of textContent.items) {
+            const y = item.transform ? Math.round(item.transform[5]) : null;
+            if (lastY !== null && y !== null && Math.abs(y - lastY) > 4) {
+              pageLines += '\n';
+            }
+            pageLines += item.str + ' ';
+            lastY = y;
+          }
+          fullText += pageLines + '\n';
+        }
+
+        const parsed = parseVertaxisQuotationText(fullText, file.name);
+        populateQuoteImportModal(parsed, file.name);
+        openModal('quoteImportModal');
+      } catch (err) {
+        console.error('PDF parse error:', err);
+        showToast('Could not read PDF. Please ensure it is a text-based PDF.');
+      } finally {
+        event.target.value = '';
+      }
+    }
+
+    function parseVertaxisQuotationText(rawText, fileName) {
+      const text = rawText.replace(/\r/g, '');
+      const flatText = text.replace(/\s+/g, ' ');
+
+      // 1. Quotation No (e.g., VA-26-27-2135)
+      const quoteNoMatch = flatText.match(/Quotation\s*No\s*[:\-]?\s*([A-Z0-9\-\/]+)/i);
+      const quoteNo = quoteNoMatch ? quoteNoMatch[1].trim() : '';
+
+      // 2. Quotation Date (e.g., 24-11-2026)
+      const quoteDateMatch = flatText.match(/Quotation\s*Date\s*[:\-]?\s*([\d\-\/\.]+)/i);
+      const quoteDate = quoteDateMatch ? quoteDateMatch[1].trim() : '';
+
+      // 3. Company / Client Name between "To," (or Greek "Το,") and "Kind Attention:"
+      let company = '';
+      const companyMatch = text.match(/(?:^|\n|\s)[TΤ][oο]\s*,\s*([\s\S]*?)(?=Kind\s*Attention)/i);
+      if (companyMatch && companyMatch[1]) {
+        company = companyMatch[1].replace(/\s+/g, ' ').trim();
+      }
+      if (!company) {
+        company = fileName.replace(/\.pdf$/i, '').replace(/_/g, ' ');
+      }
+
+      // 4. Contact Person after "Kind Attention:"
+      let contact = '';
+      const contactMatch = text.match(/Kind\s*Attention\s*[:\-]?\s*([^\n]+)/i);
+      if (contactMatch && contactMatch[1]) {
+        contact = contactMatch[1].split(/Quotation/i)[0].trim();
+      }
+
+      // 5. Product / Deal Title (Pitch + Display Size or Outdoor/Indoor Display board)
+      const pitchMatch = flatText.match(/Pitch\s*([0-9]+(?:\.[0-9]+)?)/i);
+      const sizeMatch = flatText.match(/Display\s*Size\s*[:\-]+\s*([0-9]+\s*mm[^0-9]*x[^0-9]*[0-9]+\s*mm)/i);
+      const boardTypeMatch = flatText.match(/(Outdoor|Indoor)\s+Display\s+board/i);
+
+      const titleParts = [];
+      if (pitchMatch) titleParts.push(`Pitch ${pitchMatch[1]}`);
+      if (boardTypeMatch) titleParts.push(`${boardTypeMatch[1]} LED Display`);
+      else titleParts.push('LED Display');
+      if (sizeMatch) titleParts.push(`(${sizeMatch[1].replace(/\s+/g, ' ').trim()})`);
+      const dealTitle = titleParts.join(' ');
+
+      // 6. Grand Total Amount (INR) right after standalone TOTAL (ignoring "TOTAL SQ FT RATE")
+      let totalInr = 0;
+      const totalRegex = /\bTOTAL\b(?!\s*SQ)(?:\s*(?:₹|Rs\.?|INR))?\s*([0-9]{1,3}(?:,[0-9]{2,3})+|[0-9]{4,})(?:\.[0-9]+)?/gi;
+      let match;
+      while ((match = totalRegex.exec(flatText)) !== null) {
+        const numericVal = parseFloat(match[1].replace(/,/g, ''));
+        if (!isNaN(numericVal) && numericVal > totalInr) {
+          totalInr = numericVal;
+        }
+      }
+
+      return {
+        quoteNo,
+        quoteDate,
+        company,
+        contact,
+        dealTitle,
+        pitchLabel: pitchMatch ? `Pitch ${pitchMatch[1]}` : 'LED Display',
+        totalInr
+      };
+    }
+
+    function populateQuoteImportModal(parsed, fileName) {
+      document.getElementById('qiFileName').textContent = fileName;
+      document.getElementById('qiQuoteDateBadge').textContent = parsed.quoteDate || 'Today';
+      document.getElementById('qiCompany').value = parsed.company;
+      document.getElementById('qiContact').value = parsed.contact;
+      document.getElementById('qiQuoteNo').value = parsed.quoteNo;
+      document.getElementById('qiTitle').value = parsed.dealTitle;
+      document.getElementById('qiStage').value = 'Quotation Sent';
+      document.getElementById('qiBaseInr').value = parsed.totalInr;
+      document.getElementById('qiIncludeGst').checked = false;
+
+      const baseLakhs = parsed.totalInr > 0 ? (parsed.totalInr / 100000).toFixed(2) : '0.00';
+      document.getElementById('qiValueLakhs').value = baseLakhs;
+      document.getElementById('qiRawAmountHint').textContent = parsed.totalInr > 0
+        ? `Extracted Base Total: ₹${parsed.totalInr.toLocaleString('en-IN')} (${baseLakhs} L)`
+        : 'Could not auto-detect grand total — please enter Value (₹ Lakhs) manually.';
+
+      document.getElementById('qiCreateFollowup').checked = true;
+      const fuInput = document.getElementById('qiFollowupTask');
+      fuInput.disabled = false;
+      fuInput.value = parsed.quoteNo
+        ? `Follow up on Quote ${parsed.quoteNo} (${parsed.pitchLabel})`
+        : `Follow up on ${parsed.dealTitle} quotation`;
+    }
+
+    function recalculateQuoteGst() {
+      const baseInr = parseFloat(document.getElementById('qiBaseInr').value) || 0;
+      const includeGst = document.getElementById('qiIncludeGst').checked;
+      if (baseInr <= 0) return;
+
+      const finalInr = includeGst ? baseInr * 1.18 : baseInr;
+      const lakhs = (finalInr / 100000).toFixed(2);
+      document.getElementById('qiValueLakhs').value = lakhs;
+      document.getElementById('qiRawAmountHint').textContent = includeGst
+        ? `Base ₹${baseInr.toLocaleString('en-IN')} + 18% GST = ₹${Math.round(finalInr).toLocaleString('en-IN')} (${lakhs} L)`
+        : `Extracted Base Total: ₹${baseInr.toLocaleString('en-IN')} (${lakhs} L)`;
+    }
+
+    function toggleQuoteFollowupInput() {
+      const checked = document.getElementById('qiCreateFollowup').checked;
+      document.getElementById('qiFollowupTask').disabled = !checked;
+    }
+
+    async function confirmQuoteImport(e) {
+      e.preventDefault();
+      const company = document.getElementById('qiCompany').value.trim();
+      const contact = document.getElementById('qiContact').value.trim() || 'Primary Contact';
+      const quoteNo = document.getElementById('qiQuoteNo').value.trim();
+      const title = document.getElementById('qiTitle').value.trim();
+      const stage = document.getElementById('qiStage').value;
+      const value = parseFloat(document.getElementById('qiValueLakhs').value);
+      const createFollowup = document.getElementById('qiCreateFollowup').checked;
+      const followupTask = document.getElementById('qiFollowupTask').value.trim();
+
+      if (!company || isNaN(value) || value < 0) return;
+
+      // 1. Add Company if it doesn't exist yet
+      if (!state.companies.some(c => c.name.toLowerCase() === company.toLowerCase())) {
+        state.companies.unshift({
+          id: 'c_' + Date.now(),
+          name: company,
+          contact,
+          industry: 'LED Display Client'
+        });
+      }
+
+      // 2. Add Opportunity with Quote No
+      const todayIso = new Date().toISOString().split('T')[0];
+      state.opportunities.unshift({
+        id: 'o_' + Date.now(),
+        company,
+        title,
+        quoteNo,
+        value: Number(value.toFixed(2)),
+        stage,
+        expectedCloseDate: todayIso
+      });
+
+      // 3. Auto-create Follow-up due in 3 days if checked
+      if (createFollowup && followupTask) {
+        const dueDateObj = new Date();
+        dueDateObj.setDate(dueDateObj.getDate() + 3);
+        state.followUps.unshift({
+          id: 'f_' + Date.now(),
+          priority: 'High',
+          company,
+          task: followupTask,
+          dueDate: dueDateObj.toISOString().split('T')[0],
+          done: false
+        });
+      }
+
+      syncCurrentMonthTrend();
+      closeModal('quoteImportModal');
+      renderAll();
+      await saveToSupabase(false);
+      showToast(`Imported ${quoteNo || 'Quotation'} (₹${value.toFixed(2)} L) & synced!`);
     }
 
     // ==========================================
