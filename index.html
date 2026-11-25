@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     /* =========================================================
-       RESET & DESIGN TOKENS (100% Native CSS - Zero Frameworks)
+       1. RESET & DESIGN TOKENS (100% Native CSS)
        ========================================================= */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -20,8 +20,8 @@
     :root {
       --navy-950: #071226;
       --navy-900: #0B172A;
-      --navy-850: #0F203D;
-      --navy-800: #132A52;
+      --navy-850: #0E1E3A;
+      --navy-800: #112445;
       --brand-blue: #1D63ED;
       --brand-blue-hover: #1551C9;
       --brand-cyan: #38BDF8;
@@ -32,20 +32,17 @@
       --border-light: #E2E8F0;
       --text-main: #0F172A;
       --text-muted: #64748B;
-      --text-soft: #94A3B8;
       --danger: #DC2626;
       --danger-bg: #FEE2E2;
       --warn: #D97706;
       --warn-bg: #FEF3C7;
-      --info-bg: #E0F2FE;
-      --info: #0369A1;
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
       --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
-      --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.06);
-      --shadow-lg: 0 20px 45px rgba(7, 18, 38, 0.28);
-      --sidebar-w: 235px;
+      --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 20px 45px rgba(7, 18, 38, 0.30);
+      --sidebar-w: 240px;
     }
 
     html, body {
@@ -65,14 +62,13 @@
       display: none !important;
     }
 
-    /* Custom subtle scrollbars */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 99px; }
     ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
     /* =========================================================
-       4-DIGIT PIN LOCK OVERLAY
+       2. 4-DIGIT PIN LOCK OVERLAY
        ========================================================= */
     .pin-overlay {
       position: fixed;
@@ -88,19 +84,19 @@
     .pin-card {
       width: 100%;
       max-width: 370px;
-      background: rgba(15, 32, 61, 0.94);
-      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(14, 30, 58, 0.94);
+      border: 1px solid rgba(148, 163, 184, 0.2);
       border-radius: 22px;
       padding: 32px 28px;
       text-align: center;
       color: #FFFFFF;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.48);
     }
 
     @keyframes pinShake {
       0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-7px); }
-      40%, 80% { transform: translateX(7px); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
     }
 
     .pin-card.shake {
@@ -120,7 +116,7 @@
       height: 56px;
       border-radius: 16px;
       background: #0B172A;
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      border: 1px solid rgba(56, 189, 248, 0.32);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -154,7 +150,7 @@
       width: 100%;
       height: 54px;
       border-radius: 12px;
-      border: 1.5px solid rgba(96, 165, 250, 0.4);
+      border: 1.5px solid rgba(96, 165, 250, 0.42);
       background: #081224;
       color: #FFFFFF;
       font-size: 26px;
@@ -203,7 +199,7 @@
     }
 
     /* =========================================================
-       APP SHELL (SIDEBAR + MAIN COLUMN)
+       3. APP SHELL & FIXED NAVY SIDEBAR
        ========================================================= */
     .app-shell {
       display: flex;
@@ -214,11 +210,10 @@
     .mobile-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(7, 18, 38, 0.58);
+      background: rgba(7, 18, 38, 0.6);
       z-index: 40;
     }
 
-    /* LEFT SIDEBAR */
     .sidebar {
       width: var(--sidebar-w);
       flex-shrink: 0;
@@ -345,7 +340,6 @@
       justify-content: center;
     }
 
-    /* Sidebar Bottom Decorative LED Cityscape Card */
     .sidebar-banner {
       position: relative;
       height: 205px;
@@ -385,7 +379,7 @@
     }
 
     /* =========================================================
-       MAIN COLUMN & TOP HEADER
+       4. MAIN COLUMN & TOP HEADER
        ========================================================= */
     .main-column {
       flex: 1;
@@ -395,7 +389,7 @@
     }
 
     .topbar {
-      background: linear-gradient(100deg, #0B172A 0%, #102446 58%, #132A52 100%);
+      background: linear-gradient(100deg, #0B172A 0%, #0E1E3A 52%, #112445 100%);
       color: #FFFFFF;
       padding: 14px 24px;
       display: flex;
@@ -462,7 +456,7 @@
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.16s, transform 0.12s;
+      transition: background 0.16s;
       white-space: nowrap;
     }
 
@@ -478,7 +472,7 @@
       padding: 0 12px;
       border-radius: 99px;
       background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       color: #E2E8F0;
       font-size: 12px;
       font-weight: 600;
@@ -535,7 +529,6 @@
       background: rgba(255, 255, 255, 0.18);
     }
 
-    /* Profile Menu */
     .profile-wrap {
       position: relative;
     }
@@ -552,9 +545,7 @@
       border-radius: 10px;
     }
 
-    .profile-btn:hover {
-      color: #FFFFFF;
-    }
+    .profile-btn:hover { color: #FFFFFF; }
 
     .profile-avatar {
       width: 34px;
@@ -580,7 +571,7 @@
       position: absolute;
       right: 0;
       top: calc(100% + 8px);
-      width: 190px;
+      width: 195px;
       background: #FFFFFF;
       border: 1px solid var(--border-light);
       border-radius: 12px;
@@ -596,16 +587,8 @@
       margin-bottom: 4px;
     }
 
-    .profile-dropdown-name {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .profile-dropdown-role {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
+    .profile-dropdown-name { font-size: 12.5px; font-weight: 700; color: var(--text-main); }
+    .profile-dropdown-role { font-size: 11px; color: var(--text-muted); }
 
     .dropdown-item {
       width: 100%;
@@ -623,19 +606,11 @@
       text-align: left;
     }
 
-    .dropdown-item:hover {
-      background: #F1F5F9;
-    }
+    .dropdown-item:hover { background: #F1F5F9; }
+    .dropdown-item.danger { color: var(--danger); }
+    .dropdown-item.danger:hover { background: #FEF2F2; }
 
-    .dropdown-item.danger {
-      color: var(--danger);
-    }
-
-    .dropdown-item.danger:hover {
-      background: #FEF2F2;
-    }
-
-    /* COMPACT CUSTOM RANGE SUB-BAR */
+    /* Custom Date Range Sub-Bar */
     .custom-range-bar {
       background: #FFFFFF;
       border-bottom: 1px solid var(--border-light);
@@ -673,6 +648,7 @@
       background: #F8FAFC;
     }
 
+    /* Buttons */
     .btn-sm {
       height: 32px;
       padding: 0 12px;
@@ -684,47 +660,35 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
 
-    .btn-primary {
-      background: var(--brand-blue);
-      color: #FFFFFF;
+    .btn-md {
+      height: 38px;
+      padding: 0 15px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
     }
 
-    .btn-primary:hover {
-      background: var(--brand-blue-hover);
-    }
+    .btn-primary { background: var(--brand-blue); color: #FFFFFF; }
+    .btn-primary:hover { background: var(--brand-blue-hover); }
+    .btn-secondary { background: #F1F5F9; color: #334155; border: 1px solid #E2E8F0; }
+    .btn-secondary:hover { background: #E2E8F0; }
+    .btn-danger-soft { background: #FEF2F2; color: var(--danger); border: 1px solid #FECACA; }
+    .btn-danger-soft:hover { background: #FEE2E2; }
+    .btn-green { background: var(--brand-green); color: #FFFFFF; }
+    .btn-green:hover { background: var(--brand-green-hover); }
+    .btn-green-soft { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+    .btn-green-soft:hover { background: #D1FAE5; }
 
-    .btn-secondary {
-      background: #F1F5F9;
-      color: #334155;
-      border: 1px solid #E2E8F0;
-    }
-
-    .btn-secondary:hover {
-      background: #E2E8F0;
-    }
-
-    .btn-danger-soft {
-      background: #FEF2F2;
-      color: var(--danger);
-      border: 1px solid #FECACA;
-    }
-
-    .btn-danger-soft:hover {
-      background: #FEE2E2;
-    }
-
-    .btn-green {
-      background: var(--brand-green);
-      color: #FFFFFF;
-    }
-
-    .btn-green:hover {
-      background: var(--brand-green-hover);
-    }
-
-    /* Alert Banners */
+    /* Banners */
     .alert-banner {
       margin: 16px 24px 0;
       padding: 12px 16px;
@@ -738,20 +702,17 @@
       flex-wrap: wrap;
     }
 
-    .alert-banner.error {
-      background: #FEF2F2;
-      border: 1px solid #FECACA;
-      color: #991B1B;
-    }
+    .alert-banner.error { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
+    .alert-banner.warn { background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; }
 
-    .alert-banner.warn {
-      background: #FFFBEB;
-      border: 1px solid #FDE68A;
-      color: #92400E;
+    .banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     /* =========================================================
-       MAIN WORKSPACE CONTENT
+       5. MAIN WORKSPACE & DASHBOARD WIDGETS
        ========================================================= */
     .workspace {
       flex: 1;
@@ -767,7 +728,7 @@
       gap: 20px;
     }
 
-    /* ROW 1: 4 PASTEL KPI CARDS */
+    /* Row 1: 4 Pastel KPI Cards */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -790,8 +751,9 @@
     }
 
     .kpi-blue { background: #EAF2FF; border: 1px solid #D3E4FF; }
-    .kpi-green { background: #EBF9F1; border: 1px solid #CEEFDB; }
+    .kpi-mint { background: #EBF9F1; border: 1px solid #CEEFDB; }
     .kpi-amber { background: #FFF5E6; border: 1px solid #FCE2BA; }
+    .kpi-green { background: #E9F8EE; border: 1px solid #C6EDD4; }
 
     .kpi-icon-circle {
       width: 52px;
@@ -804,40 +766,20 @@
     }
 
     .kpi-blue .kpi-icon-circle { background: #CFE2FF; color: #1D63ED; }
-    .kpi-green .kpi-icon-circle { background: #C7F0D8; color: #15803D; }
+    .kpi-mint .kpi-icon-circle { background: #C7F0D8; color: #15803D; }
     .kpi-amber .kpi-icon-circle { background: #FDE3B8; color: #D97706; }
+    .kpi-green .kpi-icon-circle { background: #BBEBD0; color: #15803D; }
 
-    .kpi-body {
-      min-width: 0;
-    }
-
-    .kpi-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #334155;
-    }
-
-    .kpi-value {
-      font-size: 26px;
-      font-weight: 800;
-      color: #0F172A;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-top: 2px;
-    }
-
-    .kpi-sub {
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 3px;
-    }
-
+    .kpi-body { min-width: 0; }
+    .kpi-label { font-size: 13px; font-weight: 600; color: #334155; }
+    .kpi-value { font-size: 26px; font-weight: 800; color: #0F172A; letter-spacing: -0.02em; line-height: 1.2; margin-top: 2px; }
+    .kpi-sub { font-size: 12px; font-weight: 600; margin-top: 3px; }
     .kpi-blue .kpi-sub { color: #15803D; }
-    .kpi-green .kpi-sub { color: #334155; }
+    .kpi-mint .kpi-sub { color: #334155; }
     .kpi-amber .kpi-sub { color: #C26A09; }
-    .kpi-won .kpi-sub { color: #15803D; }
+    .kpi-green .kpi-sub { color: #15803D; }
 
-    /* ROW 2: SALES FUNNEL + FOLLOW-UPS */
+    /* Row 2: Sales Funnel + Follow-ups */
     .mid-grid {
       display: grid;
       grid-template-columns: 1.15fr 1fr;
@@ -888,9 +830,7 @@
       cursor: pointer;
     }
 
-    .link-btn:hover {
-      color: #93C5FD;
-    }
+    .link-btn:hover { color: #93C5FD; }
 
     /* Sales Funnel Trapezoids */
     .funnel-body {
@@ -904,7 +844,7 @@
 
     .funnel-row {
       display: grid;
-      grid-template-columns: 1fr 145px;
+      grid-template-columns: 1fr 148px;
       align-items: center;
       gap: 12px;
       padding: 3px 0;
@@ -912,9 +852,7 @@
       cursor: pointer;
     }
 
-    .funnel-row:last-child {
-      border-bottom: none;
-    }
+    .funnel-row:last-child { border-bottom: none; }
 
     .funnel-bar-wrap {
       width: 100%;
@@ -979,35 +917,36 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 14px 4px;
+      gap: 10px;
+      padding: 12px 4px;
       border-bottom: 1px solid #F1F5F9;
-      cursor: pointer;
-      transition: background 0.14s;
       border-radius: 8px;
     }
 
-    .followup-item:last-child {
-      border-bottom: none;
-    }
-
-    .followup-item:hover {
-      background: #F8FAFC;
-    }
+    .followup-item:last-child { border-bottom: none; }
+    .followup-item:hover { background: #F8FAFC; }
 
     .followup-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
       min-width: 0;
+      flex: 1;
+    }
+
+    .followup-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .priority-pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 64px;
-      padding: 4px 10px;
+      min-width: 62px;
+      padding: 4px 9px;
       border-radius: 99px;
       font-size: 11.5px;
       font-weight: 700;
@@ -1018,36 +957,17 @@
     .priority-medium { background: #FDECC8; color: #B45309; }
     .priority-low { background: #E0F2FE; color: #0369A1; }
 
-    .followup-text {
-      min-width: 0;
-    }
-
-    .followup-company {
-      font-size: 14px;
-      font-weight: 700;
-      color: #0F172A;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .followup-task {
-      font-size: 12.5px;
-      color: #64748B;
-      margin-top: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .followup-text { min-width: 0; }
+    .followup-company { font-size: 13.5px; font-weight: 700; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .followup-task { font-size: 12px; color: #64748B; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .followup-due {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      font-size: 12.5px;
+      gap: 4px;
+      font-size: 12px;
       font-weight: 700;
       white-space: nowrap;
-      flex-shrink: 0;
     }
 
     .due-red { color: #DC2626; }
@@ -1062,9 +982,10 @@
       flex-direction: column;
       align-items: center;
       gap: 12px;
+      font-size: 13.5px;
     }
 
-    /* ROW 3: PIPELINE TREND CHART */
+    /* Row 3: Pipeline Trend Chart */
     .trend-card {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
@@ -1100,30 +1021,13 @@
       color: #334155;
     }
 
-    .legend-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .trend-scroll {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    .trend-svg-wrap {
-      min-width: 560px;
-      width: 100%;
-    }
+    .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .trend-scroll { width: 100%; overflow-x: auto; }
+    .trend-svg-wrap { min-width: 560px; width: 100%; }
 
     /* =========================================================
-       SECONDARY VIEWS (TABLES, TOOLBARS, CARDS)
+       6. SECONDARY VIEWS (TABLES, TOOLBARS, REPORTS, SETTINGS)
        ========================================================= */
     .section-toolbar {
       display: flex;
@@ -1133,17 +1037,8 @@
       flex-wrap: wrap;
     }
 
-    .section-heading {
-      font-size: 19px;
-      font-weight: 800;
-      color: #0F172A;
-    }
-
-    .section-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
+    .section-heading { font-size: 19px; font-weight: 800; color: #0F172A; }
+    .section-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
 
     .toolbar-actions {
       display: flex;
@@ -1181,27 +1076,10 @@
       width: 100%;
     }
 
-    .search-box .input-control {
-      padding-left: 34px;
-    }
-
+    .search-box .input-control { padding-left: 34px; }
     .input-control:focus, .select-control:focus {
       border-color: var(--brand-blue);
       box-shadow: 0 0 0 3px rgba(29, 99, 237, 0.14);
-    }
-
-    .btn-md {
-      height: 38px;
-      padding: 0 15px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      white-space: nowrap;
     }
 
     .table-card {
@@ -1212,10 +1090,7 @@
       overflow: hidden;
     }
 
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-    }
+    .table-wrap { width: 100%; overflow-x: auto; }
 
     table.data-table {
       width: 100%;
@@ -1241,13 +1116,8 @@
       vertical-align: middle;
     }
 
-    table.data-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    table.data-table tbody tr:hover {
-      background: #F8FAFC;
-    }
+    table.data-table tbody tr:last-child td { border-bottom: none; }
+    table.data-table tbody tr:hover { background: #F8FAFC; }
 
     .text-right { text-align: right; }
     .font-bold { font-weight: 700; }
@@ -1266,6 +1136,7 @@
       font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
+      margin-left: 6px;
     }
 
     .inline-stage-select {
@@ -1295,7 +1166,6 @@
     .action-link.delete { color: var(--danger); }
     .action-link.delete:hover { background: #FEF2F2; }
 
-    /* Follow-up Full Row */
     .fu-list-row {
       display: flex;
       align-items: center;
@@ -1307,11 +1177,10 @@
     }
 
     .fu-list-row:last-child { border-bottom: none; }
-    .fu-list-row.done { background: #F8FAFC; opacity: 0.7; }
+    .fu-list-row.done { background: #F8FAFC; opacity: 0.72; }
     .fu-list-row.done .followup-company,
     .fu-list-row.done .followup-task { text-decoration: line-through; }
 
-    /* Reports Summary Cards */
     .report-kpi-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1326,27 +1195,14 @@
       box-shadow: var(--shadow-xs);
     }
 
-    .stat-label {
-      font-size: 11.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      letter-spacing: 0.04em;
-    }
+    .stat-label { font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+    .stat-val { font-size: 24px; font-weight: 800; color: #0F172A; margin-top: 6px; }
 
-    .stat-val {
-      font-size: 24px;
-      font-weight: 800;
-      color: #0F172A;
-      margin-top: 6px;
-    }
-
-    /* Settings Cards */
     .settings-grid {
       display: flex;
       flex-direction: column;
       gap: 16px;
-      max-width: 720px;
+      max-width: 740px;
     }
 
     .settings-card {
@@ -1368,17 +1224,8 @@
       flex-wrap: wrap;
     }
 
-    .settings-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #0F172A;
-    }
-
-    .settings-desc {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
+    .settings-title { font-size: 15px; font-weight: 700; color: #0F172A; }
+    .settings-desc { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
 
     .pin-form-grid {
       display: grid;
@@ -1388,7 +1235,7 @@
     }
 
     /* =========================================================
-       MODALS & TOAST
+       7. MODALS, BREAKDOWN BOX & TOAST
        ========================================================= */
     .modal-backdrop {
       position: fixed;
@@ -1403,7 +1250,7 @@
 
     .modal-box {
       width: 100%;
-      max-width: 480px;
+      max-width: 490px;
       background: #FFFFFF;
       border-radius: 18px;
       box-shadow: var(--shadow-lg);
@@ -1422,20 +1269,8 @@
       justify-content: space-between;
     }
 
-    .modal-title {
-      font-size: 15.5px;
-      font-weight: 700;
-    }
-
-    .modal-close {
-      background: transparent;
-      border: none;
-      color: #CBD5E1;
-      font-size: 18px;
-      cursor: pointer;
-      padding: 2px 6px;
-    }
-
+    .modal-title { font-size: 15.5px; font-weight: 700; }
+    .modal-close { background: transparent; border: none; color: #CBD5E1; font-size: 18px; cursor: pointer; padding: 2px 6px; }
     .modal-close:hover { color: #FFFFFF; }
 
     .modal-body {
@@ -1468,14 +1303,14 @@
       padding-top: 6px;
     }
 
-    .gst-box {
+    .gst-box, .breakdown-box {
       background: #F8FAFC;
       border: 1px solid var(--border-light);
       border-radius: 12px;
       padding: 12px 14px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
     }
 
     .checkbox-row {
@@ -1495,17 +1330,6 @@
       cursor: pointer;
     }
 
-    /* Smart 3-Tier PDF Breakdown Box */
-    .breakdown-box {
-      background: #F8FAFC;
-      border: 1px solid var(--border-light);
-      border-radius: 12px;
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
     .breakdown-header {
       display: flex;
       align-items: center;
@@ -1514,47 +1338,18 @@
       flex-wrap: wrap;
     }
 
-    .breakdown-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: #0F172A;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .breakdown-badge {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 99px;
-      white-space: nowrap;
-    }
-
-    .badge-grand {
-      background: #DCFCE7;
-      color: #15803D;
-    }
-
-    .badge-sum {
-      background: #DBEAFE;
-      color: #1D63ED;
-    }
-
-    .badge-options {
-      background: #FEF3C7;
-      color: #B45309;
-    }
-
-    .badge-manual {
-      background: #F1F5F9;
-      color: #475569;
-    }
+    .breakdown-title { font-size: 12px; font-weight: 700; color: #0F172A; text-transform: uppercase; letter-spacing: 0.03em; }
+    .breakdown-badge { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+    .badge-grand { background: #DCFCE7; color: #15803D; }
+    .badge-sum { background: #DBEAFE; color: #1D63ED; }
+    .badge-options { background: #FEF3C7; color: #B45309; }
+    .badge-manual { background: #F1F5F9; color: #475569; }
 
     .breakdown-list {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      max-height: 145px;
+      max-height: 150px;
       overflow-y: auto;
     }
 
@@ -1568,13 +1363,9 @@
       border: 1px solid #E2E8F0;
       border-radius: 9px;
       cursor: pointer;
-      transition: border-color 0.14s, background 0.14s;
     }
 
-    .breakdown-item:hover {
-      border-color: #93C5FD;
-      background: #F8FAFF;
-    }
+    .breakdown-item:hover { border-color: #93C5FD; background: #F8FAFF; }
 
     .breakdown-item-left {
       display: flex;
@@ -1591,25 +1382,9 @@
       cursor: pointer;
     }
 
-    .breakdown-item-desc {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: #1E293B;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .breakdown-item-desc { font-size: 12.5px; font-weight: 600; color: #1E293B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .breakdown-item-amt { font-size: 12.5px; font-weight: 700; color: #0F172A; font-variant-numeric: tabular-nums; white-space: nowrap; flex-shrink: 0; }
 
-    .breakdown-item-amt {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #0F172A;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 22px;
@@ -1631,28 +1406,15 @@
       transition: transform 0.25s ease, opacity 0.25s ease;
     }
 
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .toast-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #22C55E;
-    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-dot { width: 8px; height: 8px; border-radius: 50%; background: #22C55E; }
 
     /* =========================================================
-       RESPONSIVE BREAKPOINTS
+       8. RESPONSIVE BREAKPOINTS
        ========================================================= */
     @media (max-width: 1200px) {
-      .kpi-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .mid-grid {
-        grid-template-columns: 1fr;
-      }
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mid-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 960px) {
@@ -1664,49 +1426,25 @@
         transform: translateX(-100%);
         box-shadow: var(--shadow-lg);
       }
-      .sidebar.open {
-        transform: translateX(0);
-      }
-      .sidebar-close-btn,
-      .mobile-menu-btn {
-        display: inline-flex;
-      }
-      .topbar {
-        padding: 14px 16px;
-      }
-      .workspace {
-        padding: 16px;
-      }
-      .custom-range-bar {
-        padding: 10px 16px;
-      }
-      .profile-name,
-      .topbar-divider {
-        display: none;
-      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-close-btn, .mobile-menu-btn { display: inline-flex; }
+      .topbar { padding: 14px 16px; }
+      .workspace { padding: 16px; }
+      .custom-range-bar { padding: 10px 16px; }
+      .profile-name, .topbar-divider { display: none; }
     }
 
     @media (max-width: 640px) {
-      .kpi-grid,
-      .report-kpi-grid,
-      .form-grid-2,
-      .pin-form-grid {
-        grid-template-columns: 1fr;
-      }
-      .funnel-row {
-        grid-template-columns: 1fr 122px;
-        gap: 8px;
-      }
-      .search-box {
-        width: 100%;
-      }
+      .kpi-grid, .report-kpi-grid, .form-grid-2, .pin-form-grid { grid-template-columns: 1fr; }
+      .funnel-row { grid-template-columns: 1fr 124px; gap: 8px; }
+      .search-box { width: 100%; }
     }
   </style>
 </head>
 <body>
 
   <!-- =========================================================
-       4-DIGIT PIN LOCK SCREEN
+       4-DIGIT PIN LOCK OVERLAY
        ========================================================= -->
   <div id="pinOverlay" class="pin-overlay">
     <div class="pin-card">
@@ -1725,18 +1463,10 @@
       <h2 class="pin-heading">Enter 4-Digit Security PIN</h2>
       <p class="pin-subtext">Enter your PIN to access your live sales dashboard</p>
 
-      <input
-        id="pinInput"
-        type="password"
-        inputmode="numeric"
-        maxlength="4"
-        autocomplete="off"
-        placeholder="••••"
-        class="pin-input"
-      />
+      <input id="pinInput" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••" class="pin-input" />
       <div id="pinError" class="pin-error"></div>
 
-      <button type="button" id="unlockBtn" class="pin-btn" onclick="verifyPin()">Unlock Dashboard</button>
+      <button type="button" class="pin-btn" onclick="verifyPin()">Unlock Dashboard</button>
       <div id="pinDefaultHelper" class="pin-helper">Default PIN: 1234 (Change anytime in Settings)</div>
     </div>
   </div>
@@ -1818,7 +1548,7 @@
 
       <!-- Bottom Cityscape + Glowing LED Billboard Banner -->
       <div class="sidebar-banner">
-        <svg viewBox="0 0 230 205" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <svg viewBox="0 0 240 205" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
           <defs>
             <linearGradient id="bgSky" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#0B172A"/>
@@ -1837,22 +1567,20 @@
               <stop offset="100%" stop-color="#071226" stop-opacity="0.98"/>
             </linearGradient>
           </defs>
-          <rect width="230" height="205" fill="url(#bgSky)"/>
+          <rect width="240" height="205" fill="url(#bgSky)"/>
           <rect x="8" y="78" width="26" height="105" fill="#0D2247"/>
           <rect x="38" y="56" width="30" height="127" fill="#123063"/>
           <rect x="72" y="90" width="24" height="93" fill="#0B1D3D"/>
-          <polygon points="98,42 230,12 230,175 98,175" fill="#10254D"/>
-          <!-- Glowing LED Display -->
-          <polygon points="108,68 214,42 214,114 108,128" fill="url(#ledBillboard)" opacity="0.95"/>
-          <line x1="135" y1="61" x2="135" y2="124" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <line x1="162" y1="54" x2="162" y2="120" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <line x1="189" y1="48" x2="189" y2="117" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <line x1="108" y1="88" x2="214" y2="66" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <line x1="108" y1="108" x2="214" y2="89" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <!-- Light streaks -->
-          <path d="M0 148 Q115 154 230 168" stroke="#38BDF8" stroke-width="1.4" stroke-opacity="0.55" fill="none"/>
-          <path d="M0 156 Q120 166 230 184" stroke="#F472B6" stroke-width="1.2" stroke-opacity="0.45" fill="none"/>
-          <rect x="0" y="75" width="230" height="130" fill="url(#bannerFade)"/>
+          <polygon points="100,42 240,12 240,175 100,175" fill="#10254D"/>
+          <polygon points="110,68 222,42 222,114 110,128" fill="url(#ledBillboard)" opacity="0.95"/>
+          <line x1="138" y1="61" x2="138" y2="124" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
+          <line x1="166" y1="54" x2="166" y2="120" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
+          <line x1="194" y1="48" x2="194" y2="117" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
+          <line x1="110" y1="88" x2="222" y2="66" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
+          <line x1="110" y1="108" x2="222" y2="89" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
+          <path d="M0 148 Q120 154 240 168" stroke="#38BDF8" stroke-width="1.4" stroke-opacity="0.55" fill="none"/>
+          <path d="M0 156 Q125 166 240 184" stroke="#F472B6" stroke-width="1.2" stroke-opacity="0.45" fill="none"/>
+          <rect x="0" y="75" width="240" height="130" fill="url(#bannerFade)"/>
         </svg>
         <div class="sidebar-banner-text">
           <div class="banner-line-white">Bigger</div>
@@ -1878,19 +1606,19 @@
         </div>
 
         <div class="topbar-controls">
-          <!-- 1. ONLY Upload Quote PDF button in the entire app -->
+          <!-- Single Upload Quote PDF button -->
           <button type="button" class="btn-upload-pdf" onclick="triggerPdfUpload()">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
             <span>Upload Quote PDF</span>
           </button>
 
-          <!-- 2. Sync Status Pill -->
-          <button type="button" id="syncPill" class="sync-pill" onclick="loadFromSupabase(true)" title="Click to refresh from Supabase">
+          <!-- Sync Status Pill -->
+          <button type="button" id="syncPill" class="sync-pill" onclick="loadFromSupabase(true)" title="Click to retry sync with Supabase">
             <span id="syncDot" class="sync-dot syncing"></span>
             <span id="syncText">Syncing...</span>
           </button>
 
-          <!-- 3. Period-wise Date Range Dropdown (Defaults to All Time) -->
+          <!-- Period Filter Dropdown -->
           <div class="period-select-wrap">
             <svg class="period-select-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             <select id="periodSelect" class="period-select" onchange="handlePeriodChange()">
@@ -1906,7 +1634,7 @@
 
           <div class="topbar-divider"></div>
 
-          <!-- 4. User Profile Dropdown -->
+          <!-- User Profile Menu -->
           <div class="profile-wrap" id="profileWrap">
             <button type="button" class="profile-btn" onclick="toggleProfileDropdown(event)">
               <span class="profile-avatar">KP</span>
@@ -1917,6 +1645,10 @@
                 <div class="profile-dropdown-name">Kiran Patil</div>
                 <div class="profile-dropdown-role">VERTAXIS Sales Admin</div>
               </div>
+              <button type="button" class="dropdown-item" onclick="closeProfileDropdown(); loadFromSupabase(true)">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <span>Force Sync</span>
+              </button>
               <button type="button" class="dropdown-item" onclick="closeProfileDropdown(); switchTab('settings')">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 <span>Settings</span>
@@ -1930,7 +1662,7 @@
         </div>
       </header>
 
-      <!-- COMPACT CUSTOM DATE RANGE SUB-BAR -->
+      <!-- COMPACT CUSTOM RANGE SUB-BAR -->
       <div id="customRangeBar" class="custom-range-bar hidden">
         <div class="custom-range-left">
           <span class="custom-range-label">Custom Period:</span>
@@ -1944,16 +1676,22 @@
         </div>
       </div>
 
-      <!-- SYNC ERROR BANNER -->
+      <!-- ERROR BANNER (Sync & Runtime Errors) -->
       <div id="syncErrorBanner" class="alert-banner error hidden">
-        <span id="syncErrorMsg">Supabase sync issue.</span>
-        <button type="button" class="btn-sm btn-danger-soft" onclick="loadFromSupabase(true)">Retry</button>
+        <span id="syncErrorMsg">Error message</span>
+        <div class="banner-actions">
+          <button type="button" class="btn-sm btn-danger-soft" onclick="loadFromSupabase(true)">Retry Sync</button>
+          <button type="button" class="btn-sm btn-secondary" onclick="dismissErrorBanner()">Dismiss</button>
+        </div>
       </div>
 
       <!-- LOCAL RECOVERY BANNER -->
       <div id="localRecoveryBanner" class="alert-banner warn hidden">
         <span id="localRecoveryText">Local data found in this browser while cloud is empty.</span>
-        <button type="button" class="btn-sm btn-primary" onclick="pushLocalToCloud()">Push Local Data to Cloud</button>
+        <div class="banner-actions">
+          <button type="button" class="btn-sm btn-primary" onclick="pushLocalToCloud()">Push Local Data to Cloud</button>
+          <button type="button" class="btn-sm btn-secondary" onclick="document.getElementById('localRecoveryBanner').classList.add('hidden')">Dismiss</button>
+        </div>
       </div>
 
       <!-- =========================================================
@@ -1972,11 +1710,11 @@
               <div class="kpi-body">
                 <div class="kpi-label">Total Pipeline</div>
                 <div id="kpiTotalPipeline" class="kpi-value">₹0.0 L</div>
-                <div id="kpiTotalPipelineSub" class="kpi-sub">0 active deals</div>
+                <div id="kpiTotalPipelineSub" class="kpi-sub">0 open deals</div>
               </div>
             </div>
 
-            <div class="kpi-card kpi-green">
+            <div class="kpi-card kpi-mint">
               <div class="kpi-icon-circle">
                 <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22v-9m0 0C12 8.5 8.5 5 4 5c0 4.5 3.5 8 8 8zm0 0c0-4.5 3.5-8 8-8 0 4.5-3.5 8-8 8z"/></svg>
               </div>
@@ -1998,7 +1736,7 @@
               </div>
             </div>
 
-            <div class="kpi-card kpi-green kpi-won">
+            <div class="kpi-card kpi-green">
               <div class="kpi-icon-circle">
                 <svg width="26" height="26" fill="currentColor" viewBox="0 0 24 24"><path d="M18 4V2H6v2H2v3c0 2.76 2.24 5 5 5h.18A5.99 5.99 0 0011 15.92V19H8v2h8v-2h-3v-3.08A5.99 5.99 0 0016.82 12H17c2.76 0 5-2.24 5-5V4h-4zM4 7V6h2v4c-1.1 0-2-.9-2-2V7zm16 1c0 1.1-.9 2-2 2V6h2v2z"/></svg>
               </div>
@@ -2012,7 +1750,6 @@
 
           <!-- Row 2: Sales Funnel + Follow-ups -->
           <div class="mid-grid">
-            <!-- Sales Funnel -->
             <div class="panel-card">
               <div class="panel-header-dark">
                 <div class="panel-header-title">
@@ -2024,7 +1761,6 @@
               <div id="funnelBody" class="funnel-body"></div>
             </div>
 
-            <!-- Follow-ups -->
             <div class="panel-card">
               <div class="panel-header-dark">
                 <div class="panel-header-title">
@@ -2041,7 +1777,7 @@
           <div class="trend-card">
             <div class="trend-header">
               <div class="trend-title">
-                <svg width="19" height="19" fill="#0F203D" viewBox="0 0 24 24"><path d="M5 13h3v7H5v-7zm5.5-5h3v12h-3V8zM16 4h3v16h-3V4z"/></svg>
+                <svg width="19" height="19" fill="#0E1E3A" viewBox="0 0 24 24"><path d="M5 13h3v7H5v-7zm5.5-5h3v12h-3V8zM16 4h3v16h-3V4z"/></svg>
                 <span>Pipeline Trend</span>
               </div>
               <div class="trend-legend">
@@ -2060,7 +1796,7 @@
           <div class="section-toolbar">
             <div>
               <h2 class="section-heading">Client Companies</h2>
-              <p class="section-sub">Deals and pipeline values are automatically computed from Opportunities.</p>
+              <p class="section-sub">Deals count and pipeline values are automatically calculated from Opportunities.</p>
             </div>
             <button type="button" class="btn-md btn-primary" onclick="openCompanyModal()">+ Add Company</button>
           </div>
@@ -2136,8 +1872,8 @@
             </div>
             <div class="toolbar-actions">
               <select id="followupFilter" class="select-control" style="width:150px;" onchange="renderFollowupsView()">
-                <option value="All">All Tasks</option>
                 <option value="Pending">Pending</option>
+                <option value="All">All Tasks</option>
                 <option value="Completed">Completed</option>
               </select>
               <button type="button" class="btn-md btn-primary" onclick="openFollowupModal()">+ Add Follow-up</button>
@@ -2158,7 +1894,7 @@
           <div class="section-toolbar">
             <div>
               <h2 class="section-heading">Pipeline Reports</h2>
-              <p class="section-sub">Stage-wise breakdown for the currently selected period.</p>
+              <p class="section-sub">Stage breakdown and conversion metrics for the selected period.</p>
             </div>
             <button type="button" class="btn-md btn-green" onclick="exportOpportunitiesCSV()">Export CSV</button>
           </div>
@@ -2190,12 +1926,12 @@
           </div>
 
           <div class="settings-grid">
-            <!-- 4-Digit PIN Card -->
+            <!-- 4-Digit PIN -->
             <div class="settings-card">
               <div class="settings-row">
                 <div>
                   <div class="settings-title">4-Digit Security PIN</div>
-                  <div class="settings-desc">Syncs to Supabase so your new PIN applies across all devices.</div>
+                  <div class="settings-desc">Synced to Supabase so your PIN works across all your devices.</div>
                 </div>
                 <button type="button" class="btn-sm btn-secondary" onclick="lockDashboard()">Lock Now</button>
               </div>
@@ -2212,21 +1948,21 @@
               </form>
             </div>
 
-            <!-- Cloud Sync Card -->
+            <!-- Manual Cloud Sync -->
             <div class="settings-card">
               <div class="settings-row">
                 <div>
                   <div class="settings-title">Supabase Cloud Sync</div>
-                  <div class="settings-desc">Table: <strong>dashboard_state</strong> (Row #1) • Status: <strong id="settingsSyncStatus">Connected</strong></div>
+                  <div class="settings-desc">Table: <strong>dashboard_state</strong> (Row #1) • Status: <strong id="settingsSyncStatus">Syncing...</strong></div>
                 </div>
                 <div class="toolbar-actions">
-                  <button type="button" class="btn-sm btn-secondary" onclick="loadFromSupabase(true)">Pull from Supabase</button>
-                  <button type="button" class="btn-sm btn-primary" onclick="saveToSupabase(true)">Push to Supabase</button>
+                  <button type="button" class="btn-sm btn-secondary" onclick="loadFromSupabase(true)">Pull from Cloud</button>
+                  <button type="button" class="btn-sm btn-primary" onclick="saveToSupabase(true)">Push to Cloud</button>
                 </div>
               </div>
             </div>
 
-            <!-- Backup & Reset Card -->
+            <!-- Backup & Reset -->
             <div class="settings-card">
               <div class="settings-row">
                 <div>
@@ -2244,10 +1980,10 @@
               <hr style="border:none;border-top:1px solid #F1F5F9;" />
               <div class="settings-row">
                 <div>
-                  <div class="settings-title" style="color:var(--danger);">Clear All Data to Zero</div>
-                  <div class="settings-desc">Removes all companies, opportunities, and follow-ups from local &amp; cloud.</div>
+                  <div class="settings-title" style="color:var(--danger);">Reset All Data to Zero</div>
+                  <div class="settings-desc">Clears all companies, opportunities, and follow-ups locally and in Supabase.</div>
                 </div>
-                <button type="button" class="btn-sm btn-danger-soft" onclick="openModal('clearConfirmModal')">Clear All Data</button>
+                <button type="button" class="btn-sm btn-danger-soft" onclick="openModal('clearConfirmModal')">Reset All Data to Zero</button>
               </div>
             </div>
           </div>
@@ -2413,7 +2149,7 @@
         </div>
         <div class="form-grid-2">
           <div>
-            <label class="field-label">Product / Deal Title</label>
+            <label class="field-label">Deal Title / Product</label>
             <input id="qiTitle" type="text" required class="input-control" />
           </div>
           <div>
@@ -2429,7 +2165,7 @@
           </div>
         </div>
 
-        <!-- Detected Price Breakdown (Smart 3-Tier Engine) -->
+        <!-- Smart 3-Tier Detected Price Breakdown -->
         <div id="qiBreakdownBox" class="breakdown-box">
           <div class="breakdown-header">
             <span class="breakdown-title">Detected Price Breakdown</span>
@@ -2441,24 +2177,24 @@
         <div class="gst-box">
           <div class="form-grid-2">
             <div>
-              <label class="field-label">Base Total (₹ INR)</label>
+              <label class="field-label">Base Amount (₹ INR)</label>
               <input id="qiBaseInr" type="number" step="1" min="0" class="input-control" oninput="recalcQuoteLakhs()" />
             </div>
             <div>
-              <label class="field-label">Final Deal Value (₹ Lakhs)</label>
+              <label class="field-label">Deal Value (₹ Lakhs)</label>
               <input id="qiValueLakhs" type="number" step="0.01" min="0" required class="input-control" style="font-weight:700;color:#1D63ED;" />
             </div>
           </div>
           <label class="checkbox-row">
             <input id="qiIncludeGst" type="checkbox" onchange="recalcQuoteLakhs()" />
-            <span>Include 18% GST (multiplies base value × 1.18)</span>
+            <span>Include 18% GST (multiplies base amount × 1.18)</span>
           </label>
         </div>
 
         <div class="gst-box">
           <label class="checkbox-row">
             <input id="qiAutoFollowup" type="checkbox" checked />
-            <span>Auto-create High-priority Follow-up (+3 days)</span>
+            <span>Auto-create Follow-up (+3 days, High priority)</span>
           </label>
           <input id="qiFollowupTask" type="text" class="input-control" placeholder="Follow-up note..." />
         </div>
@@ -2473,18 +2209,18 @@
 
   <!-- Clear All Data Confirmation Modal -->
   <div id="clearConfirmModal" class="modal-backdrop hidden">
-    <div class="modal-box" style="max-width:380px;">
+    <div class="modal-box" style="max-width:390px;">
       <div class="modal-header">
-        <span class="modal-title">Clear All Data?</span>
+        <span class="modal-title">Reset All Data to Zero?</span>
         <button type="button" class="modal-close" onclick="closeModal('clearConfirmModal')">✕</button>
       </div>
       <div class="modal-body">
         <p style="font-size:13.5px;color:#334155;line-height:1.5;">
-          This will reset all Companies, Opportunities, and Follow-ups to zero both locally and in your Supabase database. Your security PIN will stay unchanged.
+          This will clear all Companies, Opportunities, and Follow-ups both locally and in your Supabase database. Your 4-digit security PIN will remain unchanged.
         </p>
         <div class="modal-footer">
           <button type="button" class="btn-sm btn-secondary" onclick="closeModal('clearConfirmModal')">Cancel</button>
-          <button type="button" class="btn-sm btn-danger-soft" onclick="confirmClearAllData()">Yes, Clear to Zero</button>
+          <button type="button" class="btn-sm btn-danger-soft" onclick="confirmClearAllData()">Yes, Reset to Zero</button>
         </div>
       </div>
     </div>
@@ -2497,30 +2233,52 @@
   </div>
 
   <!-- =========================================================
-       APPLICATION SCRIPT (100% SELF-CONTAINED)
+       APPLICATION SCRIPT (100% SELF-CONTAINED, ERROR-SAFE)
        ========================================================= -->
   <script>
+    // Global runtime error handlers so the page never silently hangs
+    window.onerror = function (message, source, lineno) {
+      var banner = document.getElementById('syncErrorBanner');
+      var msgEl = document.getElementById('syncErrorMsg');
+      if (banner && msgEl) {
+        msgEl.textContent = 'Runtime Error: ' + message + (lineno ? ' (Line ' + lineno + ')' : '');
+        banner.classList.remove('hidden');
+      }
+      return false;
+    };
+
+    window.onunhandledrejection = function (event) {
+      var banner = document.getElementById('syncErrorBanner');
+      var msgEl = document.getElementById('syncErrorMsg');
+      var reason = event && event.reason ? (event.reason.message || String(event.reason)) : 'Unexpected async error';
+      if (banner && msgEl) {
+        msgEl.textContent = 'Error: ' + reason;
+        banner.classList.remove('hidden');
+      }
+    };
+
     (function () {
       'use strict';
 
       // ==========================================
       // 1. CONFIGURATION & CONSTANTS
       // ==========================================
-      const SUPABASE_URL = 'https://vpqzjqjgekxgizmvccuq.supabase.co/rest/v1/dashboard_state';
-      const SUPABASE_KEY = 'sb_publishable_5iBt0ud3A-fDu0g7z3GFug_9wqyMr8f';
-      const LOCAL_STORAGE_KEY = 'vertaxis_sales_data_v1';
-      const UNLOCK_SESSION_KEY = 'vertaxis_unlocked';
+      var SUPABASE_URL = 'https://vpqzjqjgekxgizmvccuq.supabase.co/rest/v1/dashboard_state';
+      var SUPABASE_KEY = 'sb_publishable_5iBt0ud3A-fDu0g7z3GFug_9wqyMr8f';
+      var LOCAL_STORAGE_KEY = 'vertaxis_sales_v3';
+      var LEGACY_KEYS = ['vertaxis_sales_data_v1', 'vertaxis_led_sales_dashboard_v1', 'vertaxis_dashboard_state'];
+      var UNLOCK_SESSION_KEY = 'vertaxis_unlocked';
 
-      const FUNNEL_STAGES = [
-        { name: 'Prospect Identified', color: '#0D6EFD', topW: 100, botW: 89 },
-        { name: 'In Nurturing',        color: '#00B4D8', topW: 88,  botW: 77 },
-        { name: 'Qualified',           color: '#22A559', topW: 76,  botW: 65 },
-        { name: 'Quotation Sent',      color: '#F3921F', topW: 64,  botW: 54 },
-        { name: 'Negotiation',         color: '#8E54E9', topW: 53,  botW: 43 },
+      var FUNNEL_STAGES = [
+        { name: 'Prospect Identified', color: '#1D63ED', topW: 100, botW: 89 },
+        { name: 'In Nurturing',        color: '#06B6D4', topW: 88,  botW: 77 },
+        { name: 'Qualified',           color: '#16A34A', topW: 76,  botW: 65 },
+        { name: 'Quotation Sent',      color: '#F59E0B', topW: 64,  botW: 54 },
+        { name: 'Negotiation',         color: '#8B5CF6', topW: 53,  botW: 43 },
         { name: 'Won',                 color: '#15803D', topW: 42,  botW: 32 }
       ];
 
-      const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      var SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
       function getEmptyState(existingPin) {
         return {
@@ -2531,16 +2289,17 @@
         };
       }
 
-      let state = getEmptyState('1234');
-      let currentTab = 'dashboard';
-      let currentPeriod = 'All Time';
-      let customFromDate = '';
-      let customToDate = '';
-      let pdfJsPromise = null;
-      let toastTimer = null;
+      var state = getEmptyState('1234');
+      var currentTab = 'dashboard';
+      var currentPeriod = 'All Time';
+      var customFromDate = '';
+      var customToDate = '';
+      var pdfJsPromise = null;
+      var toastTimer = null;
+      var extractedQuoteItems = [];
 
       // ==========================================
-      // 2. UTILITIES & NORMALIZATION
+      // 2. UTILITIES & DATA NORMALIZATION
       // ==========================================
       function escapeHTML(str) {
         return String(str == null ? '' : str)
@@ -2552,73 +2311,106 @@
       }
 
       function toIsoDate(d) {
-        const y = d.getFullYear();
-        const m = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${y}-${m}-${day}`;
+        var y = d.getFullYear();
+        var m = String(d.getMonth() + 1).padStart(2, '0');
+        var day = String(d.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + day;
       }
 
       function formatLakhs(num) {
-        const n = Number(num || 0);
-        const r = Math.round(n * 100) / 100;
-        const need2 = Math.round(r * 100) % 10 !== 0;
-        return `₹${r.toFixed(need2 ? 2 : 1)} L`;
+        var n = Number(num || 0);
+        var r = Math.round(n * 100) / 100;
+        var need2 = Math.round(r * 100) % 10 !== 0;
+        return '₹' + r.toFixed(need2 ? 2 : 1) + ' L';
       }
 
       function formatCompactL(num) {
-        const n = Math.round((Number(num) || 0) * 10) / 10;
-        return `${n % 1 === 0 ? n.toFixed(0) : n.toFixed(1)}L`;
+        var n = Math.round((Number(num) || 0) * 10) / 10;
+        return (n % 1 === 0 ? n.toFixed(0) : n.toFixed(1)) + 'L';
+      }
+
+      function formatINR(num) {
+        try {
+          return '₹' + Math.round(Number(num) || 0).toLocaleString('en-IN');
+        } catch (e) {
+          return '₹' + Math.round(Number(num) || 0);
+        }
       }
 
       function showToast(msg) {
-        const el = document.getElementById('toast');
-        document.getElementById('toastText').textContent = msg;
+        var el = document.getElementById('toast');
+        var txt = document.getElementById('toastText');
+        if (!el || !txt) return;
+        txt.textContent = msg;
         el.classList.add('show');
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+        toastTimer = setTimeout(function () { el.classList.remove('show'); }, 2600);
       }
 
       function normalizeState(raw) {
         if (!raw || typeof raw !== 'object') return getEmptyState('1234');
 
-        const companies = Array.isArray(raw.companies)
-          ? raw.companies.map((c, idx) => ({
-              id: String(c.id || `c_${idx}_${Date.now()}`),
-              name: String(c.name || '').trim(),
-              contact: String(c.contact || 'Primary Contact').trim(),
-              industry: String(c.industry || c.city || 'LED Display Client').trim()
-            })).filter(c => c.name)
-          : [];
-
-        const opportunities = Array.isArray(raw.opportunities)
-          ? raw.opportunities.map((o, idx) => {
-              const stageVal = FUNNEL_STAGES.some(s => s.name === o.stage) ? o.stage : 'Prospect Identified';
+        var companies = Array.isArray(raw.companies)
+          ? raw.companies.map(function (c, idx) {
               return {
-                id: String(o.id || `o_${idx}_${Date.now()}`),
-                company: String(o.company || '').trim(),
-                title: String(o.title || 'LED Display Project').trim(),
-                quoteNo: String(o.quoteNo || '').trim(),
-                value: Number(parseFloat(o.value) || 0),
-                stage: stageVal,
-                date: /^\d{4}-\d{2}-\d{2}$/.test(String(o.date || '')) ? String(o.date) : toIsoDate(new Date())
+                id: String((c && c.id) || ('c_' + idx + '_' + Date.now())),
+                name: String((c && c.name) || '').trim(),
+                contact: String((c && c.contact) || 'Primary Contact').trim(),
+                industry: String((c && (c.industry || c.city)) || 'LED Display Client').trim()
               };
-            }).filter(o => o.company)
+            }).filter(function (c) { return c.name.length > 0; })
           : [];
 
-        const rawFu = Array.isArray(raw.followUps) ? raw.followUps : (Array.isArray(raw.followups) ? raw.followups : []);
-        const followUps = rawFu.map((f, idx) => ({
-          id: String(f.id || `f_${idx}_${Date.now()}`),
-          company: String(f.company || '').trim(),
-          task: String(f.task || '').trim(),
-          priority: ['High', 'Medium', 'Low'].includes(f.priority) ? f.priority : 'Medium',
-          dueDate: String(f.dueDate || f.due || toIsoDate(new Date())).trim(),
-          done: Boolean(f.done)
-        })).filter(f => f.company || f.task);
+        var opportunities = Array.isArray(raw.opportunities)
+          ? raw.opportunities.map(function (o, idx) {
+              var stageName = o && o.stage ? String(o.stage) : 'Prospect Identified';
+              var validStage = FUNNEL_STAGES.some(function (s) { return s.name === stageName; })
+                ? stageName
+                : 'Prospect Identified';
+              var rawDate = String((o && o.date) || '');
+              return {
+                id: String((o && o.id) || ('o_' + idx + '_' + Date.now())),
+                company: String((o && o.company) || '').trim(),
+                title: String((o && o.title) || 'LED Display Project').trim(),
+                quoteNo: String((o && o.quoteNo) || '').trim(),
+                value: Number(parseFloat(o && o.value) || 0),
+                stage: validStage,
+                date: /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : toIsoDate(new Date())
+              };
+            }).filter(function (o) { return o.company.length > 0; })
+          : [];
 
-        const rawPin = raw.pin || (raw.settings && raw.settings.pin) || '1234';
-        const pin = /^\d{4}$/.test(String(rawPin)) ? String(rawPin) : '1234';
+        var rawFu = Array.isArray(raw.followUps)
+          ? raw.followUps
+          : (Array.isArray(raw.followups) ? raw.followups : []);
 
-        return { companies, opportunities, followUps, pin };
+        var followUps = rawFu.map(function (f, idx) {
+          var prio = f && f.priority ? String(f.priority) : 'Medium';
+          if (prio !== 'High' && prio !== 'Medium' && prio !== 'Low') prio = 'Medium';
+          return {
+            id: String((f && f.id) || ('f_' + idx + '_' + Date.now())),
+            company: String((f && f.company) || '').trim(),
+            task: String((f && f.task) || '').trim(),
+            priority: prio,
+            dueDate: String((f && (f.dueDate || f.due)) || toIsoDate(new Date())).trim(),
+            done: Boolean(f && f.done)
+          };
+        }).filter(function (f) { return f.company.length > 0 || f.task.length > 0; });
+
+        var rawPin = raw.pin || (raw.settings && raw.settings.pin) || '1234';
+        var pin = /^\d{4}$/.test(String(rawPin)) ? String(rawPin) : '1234';
+
+        return { companies: companies, opportunities: opportunities, followUps: followUps, pin: pin };
+      }
+
+      function hasAnyRecords(st) {
+        return Boolean(
+          st && (
+            (st.companies && st.companies.length > 0) ||
+            (st.opportunities && st.opportunities.length > 0) ||
+            (st.followUps && st.followUps.length > 0)
+          )
+        );
       }
 
       function saveLocal() {
@@ -2630,12 +2422,12 @@
       }
 
       function loadLocal() {
-        const candidateKeys = [LOCAL_STORAGE_KEY, 'vertaxis_led_sales_dashboard_v1', 'vertaxis_dashboard_state'];
-        for (const key of candidateKeys) {
+        var keys = [LOCAL_STORAGE_KEY].concat(LEGACY_KEYS);
+        for (var i = 0; i < keys.length; i++) {
           try {
-            const raw = localStorage.getItem(key);
+            var raw = localStorage.getItem(keys[i]);
             if (raw) {
-              const parsed = JSON.parse(raw);
+              var parsed = JSON.parse(raw);
               if (parsed && typeof parsed === 'object') {
                 return normalizeState(parsed);
               }
@@ -2647,48 +2439,44 @@
         return null;
       }
 
-      function hasAnyRecords(st) {
-        return Boolean(
-          st && ((st.companies && st.companies.length) || (st.opportunities && st.opportunities.length) || (st.followUps && st.followUps.length))
-        );
-      }
-
       // ==========================================
-      // 3. SUPABASE CLOUD SYNC (NO Authorization HEADER!)
+      // 3. SUPABASE CLOUD SYNC (NO Authorization HEADER)
       // ==========================================
       function setSyncPill(mode, label) {
-        const dot = document.getElementById('syncDot');
-        const txt = document.getElementById('syncText');
-        const stTxt = document.getElementById('settingsSyncStatus');
-        dot.className = 'sync-dot ' + mode;
-        txt.textContent = label;
+        var dot = document.getElementById('syncDot');
+        var txt = document.getElementById('syncText');
+        var stTxt = document.getElementById('settingsSyncStatus');
+        if (dot) dot.className = 'sync-dot ' + mode;
+        if (txt) txt.textContent = label;
         if (stTxt) stTxt.textContent = label;
       }
 
-      function showSyncError(message) {
-        document.getElementById('syncErrorMsg').textContent = message;
-        document.getElementById('syncErrorBanner').classList.remove('hidden');
+      function showErrorBanner(message) {
+        var banner = document.getElementById('syncErrorBanner');
+        var msgEl = document.getElementById('syncErrorMsg');
+        if (msgEl) msgEl.textContent = message;
+        if (banner) banner.classList.remove('hidden');
       }
 
-      function hideSyncError() {
-        document.getElementById('syncErrorBanner').classList.add('hidden');
+      function dismissErrorBanner() {
+        var banner = document.getElementById('syncErrorBanner');
+        if (banner) banner.classList.add('hidden');
       }
 
-      async function fetchWithTimeout(url, options, timeoutMs) {
-        const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), timeoutMs);
-        try {
-          return await fetch(url, { ...options, signal: controller.signal });
-        } finally {
-          clearTimeout(id);
-        }
+      function fetchWithTimeout(url, options, timeoutMs) {
+        var controller = new AbortController();
+        var timerId = setTimeout(function () { controller.abort(); }, timeoutMs);
+        var opts = Object.assign({}, options, { signal: controller.signal });
+        return fetch(url, opts).finally(function () {
+          clearTimeout(timerId);
+        });
       }
 
       async function loadFromSupabase(manual) {
         setSyncPill('syncing', 'Syncing...');
         try {
-          const res = await fetchWithTimeout(
-            `${SUPABASE_URL}?id=eq.1&select=data`,
+          var res = await fetchWithTimeout(
+            SUPABASE_URL + '?id=eq.1&select=id,data',
             {
               method: 'GET',
               headers: {
@@ -2696,37 +2484,40 @@
                 'Content-Type': 'application/json'
               }
             },
-            10000
+            8000
           );
 
           if (!res.ok) {
-            const errText = await res.text();
-            throw new Error(`HTTP ${res.status}: ${errText || res.statusText}`);
+            var errText = await res.text();
+            throw new Error('HTTP ' + res.status + ': ' + (errText || res.statusText));
           }
 
-          const rows = await res.json();
-          const rowData = Array.isArray(rows) && rows.length > 0 && rows[0].data && typeof rows[0].data === 'object'
+          var rows = await res.json();
+          var rowData = (Array.isArray(rows) && rows.length > 0 && rows[0].data && typeof rows[0].data === 'object')
             ? rows[0].data
             : {};
 
-          const cloudNormalized = normalizeState(rowData);
-          const cloudHasData = Object.keys(rowData).length > 0 && (hasAnyRecords(cloudNormalized) || rowData.pin);
+          var cloudNormalized = normalizeState(rowData);
+          var cloudHasData = Object.keys(rowData).length > 0 && hasAnyRecords(cloudNormalized);
 
           if (cloudHasData) {
             state = cloudNormalized;
             saveLocal();
             document.getElementById('localRecoveryBanner').classList.add('hidden');
           } else {
-            const localData = loadLocal();
+            if (rowData && /^\d{4}$/.test(String(rowData.pin || ''))) {
+              state.pin = String(rowData.pin);
+            }
+            var localData = loadLocal();
             if (localData && hasAnyRecords(localData)) {
               state = localData;
               document.getElementById('localRecoveryText').textContent =
-                `Cloud is empty, but ${state.opportunities.length} deals and ${state.companies.length} companies were found locally.`;
+                'Local data found (' + state.opportunities.length + ' deals, ' + state.companies.length + ' companies) while cloud is empty.';
               document.getElementById('localRecoveryBanner').classList.remove('hidden');
             }
           }
 
-          hideSyncError();
+          dismissErrorBanner();
           setSyncPill('synced', 'Synced');
           updatePinHelperVisibility();
           renderAll();
@@ -2734,7 +2525,10 @@
         } catch (err) {
           console.error('Supabase GET error:', err);
           setSyncPill('error', 'Sync Error');
-          showSyncError(`Supabase Sync Issue: ${err.name === 'AbortError' ? 'Connection timed out' : err.message}`);
+          var msg = err && err.name === 'AbortError'
+            ? 'Connection timed out after 8 seconds.'
+            : (err && err.message ? err.message : String(err));
+          showErrorBanner('Supabase Sync Issue: ' + msg);
         }
       }
 
@@ -2742,56 +2536,73 @@
         saveLocal();
         setSyncPill('syncing', 'Syncing...');
         try {
-          const res = await fetchWithTimeout(
-            `${SUPABASE_URL}?id=eq.1`,
+          var patchRes = await fetchWithTimeout(
+            SUPABASE_URL + '?id=eq.1',
             {
               method: 'PATCH',
               headers: {
                 'apikey': SUPABASE_KEY,
                 'Content-Type': 'application/json',
-                'Prefer': 'return=minimal'
+                'Prefer': 'return=representation'
               },
               body: JSON.stringify({ data: state })
             },
-            10000
+            8000
           );
 
-          if (!res.ok) {
-            const errText = await res.text();
-            throw new Error(`HTTP ${res.status}: ${errText || res.statusText}`);
+          if (!patchRes.ok) {
+            var patchErr = await patchRes.text();
+            throw new Error('HTTP ' + patchRes.status + ': ' + (patchErr || patchRes.statusText));
           }
 
-          hideSyncError();
+          var patchedRows = await patchRes.json();
+          // If row id=1 did not exist, fallback to POST
+          if (!Array.isArray(patchedRows) || patchedRows.length === 0) {
+            var postRes = await fetchWithTimeout(
+              SUPABASE_URL,
+              {
+                method: 'POST',
+                headers: {
+                  'apikey': SUPABASE_KEY,
+                  'Content-Type': 'application/json',
+                  'Prefer': 'return=representation'
+                },
+                body: JSON.stringify({ id: 1, data: state })
+              },
+              8000
+            );
+            if (!postRes.ok) {
+              var postErr = await postRes.text();
+              throw new Error('POST HTTP ' + postRes.status + ': ' + (postErr || postRes.statusText));
+            }
+          }
+
+          dismissErrorBanner();
           document.getElementById('localRecoveryBanner').classList.add('hidden');
           setSyncPill('synced', 'Synced');
           if (manual) showToast('Pushed to Supabase');
         } catch (err) {
-          console.error('Supabase PATCH error:', err);
+          console.error('Supabase save error:', err);
           setSyncPill('error', 'Sync Error');
-          showSyncError(`Could not save to Supabase: ${err.message}`);
+          var msg = err && err.name === 'AbortError'
+            ? 'Save timed out after 8 seconds.'
+            : (err && err.message ? err.message : String(err));
+          showErrorBanner('Could not save to Supabase: ' + msg);
         }
       }
-
-      window.loadFromSupabase = loadFromSupabase;
-      window.saveToSupabase = saveToSupabase;
-      window.pushLocalToCloud = function () {
-        saveToSupabase(true);
-      };
 
       // ==========================================
       // 4. 4-DIGIT PIN LOCK SCREEN
       // ==========================================
       function updatePinHelperVisibility() {
-        const helper = document.getElementById('pinDefaultHelper');
-        if (helper) {
-          helper.classList.toggle('hidden', state.pin !== '1234');
-        }
+        var helper = document.getElementById('pinDefaultHelper');
+        if (helper) helper.classList.toggle('hidden', state.pin !== '1234');
       }
 
       function initPinLock() {
         updatePinHelperVisibility();
-        const overlay = document.getElementById('pinOverlay');
-        const input = document.getElementById('pinInput');
+        var overlay = document.getElementById('pinOverlay');
+        var input = document.getElementById('pinInput');
 
         if (sessionStorage.getItem(UNLOCK_SESSION_KEY) === '1') {
           overlay.classList.add('hidden');
@@ -2799,7 +2610,7 @@
           overlay.classList.remove('hidden');
           input.value = '';
           document.getElementById('pinError').textContent = '';
-          setTimeout(() => input.focus(), 60);
+          setTimeout(function () { input.focus(); }, 60);
         }
 
         input.addEventListener('input', function () {
@@ -2819,9 +2630,9 @@
       }
 
       function verifyPin() {
-        const input = document.getElementById('pinInput');
-        const err = document.getElementById('pinError');
-        const val = input.value.trim();
+        var input = document.getElementById('pinInput');
+        var err = document.getElementById('pinError');
+        var val = input.value.trim();
 
         if (val.length < 4) {
           err.textContent = 'Please enter all 4 digits.';
@@ -2836,7 +2647,7 @@
           err.textContent = 'Incorrect PIN. Please try again.';
           input.value = '';
           input.focus();
-          const card = document.querySelector('#pinOverlay .pin-card');
+          var card = document.querySelector('#pinOverlay .pin-card');
           if (card) {
             card.classList.remove('shake');
             void card.offsetWidth;
@@ -2849,17 +2660,17 @@
         closeProfileDropdown();
         sessionStorage.removeItem(UNLOCK_SESSION_KEY);
         updatePinHelperVisibility();
-        const input = document.getElementById('pinInput');
+        var input = document.getElementById('pinInput');
         input.value = '';
         document.getElementById('pinError').textContent = '';
         document.getElementById('pinOverlay').classList.remove('hidden');
-        setTimeout(() => input.focus(), 60);
+        setTimeout(function () { input.focus(); }, 60);
       }
 
       async function updateSecurityPin(e) {
         e.preventDefault();
-        const cur = document.getElementById('curPinInput').value.trim();
-        const nxt = document.getElementById('newPinInput').value.trim();
+        var cur = document.getElementById('curPinInput').value.trim();
+        var nxt = document.getElementById('newPinInput').value.trim();
         if (cur !== state.pin) {
           showToast('Current PIN is incorrect');
           return;
@@ -2875,24 +2686,750 @@
         showToast('Security PIN updated & synced');
       }
 
-      window.verifyPin = verifyPin;
-      window.lockDashboard = lockDashboard;
-      window.updateSecurityPin = updateSecurityPin;
+      // ==========================================
+      // 5. NAVIGATION, MODALS & PERIOD FILTERING
+      // ==========================================
+      var TAB_META = {
+        dashboard:     ['Sales Dashboard', 'Track your LED Sales Pipeline at a Glance'],
+        companies:     ['Companies', 'Manage your LED display client accounts'],
+        opportunities: ['Opportunities', 'Search, edit, or move deals through your sales funnel'],
+        followups:     ['Follow-ups', 'Stay on top of quotations, brochures, and site visits'],
+        reports:       ['Reports', 'Stage-wise pipeline breakdown and conversion metrics'],
+        settings:      ['Settings', 'Security PIN, cloud sync, and data backups']
+      };
+
+      function switchTab(tabName) {
+        currentTab = tabName;
+        var tabs = ['dashboard', 'companies', 'opportunities', 'followups', 'reports', 'settings'];
+        for (var i = 0; i < tabs.length; i++) {
+          var sec = document.getElementById('view-' + tabs[i]);
+          if (sec) sec.classList.toggle('hidden', tabs[i] !== tabName);
+        }
+
+        var navBtns = document.querySelectorAll('#sidebarNav .nav-btn');
+        for (var j = 0; j < navBtns.length; j++) {
+          navBtns[j].classList.toggle('active', navBtns[j].getAttribute('data-tab') === tabName);
+        }
+
+        var meta = TAB_META[tabName] || TAB_META.dashboard;
+        document.getElementById('headerTitle').textContent = meta[0];
+        document.getElementById('headerSubtitle').textContent = meta[1];
+
+        toggleMobileSidebar(false);
+        renderAll();
+      }
+
+      function toggleMobileSidebar(open) {
+        var sidebar = document.getElementById('sidebar');
+        var backdrop = document.getElementById('mobileBackdrop');
+        if (open) {
+          sidebar.classList.add('open');
+          backdrop.classList.remove('hidden');
+        } else {
+          sidebar.classList.remove('open');
+          backdrop.classList.add('hidden');
+        }
+      }
+
+      function toggleProfileDropdown(event) {
+        if (event) event.stopPropagation();
+        document.getElementById('profileDropdown').classList.toggle('hidden');
+      }
+
+      function closeProfileDropdown() {
+        var dd = document.getElementById('profileDropdown');
+        if (dd) dd.classList.add('hidden');
+      }
+
+      document.addEventListener('click', function (e) {
+        var wrap = document.getElementById('profileWrap');
+        if (wrap && !wrap.contains(e.target)) {
+          closeProfileDropdown();
+        }
+      });
+
+      function openModal(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.remove('hidden');
+      }
+
+      function closeModal(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      }
+
+      function handlePeriodChange() {
+        currentPeriod = document.getElementById('periodSelect').value;
+        var bar = document.getElementById('customRangeBar');
+        if (currentPeriod === 'Custom Range') {
+          var now = new Date();
+          if (!customFromDate) {
+            customFromDate = toIsoDate(new Date(now.getFullYear(), now.getMonth(), 1));
+          }
+          if (!customToDate) {
+            customToDate = toIsoDate(now);
+          }
+          document.getElementById('customFrom').value = customFromDate;
+          document.getElementById('customTo').value = customToDate;
+          bar.classList.remove('hidden');
+        } else {
+          bar.classList.add('hidden');
+        }
+        renderAll();
+      }
+
+      function applyCustomRange() {
+        var fromVal = document.getElementById('customFrom').value;
+        var toVal = document.getElementById('customTo').value;
+        if (!fromVal || !toVal) {
+          showToast('Please pick both From and To dates');
+          return;
+        }
+        if (fromVal > toVal) {
+          showToast('From date cannot be after To date');
+          return;
+        }
+        customFromDate = fromVal;
+        customToDate = toVal;
+        document.getElementById('customRangeSummary').textContent = 'Showing ' + fromVal + ' to ' + toVal;
+        renderAll();
+        showToast('Custom period applied');
+      }
+
+      function resetPeriodAllTime() {
+        document.getElementById('periodSelect').value = 'All Time';
+        currentPeriod = 'All Time';
+        document.getElementById('customRangeBar').classList.add('hidden');
+        renderAll();
+      }
+
+      function getDateBounds() {
+        var now = new Date();
+        var y = now.getFullYear();
+        var m = now.getMonth();
+
+        if (currentPeriod === 'This Month') {
+          return {
+            start: toIsoDate(new Date(y, m, 1)),
+            end: toIsoDate(new Date(y, m + 1, 0))
+          };
+        }
+        if (currentPeriod === 'Last Month') {
+          return {
+            start: toIsoDate(new Date(y, m - 1, 1)),
+            end: toIsoDate(new Date(y, m, 0))
+          };
+        }
+        if (currentPeriod === 'This Quarter') {
+          var qStart = Math.floor(m / 3) * 3;
+          return {
+            start: toIsoDate(new Date(y, qStart, 1)),
+            end: toIsoDate(new Date(y, qStart + 3, 0))
+          };
+        }
+        if (currentPeriod === 'Last 6 Months') {
+          return {
+            start: toIsoDate(new Date(y, m - 5, 1)),
+            end: toIsoDate(new Date(y, m + 1, 0))
+          };
+        }
+        if (currentPeriod === 'This Year') {
+          return {
+            start: y + '-01-01',
+            end: y + '-12-31'
+          };
+        }
+        if (currentPeriod === 'Custom Range' && customFromDate && customToDate) {
+          return { start: customFromDate, end: customToDate };
+        }
+        return null;
+      }
+
+      function getFilteredOpportunities() {
+        var bounds = getDateBounds();
+        if (!bounds) return state.opportunities.slice();
+        return state.opportunities.filter(function (o) {
+          var d = o.date || '';
+          return d >= bounds.start && d <= bounds.end;
+        });
+      }
 
       // ==========================================
-      // 10. SMART 3-TIER PDF.JS QUOTATION AUTO-IMPORT
+      // 6. METRICS & DASHBOARD RENDERING
       // ==========================================
-      let extractedQuoteItems = [];
+      function computeMetrics(opps) {
+        var stageTotals = {};
+        var stageCounts = {};
+        for (var i = 0; i < FUNNEL_STAGES.length; i++) {
+          stageTotals[FUNNEL_STAGES[i].name] = 0;
+          stageCounts[FUNNEL_STAGES[i].name] = 0;
+        }
 
+        for (var j = 0; j < opps.length; j++) {
+          var o = opps[j];
+          var val = Number(o.value) || 0;
+          if (stageTotals[o.stage] !== undefined) {
+            stageTotals[o.stage] += val;
+            stageCounts[o.stage] += 1;
+          }
+        }
+
+        var wonVal = stageTotals['Won'];
+        var wonCount = stageCounts['Won'];
+        var nurturingVal = stageTotals['In Nurturing'];
+        var activeVal = stageTotals['Qualified'] + stageTotals['Quotation Sent'] + stageTotals['Negotiation'];
+        var openPipeline = stageTotals['Prospect Identified'] + nurturingVal + activeVal;
+        var openCount = opps.length - wonCount;
+        var totalAll = openPipeline + wonVal;
+        var denom = totalAll > 0 ? totalAll : 1;
+
+        return {
+          stageTotals: stageTotals,
+          stageCounts: stageCounts,
+          openPipeline: openPipeline,
+          openCount: openCount,
+          totalAll: totalAll,
+          nurturingVal: nurturingVal,
+          nurturingPct: totalAll > 0 ? Math.round((nurturingVal / denom) * 100) : 0,
+          activeVal: activeVal,
+          activePct: totalAll > 0 ? Math.round((activeVal / denom) * 100) : 0,
+          wonVal: wonVal,
+          wonCount: wonCount
+        };
+      }
+
+      function formatDueLabel(dueDateStr) {
+        if (!dueDateStr) return { text: 'No date', cls: 'due-normal' };
+        var today = toIsoDate(new Date());
+        var tmrw = new Date();
+        tmrw.setDate(tmrw.getDate() + 1);
+        var tomorrow = toIsoDate(tmrw);
+
+        if (dueDateStr === today) return { text: 'Today', cls: 'due-red' };
+        if (dueDateStr < today) return { text: dueDateStr + ' (Overdue)', cls: 'due-red' };
+        if (dueDateStr === tomorrow) return { text: 'Tomorrow', cls: 'due-blue' };
+        return { text: dueDateStr, cls: 'due-normal' };
+      }
+
+      function priorityBadgeHTML(priority) {
+        if (priority === 'High') return '<span class="priority-pill priority-high">High</span>';
+        if (priority === 'Low') return '<span class="priority-pill priority-low">Low</span>';
+        return '<span class="priority-pill priority-medium">Medium</span>';
+      }
+
+      function renderDashboard(filteredOpps, metrics) {
+        // KPIs
+        document.getElementById('kpiTotalPipeline').textContent = formatLakhs(metrics.totalAll);
+        document.getElementById('kpiTotalPipelineSub').textContent = metrics.openCount + ' open deals';
+        document.getElementById('kpiNurturing').textContent = formatLakhs(metrics.nurturingVal);
+        document.getElementById('kpiNurturingSub').textContent = '≈ ' + metrics.nurturingPct + '% of Pipeline';
+        document.getElementById('kpiActive').textContent = formatLakhs(metrics.activeVal);
+        document.getElementById('kpiActiveSub').textContent = '≈ ' + metrics.activePct + '% of Pipeline';
+        document.getElementById('kpiWon').textContent = formatLakhs(metrics.wonVal);
+        document.getElementById('kpiWonSub').textContent = metrics.wonCount + ' deals won';
+
+        // Sales Funnel Trapezoids
+        var funnelEl = document.getElementById('funnelBody');
+        var denom = metrics.totalAll > 0 ? metrics.totalAll : 1;
+        funnelEl.innerHTML = FUNNEL_STAGES.map(function (st) {
+          var val = metrics.stageTotals[st.name] || 0;
+          var pct = metrics.totalAll > 0 ? Math.round((val / denom) * 100) : 0;
+          var topL = (100 - st.topW) / 2;
+          var topR = 100 - topL;
+          var botL = (100 - st.botW) / 2;
+          var botR = 100 - botL;
+          var clip = 'polygon(' + topL + '% 0%, ' + topR + '% 0%, ' + botR + '% 100%, ' + botL + '% 100%)';
+
+          return '<div class="funnel-row" onclick="jumpToStage(\'' + st.name + '\')" title="View ' + st.name + ' deals">' +
+            '<div class="funnel-bar-wrap">' +
+              '<div class="funnel-bar" style="background:' + st.color + ';clip-path:' + clip + ';">' +
+                escapeHTML(st.name) +
+              '</div>' +
+            '</div>' +
+            '<div class="funnel-metrics">' +
+              '<span class="funnel-val">' + formatLakhs(val) + '</span>' +
+              '<span class="funnel-pct">(' + pct + '%)</span>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+
+        // Follow-ups Widget + Sidebar Badge
+        var pending = state.followUps
+          .filter(function (f) { return !f.done; })
+          .sort(function (a, b) { return String(a.dueDate).localeCompare(String(b.dueDate)); });
+
+        var badge = document.getElementById('sidebarFollowupBadge');
+        badge.textContent = String(pending.length);
+        badge.classList.toggle('hidden', pending.length === 0);
+
+        var fuBody = document.getElementById('dashboardFollowupsBody');
+        if (pending.length === 0) {
+          fuBody.innerHTML =
+            '<div class="empty-state-box">' +
+              '<div>No pending follow-ups yet.</div>' +
+              '<button type="button" class="btn-sm btn-primary" onclick="openFollowupModal()">+ Add Follow-up</button>' +
+            '</div>';
+        } else {
+          fuBody.innerHTML = pending.slice(0, 5).map(function (f) {
+            var due = formatDueLabel(f.dueDate);
+            return '<div class="followup-item">' +
+              '<div class="followup-left">' +
+                priorityBadgeHTML(f.priority) +
+                '<div class="followup-text">' +
+                  '<div class="followup-company">' + escapeHTML(f.company) + '</div>' +
+                  '<div class="followup-task">' + escapeHTML(f.task) + '</div>' +
+                '</div>' +
+              '</div>' +
+              '<div class="followup-right">' +
+                '<span class="followup-due ' + due.cls + '">' + escapeHTML(due.text) + '</span>' +
+                '<button type="button" class="btn-sm btn-green-soft" onclick="toggleFollowupDone(\'' + escapeHTML(f.id) + '\')">Done</button>' +
+              '</div>' +
+            '</div>';
+          }).join('');
+        }
+
+        // Pure-SVG Pipeline Trend Chart
+        renderTrendChartSVG(filteredOpps);
+      }
+
+      function renderTrendChartSVG(opps) {
+        var container = document.getElementById('trendChartContainer');
+        var monthMap = {};
+
+        for (var i = 0; i < opps.length; i++) {
+          var o = opps[i];
+          var ym = (o.date && /^\d{4}-\d{2}/.test(o.date)) ? o.date.slice(0, 7) : toIsoDate(new Date()).slice(0, 7);
+          if (!monthMap[ym]) monthMap[ym] = { ym: ym, pipeline: 0, won: 0 };
+          var v = Number(o.value) || 0;
+          monthMap[ym].pipeline += v;
+          if (o.stage === 'Won') monthMap[ym].won += v;
+        }
+
+        var keys = Object.keys(monthMap).sort();
+        var points = [];
+
+        if (keys.length === 0) {
+          // Show last 5 months at 0L so the chart frame is always crisp
+          var now = new Date();
+          for (var k = 4; k >= 0; k--) {
+            var dt = new Date(now.getFullYear(), now.getMonth() - k, 1);
+            points.push({ label: SHORT_MONTHS[dt.getMonth()], pipeline: 0, won: 0 });
+          }
+        } else {
+          // If only 1 month exists, pad 3 previous zero months for a clean trend line
+          if (keys.length === 1) {
+            var parts = keys[0].split('-');
+            var yr = parseInt(parts[0], 10);
+            var mo = parseInt(parts[1], 10) - 1;
+            for (var p = 3; p >= 1; p--) {
+              var pd = new Date(yr, mo - p, 1);
+              points.push({ label: SHORT_MONTHS[pd.getMonth()], pipeline: 0, won: 0 });
+            }
+          }
+          var sliced = keys.slice(-8);
+          for (var s = 0; s < sliced.length; s++) {
+            var kParts = sliced[s].split('-');
+            var mIdx = Math.max(0, Math.min(11, parseInt(kParts[1], 10) - 1));
+            var yrShort = kParts[0].slice(2);
+            var lbl = sliced.length > 6 ? (SHORT_MONTHS[mIdx] + " '" + yrShort) : SHORT_MONTHS[mIdx];
+            points.push({
+              label: lbl,
+              pipeline: Math.round(monthMap[sliced[s]].pipeline * 100) / 100,
+              won: Math.round(monthMap[sliced[s]].won * 100) / 100
+            });
+          }
+        }
+
+        var width = 920;
+        var height = 195;
+        var padLeft = 50;
+        var padRight = 56;
+        var padTop = 28;
+        var padBottom = 34;
+        var plotW = width - padLeft - padRight;
+        var plotH = height - padTop - padBottom;
+
+        var maxVal = 10;
+        for (var m = 0; m < points.length; m++) {
+          if (points[m].pipeline > maxVal) maxVal = points[m].pipeline;
+          if (points[m].won > maxVal) maxVal = points[m].won;
+        }
+        var rawStep = maxVal / 3;
+        var yStep = rawStep <= 5 ? 5 : (rawStep <= 10 ? 10 : (rawStep <= 25 ? 25 : Math.ceil(rawStep / 25) * 25));
+        var yTicks = [0, yStep, yStep * 2, yStep * 3];
+        var yMax = Math.max(maxVal * 1.12, yStep * 3);
+
+        function getX(idx) {
+          if (points.length <= 1) return padLeft + plotW / 2;
+          return padLeft + (idx / (points.length - 1)) * plotW;
+        }
+        function getY(val) {
+          return padTop + plotH - (val / yMax) * plotH;
+        }
+
+        var gridSVG = yTicks.map(function (tick) {
+          var y = getY(tick).toFixed(1);
+          return '<line x1="' + padLeft + '" y1="' + y + '" x2="' + (width - padRight + 22) + '" y2="' + y + '" stroke="#E2E8F0" stroke-width="1" />' +
+            '<text x="' + (padLeft - 10) + '" y="' + (Number(y) + 4) + '" text-anchor="end" fill="#64748B" font-size="11.5" font-weight="600">' + tick + 'L</text>';
+        }).join('');
+
+        var xLabelsSVG = points.map(function (pt, idx) {
+          return '<text x="' + getX(idx).toFixed(1) + '" y="' + (height - 8) + '" text-anchor="middle" fill="#1E293B" font-size="12" font-weight="600">' + escapeHTML(pt.label) + '</text>';
+        }).join('');
+
+        var pipePath = points.map(function (pt, idx) {
+          return (idx === 0 ? 'M ' : 'L ') + getX(idx).toFixed(1) + ' ' + getY(pt.pipeline).toFixed(1);
+        }).join(' ');
+
+        var wonPath = points.map(function (pt, idx) {
+          return (idx === 0 ? 'M ' : 'L ') + getX(idx).toFixed(1) + ' ' + getY(pt.won).toFixed(1);
+        }).join(' ');
+
+        var pipeDots = points.map(function (pt, idx) {
+          var x = getX(idx);
+          var y = getY(pt.pipeline);
+          var lbl = formatCompactL(pt.pipeline);
+          var isLast = idx === points.length - 1;
+          var labelTag = isLast
+            ? '<g transform="translate(' + (x + 8).toFixed(1) + ',' + (y - 10).toFixed(1) + ')">' +
+                '<rect x="0" y="0" width="44" height="19" rx="5" fill="#E0EDFF"/>' +
+                '<text x="22" y="13" text-anchor="middle" fill="#1D63ED" font-size="11" font-weight="700">' + lbl + '</text>' +
+              '</g>'
+            : '<text x="' + x.toFixed(1) + '" y="' + (y - 10).toFixed(1) + '" text-anchor="middle" fill="#1D63ED" font-size="11.5" font-weight="700">' + lbl + '</text>';
+
+          return '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4.6" fill="#1D63ED" stroke="#FFFFFF" stroke-width="1.8" />' + labelTag;
+        }).join('');
+
+        var wonDots = points.map(function (pt, idx) {
+          var x = getX(idx);
+          var y = getY(pt.won);
+          var lbl = formatCompactL(pt.won);
+          var dy = Math.abs(getY(pt.pipeline) - y) < 16 ? 16 : -9;
+          return '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="4.3" fill="#16A34A" stroke="#FFFFFF" stroke-width="1.8" />' +
+            '<text x="' + x.toFixed(1) + '" y="' + (y + dy).toFixed(1) + '" text-anchor="middle" fill="#15803D" font-size="11" font-weight="700">' + lbl + '</text>';
+        }).join('');
+
+        container.innerHTML =
+          '<svg viewBox="0 0 ' + width + ' ' + height + '" style="width:100%;height:auto;overflow:visible;" role="img" aria-label="Pipeline Trend Chart">' +
+            gridSVG + xLabelsSVG +
+            '<path d="' + pipePath + '" fill="none" stroke="#1D63ED" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />' +
+            '<path d="' + wonPath + '" fill="none" stroke="#16A34A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />' +
+            pipeDots + wonDots +
+          '</svg>';
+      }
+
+      // ==========================================
+      // 7. SECONDARY VIEWS RENDERING
+      // ==========================================
+      function refreshCompanyDatalist() {
+        var dl = document.getElementById('companyDatalist');
+        if (!dl) return;
+        dl.innerHTML = state.companies.map(function (c) {
+          return '<option value="' + escapeHTML(c.name) + '"></option>';
+        }).join('');
+      }
+
+      function renderCompaniesTable() {
+        refreshCompanyDatalist();
+        var tbody = document.getElementById('companiesTableBody');
+        if (state.companies.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:34px;color:#64748B;">No companies added yet.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = state.companies.map(function (c) {
+          var deals = state.opportunities.filter(function (o) {
+            return o.company.toLowerCase() === c.name.toLowerCase();
+          });
+          var totalVal = deals.reduce(function (sum, d) { return sum + (Number(d.value) || 0); }, 0);
+          return '<tr>' +
+            '<td class="font-bold">' + escapeHTML(c.name) + '</td>' +
+            '<td>' + escapeHTML(c.contact) + '</td>' +
+            '<td>' + escapeHTML(c.industry) + '</td>' +
+            '<td class="text-right font-bold">' + deals.length + '</td>' +
+            '<td class="text-right font-bold nowrap">' + formatLakhs(totalVal) + '</td>' +
+            '<td class="text-right"><button type="button" class="action-link delete" onclick="deleteCompany(\'' + escapeHTML(c.id) + '\')">Delete</button></td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function renderOpportunitiesTable() {
+        var tbody = document.getElementById('opportunitiesTableBody');
+        var searchVal = (document.getElementById('oppSearch').value || '').trim().toLowerCase();
+        var stageFilter = document.getElementById('oppStageFilter').value;
+
+        var list = getFilteredOpportunities().filter(function (o) {
+          if (stageFilter !== 'All' && o.stage !== stageFilter) return false;
+          if (searchVal) {
+            var hay = (o.company + ' ' + o.title + ' ' + (o.quoteNo || '')).toLowerCase();
+            if (hay.indexOf(searchVal) === -1) return false;
+          }
+          return true;
+        });
+
+        if (list.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:34px;color:#64748B;">No matching opportunities found.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = list.map(function (o) {
+          var quoteTag = o.quoteNo ? '<span class="quote-badge">' + escapeHTML(o.quoteNo) + '</span>' : '';
+          var stageOpts = FUNNEL_STAGES.map(function (s) {
+            return '<option value="' + s.name + '"' + (s.name === o.stage ? ' selected' : '') + '>' + s.name + '</option>';
+          }).join('');
+
+          return '<tr>' +
+            '<td>' +
+              '<div><span class="font-bold">' + escapeHTML(o.company) + '</span>' + quoteTag + '</div>' +
+              '<div class="text-muted">' + escapeHTML(o.title) + '</div>' +
+            '</td>' +
+            '<td class="nowrap text-muted" style="font-weight:600;color:#475569;">' + escapeHTML(o.date) + '</td>' +
+            '<td class="text-right font-bold nowrap">' + formatLakhs(o.value) + '</td>' +
+            '<td><select class="inline-stage-select" onchange="updateOppStage(\'' + escapeHTML(o.id) + '\', this.value)">' + stageOpts + '</select></td>' +
+            '<td class="text-right nowrap">' +
+              '<button type="button" class="action-link edit" onclick="openEditOppModal(\'' + escapeHTML(o.id) + '\')">Edit</button>' +
+              '<button type="button" class="action-link delete" onclick="deleteOpportunity(\'' + escapeHTML(o.id) + '\')">Delete</button>' +
+            '</td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function renderFollowupsView() {
+        var filter = document.getElementById('followupFilter').value;
+        var container = document.getElementById('allFollowupsContainer');
+        var pendingCount = state.followUps.filter(function (f) { return !f.done; }).length;
+        document.getElementById('followupsCountLabel').textContent = pendingCount + ' pending';
+
+        var list = state.followUps.filter(function (f) {
+          if (filter === 'Pending') return !f.done;
+          if (filter === 'Completed') return f.done;
+          return true;
+        });
+
+        if (list.length === 0) {
+          container.innerHTML = '<div class="empty-state-box">No follow-up tasks in this view.</div>';
+          return;
+        }
+
+        container.innerHTML = list.map(function (f) {
+          var due = formatDueLabel(f.dueDate);
+          return '<div class="fu-list-row' + (f.done ? ' done' : '') + '">' +
+            '<div class="followup-left">' +
+              priorityBadgeHTML(f.priority) +
+              '<div class="followup-text">' +
+                '<div class="followup-company">' + escapeHTML(f.company) + '</div>' +
+                '<div class="followup-task">' + escapeHTML(f.task) + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="followup-right">' +
+              '<span class="followup-due ' + due.cls + '">' + escapeHTML(due.text) + '</span>' +
+              '<button type="button" class="btn-sm ' + (f.done ? 'btn-secondary' : 'btn-green-soft') + '" onclick="toggleFollowupDone(\'' + escapeHTML(f.id) + '\')">' + (f.done ? 'Reopen' : 'Mark Done') + '</button>' +
+              '<button type="button" class="action-link delete" onclick="deleteFollowup(\'' + escapeHTML(f.id) + '\')">Delete</button>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      }
+
+      function renderReportsView(filteredOpps, metrics) {
+        var totalDeals = filteredOpps.length;
+        var winRate = totalDeals > 0 ? Math.round((metrics.wonCount / totalDeals) * 100) : 0;
+        var avgDeal = totalDeals > 0 ? (metrics.totalAll / totalDeals) : 0;
+
+        document.getElementById('reportsSummaryGrid').innerHTML =
+          '<div class="stat-card"><div class="stat-label">Total Deals</div><div class="stat-val">' + totalDeals + '</div></div>' +
+          '<div class="stat-card"><div class="stat-label">Average Deal Size</div><div class="stat-val" style="color:#1D63ED;">' + formatLakhs(avgDeal) + '</div></div>' +
+          '<div class="stat-card"><div class="stat-label">Win Rate</div><div class="stat-val" style="color:#15803D;">' + winRate + '%</div></div>';
+
+        var denom = metrics.totalAll > 0 ? metrics.totalAll : 1;
+        document.getElementById('reportsTableBody').innerHTML = FUNNEL_STAGES.map(function (st) {
+          var cnt = metrics.stageCounts[st.name] || 0;
+          var val = metrics.stageTotals[st.name] || 0;
+          var pct = metrics.totalAll > 0 ? Math.round((val / denom) * 100) : 0;
+          return '<tr>' +
+            '<td class="font-bold"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' + st.color + ';margin-right:8px;"></span>' + escapeHTML(st.name) + '</td>' +
+            '<td class="text-right font-bold">' + cnt + '</td>' +
+            '<td class="text-right font-bold nowrap">' + formatLakhs(val) + '</td>' +
+            '<td class="text-right text-muted font-bold">' + pct + '%</td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function jumpToStage(stageName) {
+        document.getElementById('oppStageFilter').value = stageName;
+        switchTab('opportunities');
+      }
+
+      // ==========================================
+      // 8. CRUD ACTIONS (OPPORTUNITIES, COMPANIES, FOLLOW-UPS)
+      // ==========================================
+      function openOppModal() {
+        document.getElementById('oppForm').reset();
+        document.getElementById('oppEditId').value = '';
+        document.getElementById('oppModalTitle').textContent = 'Add Opportunity';
+        document.getElementById('oppDate').value = toIsoDate(new Date());
+        openModal('oppModal');
+      }
+
+      function openEditOppModal(id) {
+        var opp = state.opportunities.find(function (o) { return o.id === id; });
+        if (!opp) return;
+        document.getElementById('oppEditId').value = opp.id;
+        document.getElementById('oppModalTitle').textContent = 'Edit Opportunity';
+        document.getElementById('oppCompany').value = opp.company;
+        document.getElementById('oppTitle').value = opp.title;
+        document.getElementById('oppQuoteNo').value = opp.quoteNo || '';
+        document.getElementById('oppValue').value = opp.value;
+        document.getElementById('oppDate').value = opp.date;
+        document.getElementById('oppStage').value = opp.stage;
+        openModal('oppModal');
+      }
+
+      function saveOpportunity(e) {
+        e.preventDefault();
+        var editId = document.getElementById('oppEditId').value;
+        var company = document.getElementById('oppCompany').value.trim();
+        var title = document.getElementById('oppTitle').value.trim();
+        var quoteNo = document.getElementById('oppQuoteNo').value.trim();
+        var value = parseFloat(document.getElementById('oppValue').value) || 0;
+        var date = document.getElementById('oppDate').value || toIsoDate(new Date());
+        var stage = document.getElementById('oppStage').value;
+
+        if (!company) return;
+
+        if (editId) {
+          var existing = state.opportunities.find(function (o) { return o.id === editId; });
+          if (existing) {
+            existing.company = company;
+            existing.title = title;
+            existing.quoteNo = quoteNo;
+            existing.value = Number(value.toFixed(2));
+            existing.date = date;
+            existing.stage = stage;
+          }
+        } else {
+          state.opportunities.unshift({
+            id: 'o_' + Date.now(),
+            company: company,
+            title: title,
+            quoteNo: quoteNo,
+            value: Number(value.toFixed(2)),
+            stage: stage,
+            date: date
+          });
+        }
+
+        if (!state.companies.some(function (c) { return c.name.toLowerCase() === company.toLowerCase(); })) {
+          state.companies.unshift({
+            id: 'c_' + Date.now(),
+            name: company,
+            contact: 'Primary Contact',
+            industry: 'LED Display Client'
+          });
+        }
+
+        closeModal('oppModal');
+        renderAll();
+        saveToSupabase(false);
+        showToast(editId ? 'Opportunity updated' : 'Opportunity added');
+      }
+
+      function updateOppStage(id, newStage) {
+        var opp = state.opportunities.find(function (o) { return o.id === id; });
+        if (!opp) return;
+        opp.stage = newStage;
+        renderAll();
+        saveToSupabase(false);
+        showToast('Moved "' + opp.company + '" to ' + newStage);
+      }
+
+      function deleteOpportunity(id) {
+        state.opportunities = state.opportunities.filter(function (o) { return o.id !== id; });
+        renderAll();
+        saveToSupabase(false);
+        showToast('Opportunity deleted');
+      }
+
+      function openCompanyModal() {
+        document.getElementById('companyForm').reset();
+        openModal('companyModal');
+      }
+
+      function saveCompany(e) {
+        e.preventDefault();
+        var name = document.getElementById('compName').value.trim();
+        var contact = document.getElementById('compContact').value.trim() || 'Primary Contact';
+        var industry = document.getElementById('compIndustry').value.trim() || 'LED Display Client';
+        if (!name) return;
+
+        state.companies.unshift({ id: 'c_' + Date.now(), name: name, contact: contact, industry: industry });
+        closeModal('companyModal');
+        renderAll();
+        saveToSupabase(false);
+        showToast('Company added');
+      }
+
+      function deleteCompany(id) {
+        state.companies = state.companies.filter(function (c) { return c.id !== id; });
+        renderAll();
+        saveToSupabase(false);
+        showToast('Company removed');
+      }
+
+      function openFollowupModal() {
+        document.getElementById('followupForm').reset();
+        document.getElementById('fuDueDate').value = toIsoDate(new Date());
+        openModal('followupModal');
+      }
+
+      function saveFollowup(e) {
+        e.preventDefault();
+        var company = document.getElementById('fuCompany').value.trim();
+        var task = document.getElementById('fuTask').value.trim();
+        var priority = document.getElementById('fuPriority').value;
+        var dueDate = document.getElementById('fuDueDate').value || toIsoDate(new Date());
+        if (!company || !task) return;
+
+        state.followUps.unshift({
+          id: 'f_' + Date.now(),
+          company: company,
+          task: task,
+          priority: priority,
+          dueDate: dueDate,
+          done: false
+        });
+        closeModal('followupModal');
+        renderAll();
+        saveToSupabase(false);
+        showToast('Follow-up added');
+      }
+
+      function toggleFollowupDone(id) {
+        var item = state.followUps.find(function (f) { return f.id === id; });
+        if (!item) return;
+        item.done = !item.done;
+        renderAll();
+        saveToSupabase(false);
+        showToast(item.done ? 'Marked as Done' : 'Follow-up reopened');
+      }
+
+      function deleteFollowup(id) {
+        state.followUps = state.followUps.filter(function (f) { return f.id !== id; });
+        renderAll();
+        saveToSupabase(false);
+        showToast('Follow-up deleted');
+      }
+
+      // ==========================================
+      // 9. SMART 3-TIER PDF.JS QUOTATION AUTO-IMPORT
+      // ==========================================
       function loadPdfJs() {
         if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
         if (pdfJsPromise) return pdfJsPromise;
 
-        pdfJsPromise = new Promise((resolve, reject) => {
-          const script = document.createElement('script');
+        pdfJsPromise = new Promise(function (resolve, reject) {
+          var script = document.createElement('script');
           script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
           script.async = true;
-          script.onload = () => {
+          script.onload = function () {
             if (window.pdfjsLib) {
               window.pdfjsLib.GlobalWorkerOptions.workerSrc =
                 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -2901,123 +3438,367 @@
               reject(new Error('PDF.js failed to initialize'));
             }
           };
-          script.onerror = () => reject(new Error('Could not load PDF.js library'));
+          script.onerror = function () { reject(new Error('Could not load PDF.js library')); };
           document.head.appendChild(script);
         });
         return pdfJsPromise;
       }
 
       function triggerPdfUpload() {
-        const input = document.getElementById('pdfFileInput');
+        var input = document.getElementById('pdfFileInput');
         input.value = '';
         input.click();
       }
 
-      // Format INR with Indian comma grouping for breakdown display
-      function formatINR(num) {
-        try {
-          return '₹' + Math.round(Number(num) || 0).toLocaleString('en-IN');
-        } catch (e) {
-          return '₹' + Math.round(Number(num) || 0);
-        }
-      }
-
-      // Reconstruct visual horizontal lines on Page 1 using (x, y) PDF coordinates
       function buildVisualLines(textItems) {
-        const cleaned = [];
-        for (const it of textItems) {
-          const str = (it.str || '').replace(/\s+/g, ' ').trim();
+        var cleaned = [];
+        for (var i = 0; i < textItems.length; i++) {
+          var it = textItems[i];
+          var str = (it.str || '').replace(/\s+/g, ' ').trim();
           if (!str) continue;
-          const x = it.transform ? Number(it.transform[4]) : 0;
-          const y = it.transform ? Number(it.transform[5]) : 0;
-          const w = Number(it.width) || 0;
-          cleaned.push({ str, x, y, w });
+          var x = it.transform ? Number(it.transform[4]) : 0;
+          var y = it.transform ? Number(it.transform[5]) : 0;
+          var w = Number(it.width) || 0;
+          cleaned.push({ str: str, x: x, y: y, w: w });
         }
 
-        // Sort top-to-bottom (higher Y first in PDF coordinate space)
-        cleaned.sort((a, b) => b.y - a.y || a.x - b.x);
+        cleaned.sort(function (a, b) { return (b.y - a.y) || (a.x - b.x); });
 
-        const lines = [];
-        for (const item of cleaned) {
-          let target = null;
-          for (const line of lines) {
-            if (Math.abs(line.y - item.y) <= 6) {
-              target = line;
+        var lines = [];
+        for (var j = 0; j < cleaned.length; j++) {
+          var item = cleaned[j];
+          var target = null;
+          for (var k = 0; k < lines.length; k++) {
+            if (Math.abs(lines[k].y - item.y) <= 6) {
+              target = lines[k];
               break;
             }
           }
           if (!target) {
-            target = { y: item.y, items: [item] };
-            lines.push(target);
+            lines.push({ y: item.y, items: [item] });
           } else {
             target.items.push(item);
           }
         }
 
-        // Sort each line left-to-right by X and build full line string
-        for (const line of lines) {
-          line.items.sort((a, b) => a.x - b.x);
-          line.text = line.items.map(i => i.str).join(' ');
+        for (var m = 0; m < lines.length; m++) {
+          lines[m].items.sort(function (a, b) { return a.x - b.x; });
+          lines[m].text = lines[m].items.map(function (x) { return x.str; }).join(' ');
         }
-
         return lines;
       }
 
-      // Strictly parse Indian-formatted currency values while rejecting HSN codes, phone numbers, pin codes, dimensions & sq.ft
       function parseIndianCurrencyTokens(text) {
-        const results = [];
-        // Match Indian comma numbers (e.g. 4,11,213 / 1,56,962 / 94,794 / 9,300) OR standalone 4-7 digit integers
-        const tokenRe = /(?:₹|Rs\.?|INR)?\s*([0-9]{1,3}(?:,[0-9]{2,3})+(?:\.[0-9]{1,2})?|\b[0-9]{4,7}(?:\.[0-9]{1,2})?\b)/gi;
-        let m;
+        var results = [];
+        var tokenRe = /(?:₹|Rs\.?|INR)?\s*([0-9]{1,3}(?:,[0-9]{2,3})+(?:\.[0-9]{1,2})?|\b[0-9]{4,7}(?:\.[0-9]{1,2})?\b)/gi;
+        var m;
         while ((m = tokenRe.exec(text)) !== null) {
-          const raw = m[1];
-          const hasComma = raw.includes(',');
-          const numeric = parseFloat(raw.replace(/,/g, ''));
+          var raw = m[1];
+          var hasComma = raw.indexOf(',') !== -1;
+          var numeric = parseFloat(raw.replace(/,/g, ''));
           if (isNaN(numeric) || numeric < 500) continue;
 
-          const digitsOnly = raw.split('.')[0].replace(/,/g, '');
-          // Reject 8+ digit HSN codes (e.g. 85312000) & 10-digit phone numbers
+          var digitsOnly = raw.split('.')[0].replace(/,/g, '');
           if (!hasComma && digitsOnly.length >= 8) continue;
-          // Reject Indian 6-digit pin codes (e.g. 411041) when unformatted
           if (!hasComma && /^4[0-9]{5}$/.test(digitsOnly)) continue;
-          // Reject ISO 9001 or common calendar years
           if (!hasComma && (numeric === 9001 || (numeric >= 2015 && numeric <= 2035))) continue;
 
-          // Check surrounding context to reject dimensions (mm, ft, hz, nits, hrs, dots, watt, kg, vac)
-          const before = text.slice(Math.max(0, m.index - 12), m.index).toLowerCase();
-          const after = text.slice(m.index + m[0].length, m.index + m[0].length + 12).toLowerCase();
+          var before = text.slice(Math.max(0, m.index - 12), m.index).toLowerCase();
+          var after = text.slice(m.index + m[0].length, m.index + m[0].length + 12).toLowerCase();
           if (/^\s*(mm|cm|mtr|meter|ft|feet|hz|nits|hrs|hours|dots|watt|w\b|kg|vac|v\b|x\s*\d)/i.test(after)) continue;
           if (/(iso|hsn|pin|pune|nashik|tel|mob|contact|gstn|gem)\s*[:\-]?\s*$/i.test(before)) continue;
 
-          results.push({ raw, value: numeric, index: m.index });
+          results.push({ raw: raw, value: numeric, index: m.index });
         }
         return results;
       }
 
+      function parseVertaxisPage1(lines, fileName) {
+        var pageText = lines.map(function (l) { return l.text; }).join('\n');
+        var flat = pageText.replace(/\s+/g, ' ').trim();
+
+        // 1. Quotation No (supports /, -, _)
+        var quoteNo = '';
+        for (var i = 0; i < lines.length; i++) {
+          var ln = lines[i].text;
+          var seg = ln.match(/Quotation\s*No\.?\s*[:\-|]?\s*([A-Za-z0-9\s\-\/_]{3,45}?)(?=\s+Quotation\s*Date|\s+Date\b|\s+Dear\b|$)/i);
+          if (seg && seg[1]) {
+            var compacted = seg[1].trim().replace(/\s*([\/\-_])\s*/g, '$1');
+            var codeM = compacted.match(/^([A-Z]{1,5}[\/\-_][A-Z0-9\/\-_]{2,30}|[A-Z0-9][A-Z0-9\/\-_]{3,30})/i);
+            if (codeM) {
+              quoteNo = codeM[1].replace(/[|,\.]+$/, '').trim();
+              break;
+            }
+          }
+          if (/Quotation\s*No\.?\s*[:\-]?$/i.test(ln.trim()) && lines[i + 1]) {
+            var nextCode = lines[i + 1].text.trim().match(/^([A-Z]{1,5}[\/\-_][A-Z0-9\/\-_]{2,30})/i);
+            if (nextCode) {
+              quoteNo = nextCode[1].trim();
+              break;
+            }
+          }
+        }
+        if (!quoteNo) {
+          var anyVA = flat.match(/\b(VA[\/\-_][0-9]{2}[\/\-_][0-9]{2}[\/\-_][A-Z0-9_]{2,12})\b/i);
+          if (anyVA) quoteNo = anyVA[1];
+        }
+
+        // 2. Quotation Date
+        var dateIso = toIsoDate(new Date());
+        var dateM = flat.match(/(?:Quotation\s*Date|Date)\s*[:\-|]?\s*(\d{1,2})[\-\/\.](\d{1,2})[\-\/\.](\d{2,4})/i);
+        if (dateM) {
+          var dd = dateM[1].padStart(2, '0');
+          var mm = dateM[2].padStart(2, '0');
+          var yy = dateM[3].length === 2 ? ('20' + dateM[3]) : dateM[3];
+          dateIso = yy + '-' + mm + '-' + dd;
+        } else {
+          var fnIso = fileName.match(/(20\d{2})[\-\.](\d{2})[\-\.](\d{2})/);
+          var fnDmy = fileName.match(/(\d{2})[\-\.](\d{2})[\-\.](20\d{2})/);
+          if (fnIso) dateIso = fnIso[1] + '-' + fnIso[2] + '-' + fnIso[3];
+          else if (fnDmy) dateIso = fnDmy[3] + '-' + fnDmy[2] + '-' + fnDmy[1];
+        }
+
+        // 3. Client / Company Name after "To,"
+        var company = '';
+        var knownCities = /^(pune|nashik|mumbai|nagpur|thane|surat|ahmedabad|bengaluru|bangalore|hyderabad|delhi|kolhapur|satara|aurangabad|indore|maharashtra|india)\.?$/i;
+        for (var cIdx = 0; cIdx < lines.length; cIdx++) {
+          var cln = lines[cIdx].text;
+          if (/(?:^|\|\s*)[T\u03A4][o\u03BF]\s*,/i.test(cln)) {
+            var sameLine = cln
+              .replace(/^.*?[T\u03A4][o\u03BF]\s*,\s*/i, '')
+              .replace(/Quotation.*$/i, '')
+              .replace(/Kind\s*Attention.*$/i, '')
+              .replace(/^[|:\-\s]+|[|:\-\s]+$/g, '')
+              .trim();
+            if (sameLine && !knownCities.test(sameLine)) {
+              company = sameLine.replace(/\.$/, '').trim();
+            }
+            for (var j = cIdx + 1; j <= Math.min(cIdx + 4, lines.length - 1); j++) {
+              var leftText = lines[j].items
+                .filter(function (it) { return it.x < 330; })
+                .map(function (it) { return it.str; })
+                .join(' ')
+                .replace(/^[|:\-\s]+|[|:\-\s]+$/g, '')
+                .trim();
+              if (!leftText) continue;
+              if (/^(Kind\s*Attention|Quotation|Dear\b)/i.test(leftText)) break;
+              if (!company) {
+                company = leftText.replace(/\.$/, '').trim();
+              } else if (knownCities.test(leftText)) {
+                break;
+              }
+            }
+            break;
+          }
+        }
+        if (!company) {
+          company = fileName.replace(/\.pdf$/i, '').split('_')[0].replace(/\s+/g, ' ').trim();
+        }
+
+        // 4. Contact Person
+        var contact = '';
+        var contactM = flat.match(/Kind\s*Attention\s*[:\-]?\s*([A-Za-z.\s]{2,50}?)(?=\s+Quotation|\s+Date\b|\s+Dear\b|\s+VA[\/\-_]|$)/i);
+        if (contactM && contactM[1]) {
+          contact = contactM[1].replace(/[|]+/g, '').trim();
+        }
+
+        // 5. Product / Deal Title
+        var pitchM = flat.match(/(?:Pitch\s*|\bP)([0-9]+(?:\.[0-9]+)?)(?=\s|\b|mm)/i);
+        var typeM = flat.match(/\b(Outdoor|Indoor)\b/i);
+        var sizeFtM = flat.match(/(\d+(?:\.\d+)?\s*(?:Feet|Ft\.?)\s*[xX\u00D7]\s*\d+(?:\.\d+)?\s*(?:Feet|Ft\.?))/i);
+        var sizeMmM = flat.match(/(\d{3,5}\s*mm(?:\s*\(L\))?\s*[xX\u00D7]\s*\d{3,5}\s*mm(?:\s*\(H\))?)/i);
+
+        var titleParts = [];
+        if (pitchM) titleParts.push('Pitch ' + pitchM[1]);
+        titleParts.push(typeM ? (typeM[1] + ' LED Display') : 'LED Display');
+        if (sizeFtM) titleParts.push('(' + sizeFtM[1].replace(/\s+/g, ' ') + ')');
+        else if (sizeMmM) titleParts.push('(' + sizeMmM[1].replace(/\s+/g, ' ') + ')');
+        var title = titleParts.join(' ');
+
+        // Locate pricing table boundaries on Page 1
+        var headerIdx = -1;
+        var footerIdx = lines.length;
+        for (var r = 0; r < lines.length; r++) {
+          var rt = lines[r].text;
+          if (headerIdx === -1 && (/DESCRIPTION\s+FOR/i.test(rt) || (/\bSR\.?/i.test(rt) && /(AMOUNT|TOTAL|RATE|UNIT\s*PRICE)/i.test(rt)))) {
+            headerIdx = r;
+          }
+          if (headerIdx !== -1 && r > headerIdx && /(WHY\s+CHOOSE|VERTAXIS\s+FUTURETECH|TERMS\s*&\s*CONDITIONS|GSTN\s*:|E-?mail\s*:)/i.test(rt)) {
+            footerIdx = r;
+            break;
+          }
+        }
+
+        var tableLines = lines.slice(headerIdx !== -1 ? headerIdx : 0, footerIdx);
+        var maxPageX = 500;
+        for (var l = 0; l < lines.length; l++) {
+          for (var itx = 0; itx < lines[l].items.length; itx++) {
+            var rightEdge = lines[l].items[itx].x + lines[l].items[itx].w;
+            if (rightEdge > maxPageX) maxPageX = rightEdge;
+          }
+        }
+
+        // --- TIER 1: Bottom-Up Grand Total Match ---
+        var headerExcludeRe = /(DESCRIPTION|HSN|SQ\.?\s*FT|PER\s*SQ|UNIT\s*PRICE|UNIT\s*QTY)/i;
+        for (var t1 = tableLines.length - 1; t1 >= 0; t1--) {
+          var tLine = tableLines[t1];
+          if (headerExcludeRe.test(tLine.text)) continue;
+
+          if (/\b(GRAND\s*TOTAL|NET\s*TOTAL|TOTAL\s*AMOUNT|TOTAL)\b/i.test(tLine.text)) {
+            var tokens = parseIndianCurrencyTokens(tLine.text);
+            if (tokens.length > 0 && tokens[tokens.length - 1].value >= 1000) {
+              var gVal = tokens[tokens.length - 1].value;
+              return {
+                quoteNo: quoteNo, dateIso: dateIso, company: company, contact: contact, title: title,
+                tier: 'grand', badgeText: 'Grand Total Matched',
+                items: [{ label: 'Grand Total (Extracted from Quote)', amount: gVal, checked: true }],
+                totalInr: gVal
+              };
+            }
+            if (t1 + 1 < tableLines.length && Math.abs(tLine.y - tableLines[t1 + 1].y) <= 24) {
+              var nextTokens = parseIndianCurrencyTokens(tableLines[t1 + 1].text);
+              if (nextTokens.length > 0 && nextTokens[nextTokens.length - 1].value >= 1000) {
+                var gValNext = nextTokens[nextTokens.length - 1].value;
+                return {
+                  quoteNo: quoteNo, dateIso: dateIso, company: company, contact: contact, title: title,
+                  tier: 'grand', badgeText: 'Grand Total Matched',
+                  items: [{ label: 'Grand Total (Extracted from Quote)', amount: gValNext, checked: true }],
+                  totalInr: gValNext
+                };
+              }
+            }
+          }
+        }
+
+        // --- TIER 2: Rightmost Column Coordinate Sum ---
+        var totalColX = null;
+        var rateColX = null;
+        var headerWindow = tableLines.slice(0, Math.min(3, tableLines.length));
+        for (var hw = 0; hw < headerWindow.length; hw++) {
+          for (var hi = 0; hi < headerWindow[hw].items.length; hi++) {
+            var hItem = headerWindow[hw].items[hi];
+            if (/(AMOUNT|TOTAL)/i.test(hItem.str) && !/SQ/i.test(hItem.str)) {
+              if (totalColX === null || hItem.x > totalColX) totalColX = hItem.x;
+            }
+            if (/(RATE|PER\s*SQ|UNIT\s*PRICE)/i.test(hItem.str)) {
+              if (rateColX === null || hItem.x > rateColX) rateColX = hItem.x;
+            }
+          }
+        }
+
+        var minTotalX;
+        if (totalColX !== null && rateColX !== null && totalColX > rateColX + 15) {
+          minTotalX = (rateColX + totalColX) / 2;
+        } else if (totalColX !== null) {
+          minTotalX = totalColX - 28;
+        } else {
+          minTotalX = maxPageX * 0.70;
+        }
+
+        var extractedItems = [];
+        var scopeSkipRe = /(in\s+your\s+scope|user'?s\s+scope|need\s+to\s+be\s+discuss|extra\s+at\s+actual)/i;
+        var bodyStart = headerIdx !== -1 ? 1 : 0;
+
+        function getLeftDesc(lineObj) {
+          if (!lineObj) return '';
+          return lineObj.items
+            .filter(function (it) { return it.x < minTotalX - 20; })
+            .map(function (it) { return it.str; })
+            .join(' ')
+            .replace(/\b85\d{6}\b/g, '')
+            .replace(/^\d+\s*[\.\)]?\s*/, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
+
+        for (var b = bodyStart; b < tableLines.length; b++) {
+          var bln = tableLines[b];
+          if (headerExcludeRe.test(bln.text) || scopeSkipRe.test(bln.text)) continue;
+
+          var rightItems = bln.items.filter(function (it) { return (it.x + it.w / 2) >= minTotalX; });
+          if (rightItems.length === 0) continue;
+
+          var rightText = rightItems.map(function (it) { return it.str; }).join(' ');
+          var rightTokens = parseIndianCurrencyTokens(rightText);
+          if (rightTokens.length === 0) continue;
+
+          var chosen = rightTokens[rightTokens.length - 1];
+          if (chosen.value < 500) continue;
+
+          var desc = getLeftDesc(bln);
+          if (desc.length < 4 && b > bodyStart) desc = getLeftDesc(tableLines[b - 1]);
+          if (desc.length < 4 && b + 1 < tableLines.length) desc = getLeftDesc(tableLines[b + 1]);
+          if (!desc) desc = 'Line Item ' + (extractedItems.length + 1);
+
+          var prevText = b > bodyStart ? tableLines[b - 1].text : '';
+          if (!/Option\s*\d/i.test(desc) && /Option\s*\d/i.test(prevText) && Math.abs(bln.y - tableLines[b - 1].y) <= 18) {
+            var optTag = prevText.match(/(Option\s*\d[^|]{0,45})/i);
+            if (optTag) desc = optTag[1].trim() + ' — ' + desc;
+          }
+
+          extractedItems.push({ label: desc.slice(0, 72), amount: chosen.value, checked: true });
+        }
+
+        // --- TIER 3: Smart Option Detector ---
+        if (extractedItems.length > 0) {
+          var optionNums = {};
+          var optCount = 0;
+          for (var eIdx = 0; eIdx < extractedItems.length; eIdx++) {
+            var om = extractedItems[eIdx].label.match(/\bOption\s*([1-9])\b/i);
+            if (om && !optionNums[om[1]]) {
+              optionNums[om[1]] = true;
+              optCount++;
+            }
+          }
+
+          var hasOptions = Boolean(optionNums['1'] && (optionNums['2'] || optCount >= 2));
+          if (hasOptions) {
+            for (var oIdx = 0; oIdx < extractedItems.length; oIdx++) {
+              var om2 = extractedItems[oIdx].label.match(/\bOption\s*([1-9])\b/i);
+              if (om2 && parseInt(om2[1], 10) >= 2) {
+                extractedItems[oIdx].checked = false;
+              }
+            }
+          }
+
+          var initialSum = extractedItems
+            .filter(function (it) { return it.checked; })
+            .reduce(function (s, it) { return s + it.amount; }, 0);
+
+          return {
+            quoteNo: quoteNo, dateIso: dateIso, company: company, contact: contact, title: title,
+            tier: hasOptions ? 'options' : 'sum',
+            badgeText: hasOptions ? 'Options Detected — Select Below' : 'Smart Column Sum',
+            items: extractedItems,
+            totalInr: initialSum
+          };
+        }
+
+        return {
+          quoteNo: quoteNo, dateIso: dateIso, company: company, contact: contact, title: title,
+          tier: 'manual', badgeText: 'No Price Detected — Enter Manually',
+          items: [], totalInr: 0
+        };
+      }
+
       async function handlePdfFileSelected(event) {
-        const file = event.target.files && event.target.files[0];
+        var file = event.target.files && event.target.files[0];
         if (!file) return;
 
         showToast('Analyzing Page 1 of quotation PDF...');
         try {
-          const pdfjsLib = await loadPdfJs();
-          const arrayBuffer = await file.arrayBuffer();
-          const pdf = await pdfjsLib.getDocument({
-            data: arrayBuffer,
-            isEvalSupported: false
-          }).promise;
-
-          // Scan ONLY Page 1 so spec-sheet numbers on pages 3-4 never pollute pricing math
-          const page1 = await pdf.getPage(1);
-          const content = await page1.getTextContent();
-          const lines = buildVisualLines(content.items || []);
-
-          const parsed = parseVertaxisPage1(lines, file.name);
+          var pdfjsLib = await loadPdfJs();
+          var arrayBuffer = await file.arrayBuffer();
+          var pdf = await pdfjsLib.getDocument({ data: arrayBuffer, isEvalSupported: false }).promise;
+          var page1 = await pdf.getPage(1);
+          var content = await page1.getTextContent();
+          var lines = buildVisualLines(content.items || []);
+          var parsed = parseVertaxisPage1(lines, file.name);
           populateQuoteModal(parsed, file.name);
           openModal('quoteImportModal');
         } catch (err) {
           console.error('PDF parse error:', err);
-          showToast('Could not parse PDF — fill fields manually');
+          showToast('Could not auto-parse PDF — enter details manually');
           populateQuoteModal({
             quoteNo: '',
             dateIso: toIsoDate(new Date()),
@@ -3033,354 +3814,42 @@
         }
       }
 
-      function parseVertaxisPage1(lines, fileName) {
-        const pageText = lines.map(l => l.text).join('\n');
-        const flat = pageText.replace(/\s+/g, ' ').trim();
-
-        // ------------------------------------------
-        // A. METADATA EXTRACTION
-        // ------------------------------------------
-
-        // 1. Quotation No (supports /, -, _ e.g. VA-26-27-2135, VA/26-27/0434, VA/26_27/0422_C)
-        let quoteNo = '';
-        for (let i = 0; i < lines.length; i++) {
-          const ln = lines[i].text;
-          const seg = ln.match(/Quotation\s*No\.?\s*[:\-|]?\s*([A-Za-z0-9\s\-\/_]{3,45}?)(?=\s+Quotation\s*Date|\s+Date\b|\s+Dear\b|$)/i);
-          if (seg && seg[1]) {
-            const compacted = seg[1].trim().replace(/\s*([\/\-_])\s*/g, '$1');
-            const codeM = compacted.match(/^([A-Z]{1,5}[\/\-_][A-Z0-9\/\-_]{2,30}|[A-Z0-9][A-Z0-9\/\-_]{3,30})/i);
-            if (codeM) {
-              quoteNo = codeM[1].replace(/[|,\.]+$/, '').trim();
-              break;
-            }
-          }
-          // Handle case where Quotation No label is on one line and VA/... is on the next
-          if (/Quotation\s*No\.?\s*[:\-]?$/i.test(ln.trim()) && lines[i + 1]) {
-            const nextCode = lines[i + 1].text.trim().match(/^([A-Z]{1,5}[\/\-_][A-Z0-9\/\-_]{2,30})/i);
-            if (nextCode) {
-              quoteNo = nextCode[1].trim();
-              break;
-            }
-          }
-        }
-        if (!quoteNo) {
-          const anyVA = flat.match(/\b(VA[\/\-_][0-9]{2}[\/\-_][0-9]{2}[\/\-_][A-Z0-9_]{2,12})\b/i);
-          if (anyVA) quoteNo = anyVA[1];
-          else {
-            const fnCode = fileName.match(/(?:_|-)(\d{3,5}(?:_[A-Z])?)(?:_|-|\.)/i);
-            if (fnCode) quoteNo = fnCode[1];
-          }
-        }
-
-        // 2. Quotation Date (DD-MM-YYYY, DD/MM/YYYY, or DD.MM.YYYY -> YYYY-MM-DD)
-        let dateIso = toIsoDate(new Date());
-        const dateM = flat.match(/(?:Quotation\s*Date|Date)\s*[:\-|]?\s*(\d{1,2})[\-\/\.](\d{1,2})[\-\/\.](\d{2,4})/i);
-        if (dateM) {
-          const dd = dateM[1].padStart(2, '0');
-          const mm = dateM[2].padStart(2, '0');
-          const yy = dateM[3].length === 2 ? `20${dateM[3]}` : dateM[3];
-          dateIso = `${yy}-${mm}-${dd}`;
-        } else {
-          const fnIso = fileName.match(/(20\d{2})[\-\.](\d{2})[\-\.](\d{2})/);
-          const fnDmy = fileName.match(/(\d{2})[\-\.](\d{2})[\-\.](20\d{2})/);
-          if (fnIso) dateIso = `${fnIso[1]}-${fnIso[2]}-${fnIso[3]}`;
-          else if (fnDmy) dateIso = `${fnDmy[3]}-${fnDmy[2]}-${fnDmy[1]}`;
-        }
-
-        // 3. Client / Company Name immediately after "To," (or Greek "Το,")
-        let company = '';
-        const knownCities = /^(pune|nashik|mumbai|nagpur|thane|surat|ahmedabad|bengaluru|bangalore|hyderabad|delhi|kolhapur|satara|aurangabad|indore|maharashtra|india)\.?$/i;
-        for (let i = 0; i < lines.length; i++) {
-          const ln = lines[i].text;
-          if (/(?:^|\|\s*)[TΤ][oο]\s*,/i.test(ln)) {
-            // Check if company name is on the same line after "To,"
-            const sameLine = ln.replace(/^.*?[TΤ][oο]\s*,\s*/i, '').replace(/Quotation.*$/i, '').replace(/Kind\s*Attention.*$/i, '').replace(/^[|:\-\s]+|[|:\-\s]+$/g, '').trim();
-            if (sameLine && !knownCities.test(sameLine)) {
-              company = sameLine;
-            }
-            // Otherwise inspect the next 1-3 lines
-            for (let j = i + 1; j <= Math.min(i + 4, lines.length - 1); j++) {
-              // Take only left-column items (avoid right-column "Quotation No" box on same Y)
-              const leftText = lines[j].items
-                .filter(it => it.x < 330)
-                .map(it => it.str)
-                .join(' ')
-                .replace(/^[|:\-\s]+|[|:\-\s]+$/g, '')
-                .trim();
-              if (!leftText) continue;
-              if (/^(Kind\s*Attention|Quotation|Dear\b)/i.test(leftText)) break;
-              if (!company) {
-                company = leftText.replace(/\.$/, '').trim();
-              } else {
-                // Stop if this next line is just a city name
-                if (knownCities.test(leftText)) break;
-              }
-            }
-            break;
-          }
-        }
-        if (!company) {
-          company = fileName.replace(/\.pdf$/i, '').split('_')[0].replace(/\s+/g, ' ').trim();
-        }
-
-        // 4. Contact Person after "Kind Attention:"
-        let contact = '';
-        const contactM = flat.match(/Kind\s*Attention\s*[:\-]?\s*([A-Za-z.\s]{2,50}?)(?=\s+Quotation|\s+Date\b|\s+Dear\b|\s+VA[\/\-_]|$)/i);
-        if (contactM && contactM[1]) {
-          contact = contactM[1].replace(/[|]+/g, '').trim();
-        }
-
-        // 5. Product / Deal Title (Pitch + Indoor/Outdoor + Size)
-        const pitchM = flat.match(/(?:Pitch\s*|\bP)([0-9]+(?:\.[0-9]+)?)(?=\s|\b|mm)/i);
-        const typeM = flat.match(/\b(Outdoor|Indoor)\b/i);
-        const sizeFtM = flat.match(/(\d+(?:\.\d+)?\s*(?:Feet|Ft\.?)\s*[xX×]\s*\d+(?:\.\d+)?\s*(?:Feet|Ft\.?))/i);
-        const sizeMmM = flat.match(/(\d{3,5}\s*mm(?:\s*\(L\))?\s*[xX×]\s*\d{3,5}\s*mm(?:\s*\(H\))?)/i);
-
-        const titleParts = [];
-        if (pitchM) titleParts.push(`Pitch ${pitchM[1]}`);
-        if (typeM) titleParts.push(`${typeM[1]} LED Display`);
-        else titleParts.push('LED Display');
-        if (sizeFtM) titleParts.push(`(${sizeFtM[1].replace(/\s+/g, ' ')})`);
-        else if (sizeMmM) titleParts.push(`(${sizeMmM[1].replace(/\s+/g, ' ')})`);
-        const title = titleParts.join(' ');
-
-        // ------------------------------------------
-        // B. SMART 3-TIER AMOUNT EXTRACTION ENGINE
-        // ------------------------------------------
-
-        // Locate pricing table boundaries on Page 1
-        let headerIdx = -1;
-        let footerIdx = lines.length;
-        for (let i = 0; i < lines.length; i++) {
-          const t = lines[i].text;
-          if (headerIdx === -1 && (/DESCRIPTION\s+FOR/i.test(t) || (/\bSR\.?/i.test(t) && /(AMOUNT|TOTAL|RATE|UNIT\s*PRICE)/i.test(t)))) {
-            headerIdx = i;
-          }
-          if (headerIdx !== -1 && i > headerIdx && /(WHY\s+CHOOSE|VERTAXIS\s+FUTURETECH|TERMS\s*&\s*CONDITIONS|GSTN\s*:|E-?mail\s*:)/i.test(t)) {
-            footerIdx = i;
-            break;
-          }
-        }
-
-        // Fallback boundaries if header wasn't explicitly matched
-        const scanStart = headerIdx !== -1 ? headerIdx : 0;
-        const scanEnd = footerIdx;
-        const tableLines = lines.slice(scanStart, scanEnd);
-
-        // Compute page max X for column geometry
-        let maxPageX = 500;
-        for (const l of lines) {
-          for (const it of l.items) {
-            if (it.x + it.w > maxPageX) maxPageX = it.x + it.w;
-          }
-        }
-
-        // --- TIER 1: Bottom-Up Grand Total Match ---
-        const headerExcludeRe = /(DESCRIPTION|HSN|SQ\.?\s*FT|PER\s*SQ|UNIT\s*PRICE|UNIT\s*QTY)/i;
-        for (let i = tableLines.length - 1; i >= 0; i--) {
-          const ln = tableLines[i];
-          if (headerExcludeRe.test(ln.text)) continue;
-
-          if (/\b(GRAND\s*TOTAL|NET\s*TOTAL|TOTAL\s*AMOUNT|TOTAL)\b/i.test(ln.text)) {
-            // Check currency tokens on this exact line
-            const tokens = parseIndianCurrencyTokens(ln.text);
-            if (tokens.length > 0) {
-              const grandVal = tokens[tokens.length - 1].value;
-              if (grandVal >= 1000) {
-                return {
-                  quoteNo, dateIso, company, contact, title,
-                  tier: 'grand',
-                  badgeText: 'Grand Total Matched',
-                  items: [{ label: 'Grand Total (Extracted from Quote)', amount: grandVal, checked: true }],
-                  totalInr: grandVal
-                };
-              }
-            }
-            // Also check immediately below if TOTAL label and its value are stacked on adjacent lines
-            if (i + 1 < tableLines.length && Math.abs(ln.y - tableLines[i + 1].y) <= 24) {
-              const nextTokens = parseIndianCurrencyTokens(tableLines[i + 1].text);
-              if (nextTokens.length > 0) {
-                const grandVal = nextTokens[nextTokens.length - 1].value;
-                if (grandVal >= 1000) {
-                  return {
-                    quoteNo, dateIso, company, contact, title,
-                    tier: 'grand',
-                    badgeText: 'Grand Total Matched',
-                    items: [{ label: 'Grand Total (Extracted from Quote)', amount: grandVal, checked: true }],
-                    totalInr: grandVal
-                  };
-                }
-              }
-            }
-          }
-        }
-
-        // --- TIER 2: Rightmost Column Coordinate Sum ---
-        // Detect Total Amount column X and Per Sq Ft Rate column X from header (checking header line + wrapped line below)
-        let totalColX = null;
-        let rateColX = null;
-        const headerWindow = tableLines.slice(0, Math.min(3, tableLines.length));
-        for (const hLine of headerWindow) {
-          for (const it of hLine.items) {
-            if (/(AMOUNT|TOTAL)/i.test(it.str) && !/SQ/i.test(it.str)) {
-              if (totalColX === null || it.x > totalColX) totalColX = it.x;
-            }
-            if (/(RATE|PER\s*SQ|UNIT\s*PRICE)/i.test(it.str)) {
-              if (rateColX === null || it.x > rateColX) rateColX = it.x;
-            }
-          }
-        }
-
-        let minTotalX;
-        if (totalColX !== null && rateColX !== null && totalColX > rateColX + 15) {
-          minTotalX = (rateColX + totalColX) / 2;
-        } else if (totalColX !== null) {
-          minTotalX = totalColX - 28;
-        } else {
-          minTotalX = maxPageX * 0.70;
-        }
-
-        const extractedItems = [];
-        const scopeSkipRe = /(in\s+your\s+scope|user'?s\s+scope|need\s+to\s+be\s+discuss|extra\s+at\s+actual)/i;
-        const bodyStart = headerIdx !== -1 ? 1 : 0;
-
-        for (let i = bodyStart; i < tableLines.length; i++) {
-          const ln = tableLines[i];
-          if (headerExcludeRe.test(ln.text)) continue;
-          if (scopeSkipRe.test(ln.text)) continue;
-
-          // Pull only tokens positioned in the rightmost Total Amount column
-          const rightItems = ln.items.filter(it => (it.x + it.w / 2) >= minTotalX);
-          if (rightItems.length === 0) continue;
-
-          const rightText = rightItems.map(it => it.str).join(' ');
-          const rightTokens = parseIndianCurrencyTokens(rightText);
-          if (rightTokens.length === 0) continue;
-
-          // If both Rate and Total Amount landed in the same merged right cell (e.g. "4,450  1,56,962"), pick the rightmost value
-          const chosen = rightTokens[rightTokens.length - 1];
-          if (chosen.value < 500) continue;
-
-          // Build clean row description from the left side of this line (or neighboring line if blank/serial only)
-          const getLeftDesc = (lineObj) => {
-            if (!lineObj) return '';
-            return lineObj.items
-              .filter(it => it.x < minTotalX - 20)
-              .map(it => it.str)
-              .join(' ')
-              .replace(/\b85\d{6}\b/g, '') // strip HSN code
-              .replace(/^\d+\s*[\.\)]?\s*/, '') // strip leading Sr No
-              .replace(/\b\d+(?:\.\d+)?\s*(?:4,\d{3}|[0-9]{1,2}\.\d{2})\b/g, '')
-              .replace(/\s+/g, ' ')
-              .trim();
-          };
-
-          let desc = getLeftDesc(ln);
-          if (desc.length < 4 && i > bodyStart) {
-            desc = getLeftDesc(tableLines[i - 1]);
-          }
-          if (desc.length < 4 && i + 1 < tableLines.length) {
-            desc = getLeftDesc(tableLines[i + 1]);
-          }
-          if (!desc) desc = `Line Item ${extractedItems.length + 1}`;
-
-          // Check if adjacent line has an "Option 1 / Option 2" tag for this amount
-          const prevText = i > bodyStart ? tableLines[i - 1].text : '';
-          if (!/Option\s*\d/i.test(desc) && /Option\s*\d/i.test(prevText) && Math.abs(ln.y - tableLines[i - 1].y) <= 18) {
-            const optTag = prevText.match(/(Option\s*\d[^|]{0,45})/i);
-            if (optTag) desc = `${optTag[1].trim()} — ${desc}`;
-          }
-
-          extractedItems.push({
-            label: desc.slice(0, 72),
-            amount: chosen.value,
-            checked: true
-          });
-        }
-
-        // --- TIER 3: Smart Option Detector ---
-        if (extractedItems.length > 0) {
-          const optionNumbers = new Set();
-          extractedItems.forEach(item => {
-            const om = item.label.match(/\bOption\s*([1-9])\b/i);
-            if (om) optionNumbers.add(parseInt(om[1], 10));
-          });
-
-          const hasMutuallyExclusiveOptions = optionNumbers.has(1) && (optionNumbers.has(2) || optionNumbers.size >= 2);
-          if (hasMutuallyExclusiveOptions) {
-            extractedItems.forEach(item => {
-              const om = item.label.match(/\bOption\s*([1-9])\b/i);
-              if (om && parseInt(om[1], 10) >= 2) {
-                item.checked = false;
-              }
-            });
-          }
-
-          const initialSum = extractedItems
-            .filter(it => it.checked)
-            .reduce((s, it) => s + it.amount, 0);
-
-          return {
-            quoteNo, dateIso, company, contact, title,
-            tier: hasMutuallyExclusiveOptions ? 'options' : 'sum',
-            badgeText: hasMutuallyExclusiveOptions ? 'Options Detected — Select Below' : 'Smart Column Sum',
-            items: extractedItems,
-            totalInr: initialSum
-          };
-        }
-
-        // Fallback if no amounts could be detected
-        return {
-          quoteNo, dateIso, company, contact, title,
-          tier: 'manual',
-          badgeText: 'No Price Detected — Enter Manually',
-          items: [],
-          totalInr: 0
-        };
-      }
-
       function renderQuoteBreakdown(tier, badgeText) {
-        const badgeEl = document.getElementById('qiTierBadge');
-        const listEl = document.getElementById('qiBreakdownList');
-
-        const badgeClassMap = {
-          grand: 'badge-grand',
-          sum: 'badge-sum',
-          options: 'badge-options',
-          manual: 'badge-manual'
-        };
-        badgeEl.className = 'breakdown-badge ' + (badgeClassMap[tier] || 'badge-manual');
+        var badgeEl = document.getElementById('qiTierBadge');
+        var listEl = document.getElementById('qiBreakdownList');
+        var clsMap = { grand: 'badge-grand', sum: 'badge-sum', options: 'badge-options', manual: 'badge-manual' };
+        badgeEl.className = 'breakdown-badge ' + (clsMap[tier] || 'badge-manual');
         badgeEl.textContent = badgeText;
 
         if (!extractedQuoteItems || extractedQuoteItems.length === 0) {
-          listEl.innerHTML = `<div class="text-muted" style="padding:4px 2px;">Enter the Base Total (₹ INR) manually below.</div>`;
+          listEl.innerHTML = '<div class="text-muted" style="padding:4px 2px;">Enter the Base Amount (₹ INR) manually below.</div>';
           return;
         }
 
-        listEl.innerHTML = extractedQuoteItems.map((item, idx) => `
-          <label class="breakdown-item">
-            <span class="breakdown-item-left">
-              <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleQuoteBreakdownItem(${idx}, this.checked)" />
-              <span class="breakdown-item-desc" title="${escapeHTML(item.label)}">${escapeHTML(item.label)}</span>
-            </span>
-            <span class="breakdown-item-amt">${formatINR(item.amount)}</span>
-          </label>
-        `).join('');
+        listEl.innerHTML = extractedQuoteItems.map(function (item, idx) {
+          return '<label class="breakdown-item">' +
+            '<span class="breakdown-item-left">' +
+              '<input type="checkbox"' + (item.checked ? ' checked' : '') + ' onchange="toggleQuoteBreakdownItem(' + idx + ', this.checked)" />' +
+              '<span class="breakdown-item-desc" title="' + escapeHTML(item.label) + '">' + escapeHTML(item.label) + '</span>' +
+            '</span>' +
+            '<span class="breakdown-item-amt">' + formatINR(item.amount) + '</span>' +
+          '</label>';
+        }).join('');
       }
 
       function toggleQuoteBreakdownItem(idx, isChecked) {
         if (!extractedQuoteItems[idx]) return;
         extractedQuoteItems[idx].checked = Boolean(isChecked);
-        const sum = extractedQuoteItems
-          .filter(it => it.checked)
-          .reduce((acc, it) => acc + (Number(it.amount) || 0), 0);
+        var sum = extractedQuoteItems
+          .filter(function (it) { return it.checked; })
+          .reduce(function (acc, it) { return acc + (Number(it.amount) || 0); }, 0);
         document.getElementById('qiBaseInr').value = Math.round(sum);
         recalcQuoteLakhs();
       }
 
       function populateQuoteModal(parsed, fileName) {
         extractedQuoteItems = Array.isArray(parsed.items) ? parsed.items : [];
-        document.getElementById('qiFileLabel').textContent = `File: ${fileName}`;
+        document.getElementById('qiFileLabel').textContent = 'File: ' + fileName;
         document.getElementById('qiCompany').value = parsed.company;
         document.getElementById('qiContact').value = parsed.contact;
         document.getElementById('qiQuoteNo').value = parsed.quoteNo;
@@ -3391,39 +3860,39 @@
         document.getElementById('qiIncludeGst').checked = false;
         document.getElementById('qiAutoFollowup').checked = true;
         document.getElementById('qiFollowupTask').value =
-          `Follow up quotation${parsed.quoteNo ? ' ' + parsed.quoteNo : ''} for ${parsed.title}`;
+          'Follow up quotation' + (parsed.quoteNo ? ' ' + parsed.quoteNo : '') + ' for ' + parsed.title;
 
         renderQuoteBreakdown(parsed.tier || 'manual', parsed.badgeText || 'Manual Entry');
         recalcQuoteLakhs();
       }
 
       function recalcQuoteLakhs() {
-        const base = parseFloat(document.getElementById('qiBaseInr').value) || 0;
-        const includeGst = document.getElementById('qiIncludeGst').checked;
-        const finalInr = includeGst ? base * 1.18 : base;
+        var base = parseFloat(document.getElementById('qiBaseInr').value) || 0;
+        var includeGst = document.getElementById('qiIncludeGst').checked;
+        var finalInr = includeGst ? base * 1.18 : base;
         document.getElementById('qiValueLakhs').value = (finalInr / 100000).toFixed(2);
       }
 
       function confirmQuoteImport(e) {
         e.preventDefault();
-        const company = document.getElementById('qiCompany').value.trim();
-        const contact = document.getElementById('qiContact').value.trim() || 'Primary Contact';
-        const quoteNo = document.getElementById('qiQuoteNo').value.trim();
-        const date = document.getElementById('qiDate').value || toIsoDate(new Date());
-        const title = document.getElementById('qiTitle').value.trim();
-        const stage = document.getElementById('qiStage').value || 'Quotation Sent';
-        const value = parseFloat(document.getElementById('qiValueLakhs').value) || 0;
-        const autoFu = document.getElementById('qiAutoFollowup').checked;
-        const fuTask = document.getElementById('qiFollowupTask').value.trim();
+        var company = document.getElementById('qiCompany').value.trim();
+        var contact = document.getElementById('qiContact').value.trim() || 'Primary Contact';
+        var quoteNo = document.getElementById('qiQuoteNo').value.trim();
+        var date = document.getElementById('qiDate').value || toIsoDate(new Date());
+        var title = document.getElementById('qiTitle').value.trim();
+        var stage = document.getElementById('qiStage').value || 'Quotation Sent';
+        var value = parseFloat(document.getElementById('qiValueLakhs').value) || 0;
+        var autoFu = document.getElementById('qiAutoFollowup').checked;
+        var fuTask = document.getElementById('qiFollowupTask').value.trim();
 
         if (!company) return;
 
-        const existingCompany = state.companies.find(c => c.name.toLowerCase() === company.toLowerCase());
+        var existingCompany = state.companies.find(function (c) { return c.name.toLowerCase() === company.toLowerCase(); });
         if (!existingCompany) {
           state.companies.unshift({
             id: 'c_' + Date.now(),
             name: company,
-            contact,
+            contact: contact,
             industry: 'LED Display Client'
           });
         } else if (contact && contact !== 'Primary Contact' && existingCompany.contact === 'Primary Contact') {
@@ -3432,20 +3901,20 @@
 
         state.opportunities.unshift({
           id: 'o_' + Date.now(),
-          company,
-          title,
-          quoteNo,
+          company: company,
+          title: title,
+          quoteNo: quoteNo,
           value: Number(value.toFixed(2)),
-          stage,
-          date
+          stage: stage,
+          date: date
         });
 
         if (autoFu && fuTask) {
-          const due = new Date();
+          var due = new Date();
           due.setDate(due.getDate() + 3);
           state.followUps.unshift({
             id: 'f_' + Date.now(),
-            company,
+            company: company,
             task: fuTask,
             priority: 'High',
             dueDate: toIsoDate(due),
@@ -3459,33 +3928,27 @@
         showToast('Quotation imported & synced!');
       }
 
-      window.triggerPdfUpload = triggerPdfUpload;
-      window.handlePdfFileSelected = handlePdfFileSelected;
-      window.toggleQuoteBreakdownItem = toggleQuoteBreakdownItem;
-      window.recalcQuoteLakhs = recalcQuoteLakhs;
-      window.confirmQuoteImport = confirmQuoteImport;
-
       // ==========================================
-      // 11. BACKUP, EXPORT & RESET
+      // 10. BACKUP, EXPORT & RESET
       // ==========================================
       function exportDataJSON() {
-        const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
         a.href = url;
-        a.download = `vertaxis_backup_${toIsoDate(new Date())}.json`;
+        a.download = 'vertaxis_backup_' + toIsoDate(new Date()) + '.json';
         a.click();
         URL.revokeObjectURL(url);
         showToast('JSON backup downloaded');
       }
 
       function importDataJSON(event) {
-        const file = event.target.files && event.target.files[0];
+        var file = event.target.files && event.target.files[0];
         if (!file) return;
-        const reader = new FileReader();
+        var reader = new FileReader();
         reader.onload = function (ev) {
           try {
-            const parsed = JSON.parse(ev.target.result);
+            var parsed = JSON.parse(ev.target.result);
             state = normalizeState(parsed);
             renderAll();
             saveToSupabase(false);
@@ -3499,22 +3962,24 @@
       }
 
       function exportOpportunitiesCSV() {
-        const list = getFilteredOpportunities();
-        const headers = ['Company', 'Deal Title', 'Quotation No', 'Date', 'Value (Lakhs)', 'Stage'];
-        const rows = list.map(o => [
-          `"${o.company.replace(/"/g, '""')}"`,
-          `"${o.title.replace(/"/g, '""')}"`,
-          `"${(o.quoteNo || '').replace(/"/g, '""')}"`,
-          `"${o.date}"`,
-          o.value,
-          `"${o.stage}"`
-        ]);
-        const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        var list = getFilteredOpportunities();
+        var headers = ['Company', 'Deal Title', 'Quotation No', 'Date', 'Value (Lakhs)', 'Stage'];
+        var rows = list.map(function (o) {
+          return [
+            '"' + o.company.replace(/"/g, '""') + '"',
+            '"' + o.title.replace(/"/g, '""') + '"',
+            '"' + (o.quoteNo || '').replace(/"/g, '""') + '"',
+            '"' + o.date + '"',
+            o.value,
+            '"' + o.stage + '"'
+          ];
+        });
+        var csv = [headers.join(',')].concat(rows.map(function (r) { return r.join(','); })).join('\n');
+        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
         a.href = url;
-        a.download = `vertaxis_opportunities_${toIsoDate(new Date())}.csv`;
+        a.download = 'vertaxis_opportunities_' + toIsoDate(new Date()) + '.csv';
         a.click();
         URL.revokeObjectURL(url);
         showToast('CSV exported');
@@ -3525,21 +3990,16 @@
         closeModal('clearConfirmModal');
         renderAll();
         saveToSupabase(false);
-        showToast('All data cleared to zero');
+        showToast('All data reset to zero');
       }
 
-      window.exportDataJSON = exportDataJSON;
-      window.importDataJSON = importDataJSON;
-      window.exportOpportunitiesCSV = exportOpportunitiesCSV;
-      window.confirmClearAllData = confirmClearAllData;
-
       // ==========================================
-      // 12. MASTER RENDER & STARTUP
+      // 11. MASTER RENDER & SAFE BOOTSTRAP
       // ==========================================
       function renderAll() {
         try {
-          const filteredOpps = getFilteredOpportunities();
-          const metrics = computeMetrics(filteredOpps);
+          var filteredOpps = getFilteredOpportunities();
+          var metrics = computeMetrics(filteredOpps);
           renderDashboard(filteredOpps, metrics);
           renderCompaniesTable();
           renderOpportunitiesTable();
@@ -3547,17 +4007,65 @@
           renderReportsView(filteredOpps, metrics);
         } catch (err) {
           console.error('Render error:', err);
+          showErrorBanner('Render Error: ' + (err && err.message ? err.message : String(err)));
         }
       }
 
+      // Expose handlers for inline HTML attributes
+      window.verifyPin = verifyPin;
+      window.lockDashboard = lockDashboard;
+      window.updateSecurityPin = updateSecurityPin;
+      window.switchTab = switchTab;
+      window.toggleMobileSidebar = toggleMobileSidebar;
+      window.toggleProfileDropdown = toggleProfileDropdown;
+      window.closeProfileDropdown = closeProfileDropdown;
+      window.openModal = openModal;
+      window.closeModal = closeModal;
+      window.handlePeriodChange = handlePeriodChange;
+      window.applyCustomRange = applyCustomRange;
+      window.resetPeriodAllTime = resetPeriodAllTime;
+      window.jumpToStage = jumpToStage;
+      window.openOppModal = openOppModal;
+      window.openEditOppModal = openEditOppModal;
+      window.saveOpportunity = saveOpportunity;
+      window.updateOppStage = updateOppStage;
+      window.deleteOpportunity = deleteOpportunity;
+      window.openCompanyModal = openCompanyModal;
+      window.saveCompany = saveCompany;
+      window.deleteCompany = deleteCompany;
+      window.openFollowupModal = openFollowupModal;
+      window.saveFollowup = saveFollowup;
+      window.toggleFollowupDone = toggleFollowupDone;
+      window.deleteFollowup = deleteFollowup;
+      window.triggerPdfUpload = triggerPdfUpload;
+      window.handlePdfFileSelected = handlePdfFileSelected;
+      window.toggleQuoteBreakdownItem = toggleQuoteBreakdownItem;
+      window.recalcQuoteLakhs = recalcQuoteLakhs;
+      window.confirmQuoteImport = confirmQuoteImport;
+      window.exportDataJSON = exportDataJSON;
+      window.importDataJSON = importDataJSON;
+      window.exportOpportunitiesCSV = exportOpportunitiesCSV;
+      window.confirmClearAllData = confirmClearAllData;
+      window.loadFromSupabase = loadFromSupabase;
+      window.saveToSupabase = saveToSupabase;
+      window.pushLocalToCloud = function () { saveToSupabase(true); };
+      window.dismissErrorBanner = dismissErrorBanner;
+      window.renderOpportunitiesTable = renderOpportunitiesTable;
+      window.renderFollowupsView = renderFollowupsView;
+
+      // Safe Boot Initialization
       window.addEventListener('DOMContentLoaded', function () {
-        const localCached = loadLocal();
-        if (localCached) {
-          state = localCached;
+        try {
+          var cached = loadLocal();
+          if (cached) state = cached;
+          initPinLock();
+          switchTab('dashboard');
+          loadFromSupabase(false);
+        } catch (err) {
+          console.error('Boot error:', err);
+          setSyncPill('error', 'Boot Error');
+          showErrorBanner('Boot Error: ' + (err && err.message ? err.message : String(err)));
         }
-        initPinLock();
-        switchTab('dashboard');
-        loadFromSupabase(false);
       });
     })();
   </script>
