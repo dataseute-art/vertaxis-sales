@@ -45,7 +45,7 @@
       --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
       --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.06);
       --shadow-lg: 0 20px 45px rgba(7, 18, 38, 0.28);
-      --sidebar-w: 230px;
+      --sidebar-w: 235px;
     }
 
     html, body {
@@ -95,6 +95,16 @@
       text-align: center;
       color: #FFFFFF;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    @keyframes pinShake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-7px); }
+      40%, 80% { transform: translateX(7px); }
+    }
+
+    .pin-card.shake {
+      animation: pinShake 0.34s ease;
     }
 
     .pin-brand {
@@ -1485,6 +1495,120 @@
       cursor: pointer;
     }
 
+    /* Smart 3-Tier PDF Breakdown Box */
+    .breakdown-box {
+      background: #F8FAFC;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .breakdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .breakdown-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0F172A;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .breakdown-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+
+    .badge-grand {
+      background: #DCFCE7;
+      color: #15803D;
+    }
+
+    .badge-sum {
+      background: #DBEAFE;
+      color: #1D63ED;
+    }
+
+    .badge-options {
+      background: #FEF3C7;
+      color: #B45309;
+    }
+
+    .badge-manual {
+      background: #F1F5F9;
+      color: #475569;
+    }
+
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 145px;
+      overflow-y: auto;
+    }
+
+    .breakdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 10px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: border-color 0.14s, background 0.14s;
+    }
+
+    .breakdown-item:hover {
+      border-color: #93C5FD;
+      background: #F8FAFF;
+    }
+
+    .breakdown-item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .breakdown-item-left input {
+      width: 15px;
+      height: 15px;
+      accent-color: var(--brand-blue);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .breakdown-item-desc {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #1E293B;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .breakdown-item-amt {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #0F172A;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
     /* Toast */
     .toast {
       position: fixed;
@@ -2260,7 +2384,7 @@
 
   <!-- Review & Import Quotation PDF Modal -->
   <div id="quoteImportModal" class="modal-backdrop hidden">
-    <div class="modal-box" style="max-width:520px;">
+    <div class="modal-box" style="max-width:560px;">
       <div class="modal-header">
         <span class="modal-title">Review &amp; Import Quotation</span>
         <button type="button" class="modal-close" onclick="closeModal('quoteImportModal')">✕</button>
@@ -2287,9 +2411,31 @@
             <input id="qiDate" type="date" required class="input-control" />
           </div>
         </div>
-        <div>
-          <label class="field-label">Product / Deal Title</label>
-          <input id="qiTitle" type="text" required class="input-control" />
+        <div class="form-grid-2">
+          <div>
+            <label class="field-label">Product / Deal Title</label>
+            <input id="qiTitle" type="text" required class="input-control" />
+          </div>
+          <div>
+            <label class="field-label">Funnel Stage</label>
+            <select id="qiStage" class="select-control">
+              <option value="Prospect Identified">Prospect Identified</option>
+              <option value="In Nurturing">In Nurturing</option>
+              <option value="Qualified">Qualified</option>
+              <option value="Quotation Sent" selected>Quotation Sent</option>
+              <option value="Negotiation">Negotiation</option>
+              <option value="Won">Won</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Detected Price Breakdown (Smart 3-Tier Engine) -->
+        <div id="qiBreakdownBox" class="breakdown-box">
+          <div class="breakdown-header">
+            <span class="breakdown-title">Detected Price Breakdown</span>
+            <span id="qiTierBadge" class="breakdown-badge badge-manual">Manual Entry</span>
+          </div>
+          <div id="qiBreakdownList" class="breakdown-list"></div>
         </div>
 
         <div class="gst-box">
@@ -2690,6 +2836,12 @@
           err.textContent = 'Incorrect PIN. Please try again.';
           input.value = '';
           input.focus();
+          const card = document.querySelector('#pinOverlay .pin-card');
+          if (card) {
+            card.classList.remove('shake');
+            void card.offsetWidth;
+            card.classList.add('shake');
+          }
         }
       }
 
@@ -2728,767 +2880,10 @@
       window.updateSecurityPin = updateSecurityPin;
 
       // ==========================================
-      // 5. NAVIGATION & PERIOD FILTERING
+      // 10. SMART 3-TIER PDF.JS QUOTATION AUTO-IMPORT
       // ==========================================
-      function switchTab(tab) {
-        currentTab = tab;
-        const tabs = ['dashboard', 'companies', 'opportunities', 'followups', 'reports', 'settings'];
-        tabs.forEach(t => {
-          const el = document.getElementById(`view-${t}`);
-          if (el) el.classList.toggle('hidden', t !== tab);
-        });
+      let extractedQuoteItems = [];
 
-        document.querySelectorAll('#sidebarNav .nav-btn').forEach(btn => {
-          btn.classList.toggle('active', btn.dataset.tab === tab);
-        });
-
-        const meta = {
-          dashboard:     ['Sales Dashboard', 'Track your LED Sales Pipeline at a Glance'],
-          companies:     ['Companies', 'Manage your LED display clients and partners'],
-          opportunities: ['Opportunities', 'Manage deals, quotations, and pipeline stages'],
-          followups:     ['Follow-ups', 'Stay on top of client calls and quotation follow-ups'],
-          reports:       ['Reports', 'Stage-wise pipeline summary and CSV export'],
-          settings:      ['Settings', 'Security PIN, Supabase cloud sync, and backups']
-        };
-        const [title, sub] = meta[tab] || meta.dashboard;
-        document.getElementById('headerTitle').textContent = title;
-        document.getElementById('headerSubtitle').textContent = sub;
-
-        toggleMobileSidebar(false);
-        renderAll();
-      }
-
-      function toggleMobileSidebar(open) {
-        document.getElementById('sidebar').classList.toggle('open', open);
-        document.getElementById('mobileBackdrop').classList.toggle('hidden', !open);
-      }
-
-      function toggleProfileDropdown(e) {
-        e.stopPropagation();
-        document.getElementById('profileDropdown').classList.toggle('hidden');
-      }
-
-      function closeProfileDropdown() {
-        document.getElementById('profileDropdown').classList.add('hidden');
-      }
-
-      document.addEventListener('click', function (e) {
-        const wrap = document.getElementById('profileWrap');
-        if (wrap && !wrap.contains(e.target)) closeProfileDropdown();
-      });
-
-      function handlePeriodChange() {
-        currentPeriod = document.getElementById('periodSelect').value;
-        const bar = document.getElementById('customRangeBar');
-
-        if (currentPeriod === 'Custom Range') {
-          if (!customFromDate || !customToDate) {
-            const now = new Date();
-            customFromDate = toIsoDate(new Date(now.getFullYear(), now.getMonth(), 1));
-            customToDate = toIsoDate(now);
-            document.getElementById('customFrom').value = customFromDate;
-            document.getElementById('customTo').value = customToDate;
-          }
-          bar.classList.remove('hidden');
-        } else {
-          bar.classList.add('hidden');
-        }
-        renderAll();
-      }
-
-      function applyCustomRange() {
-        customFromDate = document.getElementById('customFrom').value;
-        customToDate = document.getElementById('customTo').value;
-        renderAll();
-        showToast('Custom date range applied');
-      }
-
-      function resetPeriodAllTime() {
-        document.getElementById('periodSelect').value = 'All Time';
-        handlePeriodChange();
-      }
-
-      function getDateBounds() {
-        const now = new Date();
-        const y = now.getFullYear();
-        const m = now.getMonth();
-
-        if (currentPeriod === 'This Month') {
-          return { start: toIsoDate(new Date(y, m, 1)), end: toIsoDate(new Date(y, m + 1, 0)) };
-        }
-        if (currentPeriod === 'Last Month') {
-          return { start: toIsoDate(new Date(y, m - 1, 1)), end: toIsoDate(new Date(y, m, 0)) };
-        }
-        if (currentPeriod === 'This Quarter') {
-          const qs = Math.floor(m / 3) * 3;
-          return { start: toIsoDate(new Date(y, qs, 1)), end: toIsoDate(new Date(y, qs + 3, 0)) };
-        }
-        if (currentPeriod === 'Last 6 Months') {
-          return { start: toIsoDate(new Date(y, m - 5, 1)), end: toIsoDate(new Date(y, m + 1, 0)) };
-        }
-        if (currentPeriod === 'This Year') {
-          return { start: `${y}-01-01`, end: `${y}-12-31` };
-        }
-        if (currentPeriod === 'Custom Range') {
-          return { start: customFromDate || null, end: customToDate || null };
-        }
-        return { start: null, end: null };
-      }
-
-      function getFilteredOpportunities() {
-        if (currentPeriod === 'All Time') return state.opportunities;
-        const { start, end } = getDateBounds();
-        return state.opportunities.filter(o => {
-          const d = o.date || '';
-          if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return false;
-          if (start && d < start) return false;
-          if (end && d > end) return false;
-          return true;
-        });
-      }
-
-      window.switchTab = switchTab;
-      window.toggleMobileSidebar = toggleMobileSidebar;
-      window.toggleProfileDropdown = toggleProfileDropdown;
-      window.closeProfileDropdown = closeProfileDropdown;
-      window.handlePeriodChange = handlePeriodChange;
-      window.applyCustomRange = applyCustomRange;
-      window.resetPeriodAllTime = resetPeriodAllTime;
-
-      // ==========================================
-      // 6. METRICS & DASHBOARD RENDERING
-      // ==========================================
-      function computeMetrics(opps) {
-        const stageTotals = {};
-        FUNNEL_STAGES.forEach(s => { stageTotals[s.name] = 0; });
-
-        opps.forEach(o => {
-          if (stageTotals[o.stage] !== undefined) {
-            stageTotals[o.stage] += Number(o.value) || 0;
-          }
-        });
-
-        const wonValue = stageTotals['Won'];
-        const nurturingValue = stageTotals['In Nurturing'];
-        const activeOpps = stageTotals['Qualified'] + stageTotals['Quotation Sent'] + stageTotals['Negotiation'];
-        const totalPipeline = stageTotals['Prospect Identified'] + nurturingValue + activeOpps;
-
-        const openCount = opps.filter(o => o.stage !== 'Won').length;
-        const wonCount = opps.filter(o => o.stage === 'Won').length;
-
-        const nurturingPct = totalPipeline > 0 ? Math.round((nurturingValue / totalPipeline) * 100) : 0;
-        const activePct = totalPipeline > 0 ? Math.round((activeOpps / totalPipeline) * 100) : 0;
-
-        return {
-          stageTotals,
-          totalPipeline,
-          nurturingValue,
-          nurturingPct,
-          activeOpps,
-          activePct,
-          wonValue,
-          openCount,
-          wonCount
-        };
-      }
-
-      function renderDashboard(filteredOpps, metrics) {
-        // KPI Cards
-        document.getElementById('kpiTotalPipeline').textContent = formatLakhs(metrics.totalPipeline);
-        document.getElementById('kpiTotalPipelineSub').textContent = `${metrics.openCount} active ${metrics.openCount === 1 ? 'deal' : 'deals'}`;
-
-        document.getElementById('kpiNurturing').textContent = formatLakhs(metrics.nurturingValue);
-        document.getElementById('kpiNurturingSub').textContent = `≈ ${metrics.nurturingPct}% of Pipeline`;
-
-        document.getElementById('kpiActive').textContent = formatLakhs(metrics.activeOpps);
-        document.getElementById('kpiActiveSub').textContent = `≈ ${metrics.activePct}% of Pipeline`;
-
-        document.getElementById('kpiWon').textContent = formatLakhs(metrics.wonValue);
-        document.getElementById('kpiWonSub').textContent = `${metrics.wonCount} ${metrics.wonCount === 1 ? 'deal' : 'deals'} won`;
-
-        const customSummary = document.getElementById('customRangeSummary');
-        if (customSummary) {
-          customSummary.textContent = `${filteredOpps.length} ${filteredOpps.length === 1 ? 'deal' : 'deals'} in range`;
-        }
-
-        // Sales Funnel
-        const funnelBody = document.getElementById('funnelBody');
-        const denom = metrics.totalPipeline > 0 ? metrics.totalPipeline : (metrics.wonValue > 0 ? metrics.wonValue : 1);
-
-        funnelBody.innerHTML = FUNNEL_STAGES.map(stage => {
-          const val = metrics.stageTotals[stage.name] || 0;
-          const pct = (metrics.totalPipeline + metrics.wonValue) > 0 ? Math.round((val / denom) * 100) : 0;
-          const tL = (100 - stage.topW) / 2;
-          const tR = 100 - tL;
-          const bL = (100 - stage.botW) / 2;
-          const bR = 100 - bL;
-          const clip = `polygon(${tL}% 0%, ${tR}% 0%, ${bR}% 100%, ${bL}% 100%)`;
-
-          return `
-            <div class="funnel-row" onclick="jumpToStage('${stage.name}')" title="View ${stage.name} deals">
-              <div class="funnel-bar-wrap">
-                <div class="funnel-bar" style="background:${stage.color};clip-path:${clip};">
-                  <span>${stage.name}</span>
-                </div>
-              </div>
-              <div class="funnel-metrics">
-                <span class="funnel-val">${formatLakhs(val)}</span>
-                <span class="funnel-pct">(${pct}%)</span>
-              </div>
-            </div>
-          `;
-        }).join('');
-
-        // Dashboard Follow-ups
-        renderDashboardFollowups();
-
-        // Pipeline Trend Pure SVG
-        renderTrendChart(filteredOpps);
-      }
-
-      window.jumpToStage = function (stageName) {
-        document.getElementById('oppStageFilter').value = stageName;
-        switchTab('opportunities');
-      };
-
-      function getDueInfo(dueStr) {
-        const todayIso = toIsoDate(new Date());
-        const tom = new Date();
-        tom.setDate(tom.getDate() + 1);
-        const tomIso = toIsoDate(tom);
-
-        if (dueStr === todayIso || dueStr.toLowerCase() === 'today') {
-          return { label: 'Today', cls: 'due-red' };
-        }
-        if (dueStr === tomIso || dueStr.toLowerCase() === 'tomorrow') {
-          return { label: 'Tomorrow', cls: 'due-blue' };
-        }
-        if (/^\d{4}-\d{2}-\d{2}$/.test(dueStr)) {
-          const parts = dueStr.split('-');
-          const mLabel = SHORT_MONTHS[parseInt(parts[1], 10) - 1] || parts[1];
-          const pretty = `${parseInt(parts[2], 10)} ${mLabel}`;
-          return { label: pretty, cls: dueStr < todayIso ? 'due-red' : 'due-normal' };
-        }
-        return { label: dueStr || 'Scheduled', cls: 'due-normal' };
-      }
-
-      function getPriorityClass(priority) {
-        if (priority === 'High') return 'priority-high';
-        if (priority === 'Low') return 'priority-low';
-        return 'priority-medium';
-      }
-
-      function renderDashboardFollowups() {
-        const pending = state.followUps.filter(f => !f.done);
-        const badge = document.getElementById('sidebarFollowupBadge');
-        badge.textContent = pending.length;
-        badge.classList.toggle('hidden', pending.length === 0);
-
-        const body = document.getElementById('dashboardFollowupsBody');
-        if (pending.length === 0) {
-          body.innerHTML = `
-            <div class="empty-state-box">
-              <div style="font-size:13.5px;font-weight:500;">No pending follow-ups.</div>
-              <button type="button" class="btn-sm btn-primary" onclick="openFollowupModal()">+ Add Follow-up</button>
-            </div>
-          `;
-          return;
-        }
-
-        body.innerHTML = pending.slice(0, 4).map(f => {
-          const due = getDueInfo(f.dueDate);
-          return `
-            <div class="followup-item" onclick="toggleFollowupDone('${f.id}')" title="Click to mark as completed">
-              <div class="followup-left">
-                <span class="priority-pill ${getPriorityClass(f.priority)}">${escapeHTML(f.priority)}</span>
-                <div class="followup-text">
-                  <div class="followup-company">${escapeHTML(f.company)}</div>
-                  <div class="followup-task">${escapeHTML(f.task)}</div>
-                </div>
-              </div>
-              <span class="followup-due ${due.cls}">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <span>${escapeHTML(due.label)}</span>
-              </span>
-            </div>
-          `;
-        }).join('');
-      }
-
-      // ==========================================
-      // 7. PURE-SVG PIPELINE TREND CHART
-      // ==========================================
-      function buildTrendPoints(opps) {
-        const map = new Map();
-
-        opps.forEach(o => {
-          if (/^\d{4}-\d{2}-\d{2}$/.test(o.date || '')) {
-            const [yr, mo] = o.date.split('-');
-            const key = `${yr}-${mo}`;
-            const label = `${SHORT_MONTHS[parseInt(mo, 10) - 1] || mo} ${yr.slice(2)}`;
-            if (!map.has(key)) map.set(key, { key, label, pipeline: 0, won: 0 });
-            const item = map.get(key);
-            if (o.stage === 'Won') item.won += Number(o.value) || 0;
-            else item.pipeline += Number(o.value) || 0;
-          }
-        });
-
-        let pts = Array.from(map.values()).sort((a, b) => a.key.localeCompare(b.key));
-
-        // Ensure at least 5 clean monthly points so the chart always looks polished
-        if (pts.length < 5) {
-          const now = new Date();
-          const baseMap = new Map(pts.map(p => [p.key, p]));
-          for (let i = 4; i >= 0; i--) {
-            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-            const yr = String(d.getFullYear());
-            const mo = String(d.getMonth() + 1).padStart(2, '0');
-            const key = `${yr}-${mo}`;
-            if (!baseMap.has(key)) {
-              baseMap.set(key, {
-                key,
-                label: `${SHORT_MONTHS[d.getMonth()]} ${yr.slice(2)}`,
-                pipeline: 0,
-                won: 0
-              });
-            }
-          }
-          pts = Array.from(baseMap.values()).sort((a, b) => a.key.localeCompare(b.key)).slice(-6);
-        }
-
-        return pts;
-      }
-
-      function renderTrendChart(filteredOpps) {
-        const container = document.getElementById('trendChartContainer');
-        const pts = buildTrendPoints(filteredOpps);
-
-        const W = 920;
-        const H = 205;
-        const padL = 50;
-        const padR = 58;
-        const padT = 28;
-        const padB = 32;
-        const plotW = W - padL - padR;
-        const plotH = H - padT - padB;
-
-        const maxVal = Math.max(0, ...pts.flatMap(p => [p.pipeline, p.won]));
-        let step = 5;
-        if (maxVal > 60) step = 25;
-        else if (maxVal > 30) step = 15;
-        else if (maxVal > 12) step = 10;
-        else if (maxVal > 6) step = 5;
-        else step = 2;
-
-        const yTicks = [0, step, step * 2, step * 3];
-        const yMax = Math.max(step * 3, maxVal * 1.15);
-
-        const xOf = i => padL + (pts.length > 1 ? (i / (pts.length - 1)) * plotW : plotW / 2);
-        const yOf = v => padT + plotH - ((Number(v) || 0) / yMax) * plotH;
-
-        const gridSvg = yTicks.map(t => {
-          const y = yOf(t).toFixed(1);
-          return `
-            <line x1="${padL}" y1="${y}" x2="${W - padR + 18}" y2="${y}" stroke="#E2E8F0" stroke-width="1" />
-            <text x="${padL - 10}" y="${Number(y) + 4}" text-anchor="end" fill="#475569" font-size="11.5" font-weight="600">${t}L</text>
-          `;
-        }).join('');
-
-        const xSvg = pts.map((p, i) => `
-          <text x="${xOf(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="#1E293B" font-size="12" font-weight="600">${escapeHTML(p.label)}</text>
-        `).join('');
-
-        const pipePath = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${xOf(i).toFixed(1)} ${yOf(p.pipeline).toFixed(1)}`).join(' ');
-        const wonPath = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${xOf(i).toFixed(1)} ${yOf(p.won).toFixed(1)}`).join(' ');
-
-        const pipeDots = pts.map((p, i) => {
-          const x = xOf(i);
-          const y = yOf(p.pipeline);
-          const lbl = formatCompactL(p.pipeline);
-          const isLast = i === pts.length - 1;
-          const badge = isLast
-            ? `<g transform="translate(${x + 8}, ${y - 10})">
-                 <rect x="0" y="0" width="46" height="19" rx="5" fill="#E0EDFF"/>
-                 <text x="23" y="13" text-anchor="middle" fill="#1D63ED" font-size="11" font-weight="700">${lbl}</text>
-               </g>`
-            : `<text x="${x.toFixed(1)}" y="${(y - 10).toFixed(1)}" text-anchor="middle" fill="#1D63ED" font-size="11.5" font-weight="700">${lbl}</text>`;
-          return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.6" fill="#1D63ED" stroke="#FFFFFF" stroke-width="1.8" />${badge}`;
-        }).join('');
-
-        const wonDots = pts.map((p, i) => {
-          const x = xOf(i);
-          const y = yOf(p.won);
-          const lbl = formatCompactL(p.won);
-          const overlap = Math.abs(p.pipeline - p.won) < 0.05;
-          const dy = overlap ? 15 : -9;
-          return `
-            <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.3" fill="#16A34A" stroke="#FFFFFF" stroke-width="1.8" />
-            <text x="${(x + (i === 0 ? 10 : 0)).toFixed(1)}" y="${(y + dy).toFixed(1)}" text-anchor="middle" fill="#15803D" font-size="11" font-weight="700">${lbl}</text>
-          `;
-        }).join('');
-
-        container.innerHTML = `
-          <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;overflow:visible;" role="img" aria-label="Pipeline Trend Chart">
-            ${gridSvg}
-            ${xSvg}
-            <path d="${pipePath}" fill="none" stroke="#1D63ED" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="${wonPath}" fill="none" stroke="#16A34A" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" />
-            ${pipeDots}
-            ${wonDots}
-          </svg>
-        `;
-      }
-
-      // ==========================================
-      // 8. SECONDARY VIEWS RENDERING
-      // ==========================================
-      function renderCompaniesTable() {
-        const datalist = document.getElementById('companyDatalist');
-        if (datalist) {
-          datalist.innerHTML = state.companies.map(c => `<option value="${escapeHTML(c.name)}"></option>`).join('');
-        }
-
-        const tbody = document.getElementById('companiesTableBody');
-        if (state.companies.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" style="padding:36px;text-align:center;color:#94A3B8;">No companies added yet.</td></tr>`;
-          return;
-        }
-
-        tbody.innerHTML = state.companies.map(c => {
-          const deals = state.opportunities.filter(o => o.company.toLowerCase() === c.name.toLowerCase());
-          const totalVal = deals.reduce((sum, d) => sum + (Number(d.value) || 0), 0);
-          return `
-            <tr>
-              <td class="font-bold">${escapeHTML(c.name)}</td>
-              <td>${escapeHTML(c.contact)}</td>
-              <td>${escapeHTML(c.industry)}</td>
-              <td class="text-right font-bold">${deals.length}</td>
-              <td class="text-right font-bold nowrap">${formatLakhs(totalVal)}</td>
-              <td class="text-right">
-                <button type="button" class="action-link delete" onclick="deleteCompany('${c.id}')">Delete</button>
-              </td>
-            </tr>
-          `;
-        }).join('');
-      }
-
-      function renderOpportunitiesTable() {
-        const tbody = document.getElementById('opportunitiesTableBody');
-        const q = (document.getElementById('oppSearch').value || '').trim().toLowerCase();
-        const stageF = document.getElementById('oppStageFilter').value;
-
-        const list = state.opportunities.filter(o => {
-          if (stageF !== 'All' && o.stage !== stageF) return false;
-          if (!q) return true;
-          return (
-            o.company.toLowerCase().includes(q) ||
-            o.title.toLowerCase().includes(q) ||
-            (o.quoteNo || '').toLowerCase().includes(q)
-          );
-        });
-
-        if (list.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="5" style="padding:36px;text-align:center;color:#94A3B8;">No opportunities found.</td></tr>`;
-          return;
-        }
-
-        tbody.innerHTML = list.map(o => `
-          <tr>
-            <td>
-              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                <span class="font-bold">${escapeHTML(o.company)}</span>
-                ${o.quoteNo ? `<span class="quote-badge">${escapeHTML(o.quoteNo)}</span>` : ''}
-              </div>
-              <div class="text-muted" style="margin-top:2px;">${escapeHTML(o.title)}</div>
-            </td>
-            <td class="nowrap" style="color:#475569;font-weight:500;">${escapeHTML(o.date)}</td>
-            <td class="text-right font-bold nowrap">${formatLakhs(o.value)}</td>
-            <td>
-              <select class="inline-stage-select" onchange="updateOpportunityStage('${o.id}', this.value)">
-                ${FUNNEL_STAGES.map(s => `<option value="${s.name}" ${s.name === o.stage ? 'selected' : ''}>${s.name}</option>`).join('')}
-              </select>
-            </td>
-            <td class="text-right nowrap">
-              <button type="button" class="action-link edit" onclick="openOppModal('${o.id}')">Edit</button>
-              <button type="button" class="action-link delete" onclick="deleteOpportunity('${o.id}')">Delete</button>
-            </td>
-          </tr>
-        `).join('');
-      }
-
-      function renderFollowupsView() {
-        const filter = document.getElementById('followupFilter').value;
-        const pendingCount = state.followUps.filter(f => !f.done).length;
-        document.getElementById('followupsCountLabel').textContent = `${pendingCount} pending`;
-
-        const list = state.followUps.filter(f => {
-          if (filter === 'Pending') return !f.done;
-          if (filter === 'Completed') return f.done;
-          return true;
-        });
-
-        const container = document.getElementById('allFollowupsContainer');
-        if (list.length === 0) {
-          container.innerHTML = `<div class="empty-state-box">No follow-ups in this view.</div>`;
-          return;
-        }
-
-        container.innerHTML = list.map(f => {
-          const due = getDueInfo(f.dueDate);
-          return `
-            <div class="fu-list-row ${f.done ? 'done' : ''}">
-              <div class="followup-left">
-                <span class="priority-pill ${getPriorityClass(f.priority)}">${escapeHTML(f.priority)}</span>
-                <div class="followup-text">
-                  <div class="followup-company">${escapeHTML(f.company)}</div>
-                  <div class="followup-task">${escapeHTML(f.task)}</div>
-                </div>
-              </div>
-              <div class="toolbar-actions">
-                <span class="followup-due ${due.cls}">${escapeHTML(due.label)}</span>
-                <button type="button" class="btn-sm ${f.done ? 'btn-secondary' : 'btn-green'}" onclick="toggleFollowupDone('${f.id}')">
-                  ${f.done ? 'Reopen' : 'Complete'}
-                </button>
-                <button type="button" class="action-link delete" onclick="deleteFollowup('${f.id}')">Delete</button>
-              </div>
-            </div>
-          `;
-        }).join('');
-      }
-
-      function renderReportsView(filteredOpps, metrics) {
-        const totalDeals = filteredOpps.length;
-        const avgDeal = totalDeals > 0 ? filteredOpps.reduce((s, o) => s + (Number(o.value) || 0), 0) / totalDeals : 0;
-        const winRate = totalDeals > 0 ? Math.round((metrics.wonCount / totalDeals) * 100) : 0;
-
-        document.getElementById('reportsSummaryGrid').innerHTML = `
-          <div class="stat-card">
-            <div class="stat-label">Deals (${escapeHTML(currentPeriod)})</div>
-            <div class="stat-val">${totalDeals}</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Average Deal Size</div>
-            <div class="stat-val" style="color:var(--brand-blue);">${formatLakhs(avgDeal)}</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Win Rate (By Count)</div>
-            <div class="stat-val" style="color:#15803D;">${winRate}%</div>
-          </div>
-        `;
-
-        const denom = (metrics.totalPipeline + metrics.wonValue) > 0 ? (metrics.totalPipeline + metrics.wonValue) : 1;
-        document.getElementById('reportsTableBody').innerHTML = FUNNEL_STAGES.map(s => {
-          const count = filteredOpps.filter(o => o.stage === s.name).length;
-          const val = metrics.stageTotals[s.name] || 0;
-          const pct = (metrics.totalPipeline + metrics.wonValue) > 0 ? Math.round((val / denom) * 100) : 0;
-          return `
-            <tr>
-              <td>
-                <span style="display:inline-flex;align-items:center;gap:8px;font-weight:600;">
-                  <span style="width:10px;height:10px;border-radius:50%;background:${s.color};display:inline-block;"></span>
-                  ${s.name}
-                </span>
-              </td>
-              <td class="text-right font-bold">${count}</td>
-              <td class="text-right font-bold nowrap">${formatLakhs(val)}</td>
-              <td class="text-right" style="color:#475569;font-weight:600;">${pct}%</td>
-            </tr>
-          `;
-        }).join('');
-      }
-
-      window.renderOpportunitiesTable = renderOpportunitiesTable;
-      window.renderFollowupsView = renderFollowupsView;
-
-      // ==========================================
-      // 9. MODALS & CRUD ACTIONS
-      // ==========================================
-      function openModal(id) {
-        document.getElementById(id).classList.remove('hidden');
-      }
-
-      function closeModal(id) {
-        document.getElementById(id).classList.add('hidden');
-      }
-
-      function openOppModal(editId) {
-        const form = document.getElementById('oppForm');
-        form.reset();
-        document.getElementById('oppEditId').value = '';
-
-        if (editId) {
-          const opp = state.opportunities.find(o => o.id === editId);
-          if (opp) {
-            document.getElementById('oppModalTitle').textContent = 'Edit Opportunity';
-            document.getElementById('oppEditId').value = opp.id;
-            document.getElementById('oppCompany').value = opp.company;
-            document.getElementById('oppTitle').value = opp.title;
-            document.getElementById('oppQuoteNo').value = opp.quoteNo || '';
-            document.getElementById('oppValue').value = opp.value;
-            document.getElementById('oppDate').value = opp.date || toIsoDate(new Date());
-            document.getElementById('oppStage').value = opp.stage;
-          }
-        } else {
-          document.getElementById('oppModalTitle').textContent = 'Add Opportunity';
-          document.getElementById('oppDate').value = toIsoDate(new Date());
-          document.getElementById('oppStage').value = 'Prospect Identified';
-        }
-        openModal('oppModal');
-      }
-
-      function saveOpportunity(e) {
-        e.preventDefault();
-        const editId = document.getElementById('oppEditId').value;
-        const company = document.getElementById('oppCompany').value.trim();
-        const title = document.getElementById('oppTitle').value.trim();
-        const quoteNo = document.getElementById('oppQuoteNo').value.trim();
-        const value = parseFloat(document.getElementById('oppValue').value);
-        const date = document.getElementById('oppDate').value || toIsoDate(new Date());
-        const stage = document.getElementById('oppStage').value;
-
-        if (!company || isNaN(value) || value < 0) return;
-
-        if (editId) {
-          const existing = state.opportunities.find(o => o.id === editId);
-          if (existing) {
-            existing.company = company;
-            existing.title = title;
-            existing.quoteNo = quoteNo;
-            existing.value = Number(value.toFixed(2));
-            existing.date = date;
-            existing.stage = stage;
-          }
-        } else {
-          state.opportunities.unshift({
-            id: 'o_' + Date.now(),
-            company,
-            title,
-            quoteNo,
-            value: Number(value.toFixed(2)),
-            stage,
-            date
-          });
-        }
-
-        if (!state.companies.some(c => c.name.toLowerCase() === company.toLowerCase())) {
-          state.companies.unshift({
-            id: 'c_' + Date.now(),
-            name: company,
-            contact: 'Primary Contact',
-            industry: 'LED Display Client'
-          });
-        }
-
-        closeModal('oppModal');
-        renderAll();
-        saveToSupabase(false);
-        showToast(editId ? 'Opportunity updated' : 'Opportunity added');
-      }
-
-      function updateOpportunityStage(id, newStage) {
-        const opp = state.opportunities.find(o => o.id === id);
-        if (!opp) return;
-        opp.stage = newStage;
-        renderAll();
-        saveToSupabase(false);
-        showToast(`Stage updated to ${newStage}`);
-      }
-
-      function deleteOpportunity(id) {
-        state.opportunities = state.opportunities.filter(o => o.id !== id);
-        renderAll();
-        saveToSupabase(false);
-        showToast('Opportunity deleted');
-      }
-
-      function openCompanyModal() {
-        document.getElementById('companyForm').reset();
-        openModal('companyModal');
-      }
-
-      function saveCompany(e) {
-        e.preventDefault();
-        const name = document.getElementById('compName').value.trim();
-        const contact = document.getElementById('compContact').value.trim();
-        const industry = document.getElementById('compIndustry').value.trim() || 'LED Display Client';
-        if (!name) return;
-
-        state.companies.unshift({ id: 'c_' + Date.now(), name, contact, industry });
-        closeModal('companyModal');
-        renderAll();
-        saveToSupabase(false);
-        showToast('Company added');
-      }
-
-      function deleteCompany(id) {
-        state.companies = state.companies.filter(c => c.id !== id);
-        renderAll();
-        saveToSupabase(false);
-        showToast('Company deleted');
-      }
-
-      function openFollowupModal() {
-        document.getElementById('followupForm').reset();
-        document.getElementById('fuDueDate').value = toIsoDate(new Date());
-        openModal('followupModal');
-      }
-
-      function saveFollowup(e) {
-        e.preventDefault();
-        const company = document.getElementById('fuCompany').value.trim();
-        const task = document.getElementById('fuTask').value.trim();
-        const priority = document.getElementById('fuPriority').value;
-        const dueDate = document.getElementById('fuDueDate').value || toIsoDate(new Date());
-        if (!company || !task) return;
-
-        state.followUps.unshift({
-          id: 'f_' + Date.now(),
-          company,
-          task,
-          priority,
-          dueDate,
-          done: false
-        });
-
-        closeModal('followupModal');
-        renderAll();
-        saveToSupabase(false);
-        showToast('Follow-up added');
-      }
-
-      function toggleFollowupDone(id) {
-        const fu = state.followUps.find(f => f.id === id);
-        if (!fu) return;
-        fu.done = !fu.done;
-        renderAll();
-        saveToSupabase(false);
-        showToast(fu.done ? 'Follow-up completed' : 'Follow-up reopened');
-      }
-
-      function deleteFollowup(id) {
-        state.followUps = state.followUps.filter(f => f.id !== id);
-        renderAll();
-        saveToSupabase(false);
-        showToast('Follow-up deleted');
-      }
-
-      window.openModal = openModal;
-      window.closeModal = closeModal;
-      window.openOppModal = openOppModal;
-      window.saveOpportunity = saveOpportunity;
-      window.updateOpportunityStage = updateOpportunityStage;
-      window.deleteOpportunity = deleteOpportunity;
-      window.openCompanyModal = openCompanyModal;
-      window.saveCompany = saveCompany;
-      window.deleteCompany = deleteCompany;
-      window.openFollowupModal = openFollowupModal;
-      window.saveFollowup = saveFollowup;
-      window.toggleFollowupDone = toggleFollowupDone;
-      window.deleteFollowup = deleteFollowup;
-
-      // ==========================================
-      // 10. ON-DEMAND PDF.JS QUOTATION AUTO-IMPORT
-      // ==========================================
       function loadPdfJs() {
         if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
         if (pdfJsPromise) return pdfJsPromise;
@@ -3518,26 +2913,106 @@
         input.click();
       }
 
+      // Format INR with Indian comma grouping for breakdown display
+      function formatINR(num) {
+        try {
+          return '₹' + Math.round(Number(num) || 0).toLocaleString('en-IN');
+        } catch (e) {
+          return '₹' + Math.round(Number(num) || 0);
+        }
+      }
+
+      // Reconstruct visual horizontal lines on Page 1 using (x, y) PDF coordinates
+      function buildVisualLines(textItems) {
+        const cleaned = [];
+        for (const it of textItems) {
+          const str = (it.str || '').replace(/\s+/g, ' ').trim();
+          if (!str) continue;
+          const x = it.transform ? Number(it.transform[4]) : 0;
+          const y = it.transform ? Number(it.transform[5]) : 0;
+          const w = Number(it.width) || 0;
+          cleaned.push({ str, x, y, w });
+        }
+
+        // Sort top-to-bottom (higher Y first in PDF coordinate space)
+        cleaned.sort((a, b) => b.y - a.y || a.x - b.x);
+
+        const lines = [];
+        for (const item of cleaned) {
+          let target = null;
+          for (const line of lines) {
+            if (Math.abs(line.y - item.y) <= 6) {
+              target = line;
+              break;
+            }
+          }
+          if (!target) {
+            target = { y: item.y, items: [item] };
+            lines.push(target);
+          } else {
+            target.items.push(item);
+          }
+        }
+
+        // Sort each line left-to-right by X and build full line string
+        for (const line of lines) {
+          line.items.sort((a, b) => a.x - b.x);
+          line.text = line.items.map(i => i.str).join(' ');
+        }
+
+        return lines;
+      }
+
+      // Strictly parse Indian-formatted currency values while rejecting HSN codes, phone numbers, pin codes, dimensions & sq.ft
+      function parseIndianCurrencyTokens(text) {
+        const results = [];
+        // Match Indian comma numbers (e.g. 4,11,213 / 1,56,962 / 94,794 / 9,300) OR standalone 4-7 digit integers
+        const tokenRe = /(?:₹|Rs\.?|INR)?\s*([0-9]{1,3}(?:,[0-9]{2,3})+(?:\.[0-9]{1,2})?|\b[0-9]{4,7}(?:\.[0-9]{1,2})?\b)/gi;
+        let m;
+        while ((m = tokenRe.exec(text)) !== null) {
+          const raw = m[1];
+          const hasComma = raw.includes(',');
+          const numeric = parseFloat(raw.replace(/,/g, ''));
+          if (isNaN(numeric) || numeric < 500) continue;
+
+          const digitsOnly = raw.split('.')[0].replace(/,/g, '');
+          // Reject 8+ digit HSN codes (e.g. 85312000) & 10-digit phone numbers
+          if (!hasComma && digitsOnly.length >= 8) continue;
+          // Reject Indian 6-digit pin codes (e.g. 411041) when unformatted
+          if (!hasComma && /^4[0-9]{5}$/.test(digitsOnly)) continue;
+          // Reject ISO 9001 or common calendar years
+          if (!hasComma && (numeric === 9001 || (numeric >= 2015 && numeric <= 2035))) continue;
+
+          // Check surrounding context to reject dimensions (mm, ft, hz, nits, hrs, dots, watt, kg, vac)
+          const before = text.slice(Math.max(0, m.index - 12), m.index).toLowerCase();
+          const after = text.slice(m.index + m[0].length, m.index + m[0].length + 12).toLowerCase();
+          if (/^\s*(mm|cm|mtr|meter|ft|feet|hz|nits|hrs|hours|dots|watt|w\b|kg|vac|v\b|x\s*\d)/i.test(after)) continue;
+          if (/(iso|hsn|pin|pune|nashik|tel|mob|contact|gstn|gem)\s*[:\-]?\s*$/i.test(before)) continue;
+
+          results.push({ raw, value: numeric, index: m.index });
+        }
+        return results;
+      }
+
       async function handlePdfFileSelected(event) {
         const file = event.target.files && event.target.files[0];
         if (!file) return;
 
-        showToast('Reading quotation PDF...');
+        showToast('Analyzing Page 1 of quotation PDF...');
         try {
           const pdfjsLib = await loadPdfJs();
           const arrayBuffer = await file.arrayBuffer();
-          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          const pdf = await pdfjsLib.getDocument({
+            data: arrayBuffer,
+            isEvalSupported: false
+          }).promise;
 
-          let fullText = '';
-          const maxPages = Math.min(pdf.numPages, 3);
-          for (let p = 1; p <= maxPages; p++) {
-            const page = await pdf.getPage(p);
-            const content = await page.getTextContent();
-            const strings = content.items.map(it => it.str || '');
-            fullText += strings.join(' ') + '\n';
-          }
+          // Scan ONLY Page 1 so spec-sheet numbers on pages 3-4 never pollute pricing math
+          const page1 = await pdf.getPage(1);
+          const content = await page1.getTextContent();
+          const lines = buildVisualLines(content.items || []);
 
-          const parsed = parseVertaxisPdf(fullText, file.name);
+          const parsed = parseVertaxisPage1(lines, file.name);
           populateQuoteModal(parsed, file.name);
           openModal('quoteImportModal');
         } catch (err) {
@@ -3546,91 +3021,379 @@
           populateQuoteModal({
             quoteNo: '',
             dateIso: toIsoDate(new Date()),
-            company: file.name.replace(/\.pdf$/i, '').replace(/_/g, ' '),
+            company: file.name.replace(/\.pdf$/i, '').split('_')[0].trim(),
             contact: '',
             title: 'LED Display',
+            tier: 'manual',
+            badgeText: 'Manual Entry',
+            items: [],
             totalInr: 0
           }, file.name);
           openModal('quoteImportModal');
         }
       }
 
-      function parseVertaxisPdf(rawText, fileName) {
-        const flat = rawText.replace(/\s+/g, ' ').trim();
+      function parseVertaxisPage1(lines, fileName) {
+        const pageText = lines.map(l => l.text).join('\n');
+        const flat = pageText.replace(/\s+/g, ' ').trim();
 
-        // 1. FULL Quotation No (captures hyphens & slashes cleanly even if PDF.js inserted spaces)
+        // ------------------------------------------
+        // A. METADATA EXTRACTION
+        // ------------------------------------------
+
+        // 1. Quotation No (supports /, -, _ e.g. VA-26-27-2135, VA/26-27/0434, VA/26_27/0422_C)
         let quoteNo = '';
-        const qSegment = flat.match(/Quotation\s*No\.?\s*[:\-]?\s*([A-Za-z0-9\s\-\/]{3,40}?)(?=\s+Quotation\s*Date|\s+Date\b|\s+Dear\b|$)/i);
-        if (qSegment && qSegment[1]) {
-          const compacted = qSegment[1].trim().replace(/\s*([\/\-])\s*/g, '$1');
-          const fullMatch = compacted.match(/^([A-Z0-9][A-Z0-9\-\/]{2,30})/i);
-          if (fullMatch) quoteNo = fullMatch[1].trim();
+        for (let i = 0; i < lines.length; i++) {
+          const ln = lines[i].text;
+          const seg = ln.match(/Quotation\s*No\.?\s*[:\-|]?\s*([A-Za-z0-9\s\-\/_]{3,45}?)(?=\s+Quotation\s*Date|\s+Date\b|\s+Dear\b|$)/i);
+          if (seg && seg[1]) {
+            const compacted = seg[1].trim().replace(/\s*([\/\-_])\s*/g, '$1');
+            const codeM = compacted.match(/^([A-Z]{1,5}[\/\-_][A-Z0-9\/\-_]{2,30}|[A-Z0-9][A-Z0-9\/\-_]{3,30})/i);
+            if (codeM) {
+              quoteNo = codeM[1].replace(/[|,\.]+$/, '').trim();
+              break;
+            }
+          }
+          // Handle case where Quotation No label is on one line and VA/... is on the next
+          if (/Quotation\s*No\.?\s*[:\-]?$/i.test(ln.trim()) && lines[i + 1]) {
+            const nextCode = lines[i + 1].text.trim().match(/^([A-Z]{1,5}[\/\-_][A-Z0-9\/\-_]{2,30})/i);
+            if (nextCode) {
+              quoteNo = nextCode[1].trim();
+              break;
+            }
+          }
         }
         if (!quoteNo) {
-          const direct = flat.match(/Quotation\s*No\.?\s*[:\-]?\s*([A-Z0-9][A-Z0-9\-\/]{2,30})/i);
-          if (direct) quoteNo = direct[1].trim();
+          const anyVA = flat.match(/\b(VA[\/\-_][0-9]{2}[\/\-_][0-9]{2}[\/\-_][A-Z0-9_]{2,12})\b/i);
+          if (anyVA) quoteNo = anyVA[1];
+          else {
+            const fnCode = fileName.match(/(?:_|-)(\d{3,5}(?:_[A-Z])?)(?:_|-|\.)/i);
+            if (fnCode) quoteNo = fnCode[1];
+          }
         }
 
-        // 2. Quotation Date (DD-MM-YYYY or DD/MM/YYYY -> YYYY-MM-DD)
+        // 2. Quotation Date (DD-MM-YYYY, DD/MM/YYYY, or DD.MM.YYYY -> YYYY-MM-DD)
         let dateIso = toIsoDate(new Date());
-        const dateM = flat.match(/Quotation\s*Date\s*[:\-]?\s*(\d{1,2})[\-\/\.](\d{1,2})[\-\/\.](\d{2,4})/i);
+        const dateM = flat.match(/(?:Quotation\s*Date|Date)\s*[:\-|]?\s*(\d{1,2})[\-\/\.](\d{1,2})[\-\/\.](\d{2,4})/i);
         if (dateM) {
           const dd = dateM[1].padStart(2, '0');
           const mm = dateM[2].padStart(2, '0');
           const yy = dateM[3].length === 2 ? `20${dateM[3]}` : dateM[3];
           dateIso = `${yy}-${mm}-${dd}`;
+        } else {
+          const fnIso = fileName.match(/(20\d{2})[\-\.](\d{2})[\-\.](\d{2})/);
+          const fnDmy = fileName.match(/(\d{2})[\-\.](\d{2})[\-\.](20\d{2})/);
+          if (fnIso) dateIso = `${fnIso[1]}-${fnIso[2]}-${fnIso[3]}`;
+          else if (fnDmy) dateIso = `${fnDmy[3]}-${fnDmy[2]}-${fnDmy[1]}`;
         }
 
-        // 3. Client / Company Name between "To," (or Greek "Το,") and "Kind Attention" / "Quotation"
+        // 3. Client / Company Name immediately after "To," (or Greek "Το,")
         let company = '';
-        const compM = rawText.match(/(?:^|\s)[TΤ][oο]\s*,\s*([\s\S]{2,120}?)(?=Kind\s*Attention|Quotation)/i);
-        if (compM && compM[1]) {
-          company = compM[1].replace(/\s+/g, ' ').trim();
+        const knownCities = /^(pune|nashik|mumbai|nagpur|thane|surat|ahmedabad|bengaluru|bangalore|hyderabad|delhi|kolhapur|satara|aurangabad|indore|maharashtra|india)\.?$/i;
+        for (let i = 0; i < lines.length; i++) {
+          const ln = lines[i].text;
+          if (/(?:^|\|\s*)[TΤ][oο]\s*,/i.test(ln)) {
+            // Check if company name is on the same line after "To,"
+            const sameLine = ln.replace(/^.*?[TΤ][oο]\s*,\s*/i, '').replace(/Quotation.*$/i, '').replace(/Kind\s*Attention.*$/i, '').replace(/^[|:\-\s]+|[|:\-\s]+$/g, '').trim();
+            if (sameLine && !knownCities.test(sameLine)) {
+              company = sameLine;
+            }
+            // Otherwise inspect the next 1-3 lines
+            for (let j = i + 1; j <= Math.min(i + 4, lines.length - 1); j++) {
+              // Take only left-column items (avoid right-column "Quotation No" box on same Y)
+              const leftText = lines[j].items
+                .filter(it => it.x < 330)
+                .map(it => it.str)
+                .join(' ')
+                .replace(/^[|:\-\s]+|[|:\-\s]+$/g, '')
+                .trim();
+              if (!leftText) continue;
+              if (/^(Kind\s*Attention|Quotation|Dear\b)/i.test(leftText)) break;
+              if (!company) {
+                company = leftText.replace(/\.$/, '').trim();
+              } else {
+                // Stop if this next line is just a city name
+                if (knownCities.test(leftText)) break;
+              }
+            }
+            break;
+          }
         }
         if (!company) {
-          company = fileName.replace(/\.pdf$/i, '').replace(/_/g, ' ');
+          company = fileName.replace(/\.pdf$/i, '').split('_')[0].replace(/\s+/g, ' ').trim();
         }
 
         // 4. Contact Person after "Kind Attention:"
         let contact = '';
-        const contactM = flat.match(/Kind\s*Attention\s*[:\-]?\s*(.+?)(?=\s+Quotation|\s+Dear\b|$)/i);
+        const contactM = flat.match(/Kind\s*Attention\s*[:\-]?\s*([A-Za-z.\s]{2,50}?)(?=\s+Quotation|\s+Date\b|\s+Dear\b|\s+VA[\/\-_]|$)/i);
         if (contactM && contactM[1]) {
-          contact = contactM[1].trim();
+          contact = contactM[1].replace(/[|]+/g, '').trim();
         }
 
-        // 5. Product / Pitch + Indoor/Outdoor
-        const pitchM = flat.match(/(?:Pitch\s*|\bP)([0-9]+(?:\.[0-9]+)?)/i);
+        // 5. Product / Deal Title (Pitch + Indoor/Outdoor + Size)
+        const pitchM = flat.match(/(?:Pitch\s*|\bP)([0-9]+(?:\.[0-9]+)?)(?=\s|\b|mm)/i);
         const typeM = flat.match(/\b(Outdoor|Indoor)\b/i);
-        const parts = [];
-        if (pitchM) parts.push(`Pitch ${pitchM[1]}`);
-        if (typeM) parts.push(`${typeM[1]} LED Display`);
-        else parts.push('LED Display');
-        const title = parts.join(' ');
+        const sizeFtM = flat.match(/(\d+(?:\.\d+)?\s*(?:Feet|Ft\.?)\s*[xX×]\s*\d+(?:\.\d+)?\s*(?:Feet|Ft\.?))/i);
+        const sizeMmM = flat.match(/(\d{3,5}\s*mm(?:\s*\(L\))?\s*[xX×]\s*\d{3,5}\s*mm(?:\s*\(H\))?)/i);
 
-        // 6. Grand Total in INR (handles Indian commas like 4,11,213, skips "TOTAL SQ FT")
-        let totalInr = 0;
-        const totalRe = /\bTOTAL\b(?!\s*SQ)(?:\s*(?:₹|Rs\.?|INR))?\s*([0-9]{1,3}(?:,[0-9]{2,3})+|[0-9]{4,})(?:\.[0-9]+)?/gi;
-        let m;
-        while ((m = totalRe.exec(flat)) !== null) {
-          const val = parseFloat(m[1].replace(/,/g, ''));
-          if (!isNaN(val) && val > totalInr) totalInr = val;
+        const titleParts = [];
+        if (pitchM) titleParts.push(`Pitch ${pitchM[1]}`);
+        if (typeM) titleParts.push(`${typeM[1]} LED Display`);
+        else titleParts.push('LED Display');
+        if (sizeFtM) titleParts.push(`(${sizeFtM[1].replace(/\s+/g, ' ')})`);
+        else if (sizeMmM) titleParts.push(`(${sizeMmM[1].replace(/\s+/g, ' ')})`);
+        const title = titleParts.join(' ');
+
+        // ------------------------------------------
+        // B. SMART 3-TIER AMOUNT EXTRACTION ENGINE
+        // ------------------------------------------
+
+        // Locate pricing table boundaries on Page 1
+        let headerIdx = -1;
+        let footerIdx = lines.length;
+        for (let i = 0; i < lines.length; i++) {
+          const t = lines[i].text;
+          if (headerIdx === -1 && (/DESCRIPTION\s+FOR/i.test(t) || (/\bSR\.?/i.test(t) && /(AMOUNT|TOTAL|RATE|UNIT\s*PRICE)/i.test(t)))) {
+            headerIdx = i;
+          }
+          if (headerIdx !== -1 && i > headerIdx && /(WHY\s+CHOOSE|VERTAXIS\s+FUTURETECH|TERMS\s*&\s*CONDITIONS|GSTN\s*:|E-?mail\s*:)/i.test(t)) {
+            footerIdx = i;
+            break;
+          }
         }
 
-        return { quoteNo, dateIso, company, contact, title, totalInr };
+        // Fallback boundaries if header wasn't explicitly matched
+        const scanStart = headerIdx !== -1 ? headerIdx : 0;
+        const scanEnd = footerIdx;
+        const tableLines = lines.slice(scanStart, scanEnd);
+
+        // Compute page max X for column geometry
+        let maxPageX = 500;
+        for (const l of lines) {
+          for (const it of l.items) {
+            if (it.x + it.w > maxPageX) maxPageX = it.x + it.w;
+          }
+        }
+
+        // --- TIER 1: Bottom-Up Grand Total Match ---
+        const headerExcludeRe = /(DESCRIPTION|HSN|SQ\.?\s*FT|PER\s*SQ|UNIT\s*PRICE|UNIT\s*QTY)/i;
+        for (let i = tableLines.length - 1; i >= 0; i--) {
+          const ln = tableLines[i];
+          if (headerExcludeRe.test(ln.text)) continue;
+
+          if (/\b(GRAND\s*TOTAL|NET\s*TOTAL|TOTAL\s*AMOUNT|TOTAL)\b/i.test(ln.text)) {
+            // Check currency tokens on this exact line
+            const tokens = parseIndianCurrencyTokens(ln.text);
+            if (tokens.length > 0) {
+              const grandVal = tokens[tokens.length - 1].value;
+              if (grandVal >= 1000) {
+                return {
+                  quoteNo, dateIso, company, contact, title,
+                  tier: 'grand',
+                  badgeText: 'Grand Total Matched',
+                  items: [{ label: 'Grand Total (Extracted from Quote)', amount: grandVal, checked: true }],
+                  totalInr: grandVal
+                };
+              }
+            }
+            // Also check immediately below if TOTAL label and its value are stacked on adjacent lines
+            if (i + 1 < tableLines.length && Math.abs(ln.y - tableLines[i + 1].y) <= 24) {
+              const nextTokens = parseIndianCurrencyTokens(tableLines[i + 1].text);
+              if (nextTokens.length > 0) {
+                const grandVal = nextTokens[nextTokens.length - 1].value;
+                if (grandVal >= 1000) {
+                  return {
+                    quoteNo, dateIso, company, contact, title,
+                    tier: 'grand',
+                    badgeText: 'Grand Total Matched',
+                    items: [{ label: 'Grand Total (Extracted from Quote)', amount: grandVal, checked: true }],
+                    totalInr: grandVal
+                  };
+                }
+              }
+            }
+          }
+        }
+
+        // --- TIER 2: Rightmost Column Coordinate Sum ---
+        // Detect Total Amount column X and Per Sq Ft Rate column X from header (checking header line + wrapped line below)
+        let totalColX = null;
+        let rateColX = null;
+        const headerWindow = tableLines.slice(0, Math.min(3, tableLines.length));
+        for (const hLine of headerWindow) {
+          for (const it of hLine.items) {
+            if (/(AMOUNT|TOTAL)/i.test(it.str) && !/SQ/i.test(it.str)) {
+              if (totalColX === null || it.x > totalColX) totalColX = it.x;
+            }
+            if (/(RATE|PER\s*SQ|UNIT\s*PRICE)/i.test(it.str)) {
+              if (rateColX === null || it.x > rateColX) rateColX = it.x;
+            }
+          }
+        }
+
+        let minTotalX;
+        if (totalColX !== null && rateColX !== null && totalColX > rateColX + 15) {
+          minTotalX = (rateColX + totalColX) / 2;
+        } else if (totalColX !== null) {
+          minTotalX = totalColX - 28;
+        } else {
+          minTotalX = maxPageX * 0.70;
+        }
+
+        const extractedItems = [];
+        const scopeSkipRe = /(in\s+your\s+scope|user'?s\s+scope|need\s+to\s+be\s+discuss|extra\s+at\s+actual)/i;
+        const bodyStart = headerIdx !== -1 ? 1 : 0;
+
+        for (let i = bodyStart; i < tableLines.length; i++) {
+          const ln = tableLines[i];
+          if (headerExcludeRe.test(ln.text)) continue;
+          if (scopeSkipRe.test(ln.text)) continue;
+
+          // Pull only tokens positioned in the rightmost Total Amount column
+          const rightItems = ln.items.filter(it => (it.x + it.w / 2) >= minTotalX);
+          if (rightItems.length === 0) continue;
+
+          const rightText = rightItems.map(it => it.str).join(' ');
+          const rightTokens = parseIndianCurrencyTokens(rightText);
+          if (rightTokens.length === 0) continue;
+
+          // If both Rate and Total Amount landed in the same merged right cell (e.g. "4,450  1,56,962"), pick the rightmost value
+          const chosen = rightTokens[rightTokens.length - 1];
+          if (chosen.value < 500) continue;
+
+          // Build clean row description from the left side of this line (or neighboring line if blank/serial only)
+          const getLeftDesc = (lineObj) => {
+            if (!lineObj) return '';
+            return lineObj.items
+              .filter(it => it.x < minTotalX - 20)
+              .map(it => it.str)
+              .join(' ')
+              .replace(/\b85\d{6}\b/g, '') // strip HSN code
+              .replace(/^\d+\s*[\.\)]?\s*/, '') // strip leading Sr No
+              .replace(/\b\d+(?:\.\d+)?\s*(?:4,\d{3}|[0-9]{1,2}\.\d{2})\b/g, '')
+              .replace(/\s+/g, ' ')
+              .trim();
+          };
+
+          let desc = getLeftDesc(ln);
+          if (desc.length < 4 && i > bodyStart) {
+            desc = getLeftDesc(tableLines[i - 1]);
+          }
+          if (desc.length < 4 && i + 1 < tableLines.length) {
+            desc = getLeftDesc(tableLines[i + 1]);
+          }
+          if (!desc) desc = `Line Item ${extractedItems.length + 1}`;
+
+          // Check if adjacent line has an "Option 1 / Option 2" tag for this amount
+          const prevText = i > bodyStart ? tableLines[i - 1].text : '';
+          if (!/Option\s*\d/i.test(desc) && /Option\s*\d/i.test(prevText) && Math.abs(ln.y - tableLines[i - 1].y) <= 18) {
+            const optTag = prevText.match(/(Option\s*\d[^|]{0,45})/i);
+            if (optTag) desc = `${optTag[1].trim()} — ${desc}`;
+          }
+
+          extractedItems.push({
+            label: desc.slice(0, 72),
+            amount: chosen.value,
+            checked: true
+          });
+        }
+
+        // --- TIER 3: Smart Option Detector ---
+        if (extractedItems.length > 0) {
+          const optionNumbers = new Set();
+          extractedItems.forEach(item => {
+            const om = item.label.match(/\bOption\s*([1-9])\b/i);
+            if (om) optionNumbers.add(parseInt(om[1], 10));
+          });
+
+          const hasMutuallyExclusiveOptions = optionNumbers.has(1) && (optionNumbers.has(2) || optionNumbers.size >= 2);
+          if (hasMutuallyExclusiveOptions) {
+            extractedItems.forEach(item => {
+              const om = item.label.match(/\bOption\s*([1-9])\b/i);
+              if (om && parseInt(om[1], 10) >= 2) {
+                item.checked = false;
+              }
+            });
+          }
+
+          const initialSum = extractedItems
+            .filter(it => it.checked)
+            .reduce((s, it) => s + it.amount, 0);
+
+          return {
+            quoteNo, dateIso, company, contact, title,
+            tier: hasMutuallyExclusiveOptions ? 'options' : 'sum',
+            badgeText: hasMutuallyExclusiveOptions ? 'Options Detected — Select Below' : 'Smart Column Sum',
+            items: extractedItems,
+            totalInr: initialSum
+          };
+        }
+
+        // Fallback if no amounts could be detected
+        return {
+          quoteNo, dateIso, company, contact, title,
+          tier: 'manual',
+          badgeText: 'No Price Detected — Enter Manually',
+          items: [],
+          totalInr: 0
+        };
+      }
+
+      function renderQuoteBreakdown(tier, badgeText) {
+        const badgeEl = document.getElementById('qiTierBadge');
+        const listEl = document.getElementById('qiBreakdownList');
+
+        const badgeClassMap = {
+          grand: 'badge-grand',
+          sum: 'badge-sum',
+          options: 'badge-options',
+          manual: 'badge-manual'
+        };
+        badgeEl.className = 'breakdown-badge ' + (badgeClassMap[tier] || 'badge-manual');
+        badgeEl.textContent = badgeText;
+
+        if (!extractedQuoteItems || extractedQuoteItems.length === 0) {
+          listEl.innerHTML = `<div class="text-muted" style="padding:4px 2px;">Enter the Base Total (₹ INR) manually below.</div>`;
+          return;
+        }
+
+        listEl.innerHTML = extractedQuoteItems.map((item, idx) => `
+          <label class="breakdown-item">
+            <span class="breakdown-item-left">
+              <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleQuoteBreakdownItem(${idx}, this.checked)" />
+              <span class="breakdown-item-desc" title="${escapeHTML(item.label)}">${escapeHTML(item.label)}</span>
+            </span>
+            <span class="breakdown-item-amt">${formatINR(item.amount)}</span>
+          </label>
+        `).join('');
+      }
+
+      function toggleQuoteBreakdownItem(idx, isChecked) {
+        if (!extractedQuoteItems[idx]) return;
+        extractedQuoteItems[idx].checked = Boolean(isChecked);
+        const sum = extractedQuoteItems
+          .filter(it => it.checked)
+          .reduce((acc, it) => acc + (Number(it.amount) || 0), 0);
+        document.getElementById('qiBaseInr').value = Math.round(sum);
+        recalcQuoteLakhs();
       }
 
       function populateQuoteModal(parsed, fileName) {
+        extractedQuoteItems = Array.isArray(parsed.items) ? parsed.items : [];
         document.getElementById('qiFileLabel').textContent = `File: ${fileName}`;
         document.getElementById('qiCompany').value = parsed.company;
         document.getElementById('qiContact').value = parsed.contact;
         document.getElementById('qiQuoteNo').value = parsed.quoteNo;
         document.getElementById('qiDate').value = parsed.dateIso;
         document.getElementById('qiTitle').value = parsed.title;
-        document.getElementById('qiBaseInr').value = parsed.totalInr || '';
+        document.getElementById('qiStage').value = 'Quotation Sent';
+        document.getElementById('qiBaseInr').value = parsed.totalInr ? Math.round(parsed.totalInr) : '';
         document.getElementById('qiIncludeGst').checked = false;
         document.getElementById('qiAutoFollowup').checked = true;
         document.getElementById('qiFollowupTask').value =
           `Follow up quotation${parsed.quoteNo ? ' ' + parsed.quoteNo : ''} for ${parsed.title}`;
+
+        renderQuoteBreakdown(parsed.tier || 'manual', parsed.badgeText || 'Manual Entry');
         recalcQuoteLakhs();
       }
 
@@ -3648,19 +3411,23 @@
         const quoteNo = document.getElementById('qiQuoteNo').value.trim();
         const date = document.getElementById('qiDate').value || toIsoDate(new Date());
         const title = document.getElementById('qiTitle').value.trim();
+        const stage = document.getElementById('qiStage').value || 'Quotation Sent';
         const value = parseFloat(document.getElementById('qiValueLakhs').value) || 0;
         const autoFu = document.getElementById('qiAutoFollowup').checked;
         const fuTask = document.getElementById('qiFollowupTask').value.trim();
 
         if (!company) return;
 
-        if (!state.companies.some(c => c.name.toLowerCase() === company.toLowerCase())) {
+        const existingCompany = state.companies.find(c => c.name.toLowerCase() === company.toLowerCase());
+        if (!existingCompany) {
           state.companies.unshift({
             id: 'c_' + Date.now(),
             name: company,
             contact,
             industry: 'LED Display Client'
           });
+        } else if (contact && contact !== 'Primary Contact' && existingCompany.contact === 'Primary Contact') {
+          existingCompany.contact = contact;
         }
 
         state.opportunities.unshift({
@@ -3669,7 +3436,7 @@
           title,
           quoteNo,
           value: Number(value.toFixed(2)),
-          stage: 'Quotation Sent',
+          stage,
           date
         });
 
@@ -3694,6 +3461,7 @@
 
       window.triggerPdfUpload = triggerPdfUpload;
       window.handlePdfFileSelected = handlePdfFileSelected;
+      window.toggleQuoteBreakdownItem = toggleQuoteBreakdownItem;
       window.recalcQuoteLakhs = recalcQuoteLakhs;
       window.confirmQuoteImport = confirmQuoteImport;
 
