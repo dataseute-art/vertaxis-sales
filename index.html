@@ -54,7 +54,7 @@
       overflow-x: hidden;
     }
 
-    button, input, select {
+    button, input, select, textarea {
       font-family: inherit;
     }
 
@@ -1421,6 +1421,137 @@
     .breakdown-item-desc { font-size: 12.5px; font-weight: 600; color: #1E293B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .breakdown-item-amt { font-size: 12.5px; font-weight: 700; color: #0F172A; font-variant-numeric: tabular-nums; white-space: nowrap; flex-shrink: 0; }
 
+    /* WhatsApp / Snipping Tool Auto-Import Modal Styles */
+    .snip-dropzone {
+      border: 2px dashed #93C5FD;
+      background: #F8FAFF;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .snip-dropzone:hover, .snip-dropzone.dragover {
+      border-color: var(--brand-blue);
+      background: #EFF6FF;
+    }
+
+    .snip-dropzone-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .snip-dropzone-sub {
+      font-size: 11.5px;
+      color: #64748B;
+    }
+
+    .snip-preview-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .snip-preview-img {
+      max-width: 100%;
+      max-height: 145px;
+      border-radius: 8px;
+      border: 1px solid #CBD5E1;
+      object-fit: contain;
+      background: #FFFFFF;
+    }
+
+    .ocr-progress-wrap {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ocr-progress-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1E40AF;
+    }
+
+    .ocr-progress-track {
+      width: 100%;
+      height: 7px;
+      background: #DBEAFE;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .ocr-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #1D63ED, #10B981);
+      border-radius: 99px;
+      transition: width 0.2s ease;
+    }
+
+    .textarea-control {
+      width: 100%;
+      min-height: 78px;
+      padding: 9px 12px;
+      border: 1px solid #CBD5E1;
+      border-radius: 10px;
+      background: #FFFFFF;
+      color: #0F172A;
+      font-size: 12.5px;
+      font-weight: 500;
+      line-height: 1.45;
+      resize: vertical;
+      outline: none;
+    }
+
+    .textarea-control:focus {
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px rgba(29, 99, 237, 0.14);
+    }
+
+    .detect-status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+      flex-wrap: wrap;
+    }
+
+    .detect-status-bar.good {
+      background: #ECFDF5;
+      border-color: #A7F3D0;
+      color: #065F46;
+    }
+
+    .detect-status-bar.partial {
+      background: #FFFBEB;
+      border-color: #FDE68A;
+      color: #92400E;
+    }
+
     .toast {
       position: fixed;
       bottom: 22px;
@@ -1513,607 +1644,8 @@
   <!-- Hidden File Input for PDF Quotation Upload -->
   <input id="pdfFileInput" type="file" accept="application/pdf,.pdf" class="hidden" onchange="handlePdfFileSelected(event)" />
 
-  <!-- =========================================================
-       APP SHELL
-       ========================================================= -->
-  <div class="app-shell">
-
-    <!-- LEFT SIDEBAR -->
-    <aside id="sidebar" class="sidebar">
-      <div class="sidebar-top">
-        <div class="brand-header">
-          <div class="brand-left">
-            <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 7L16.5 34H22.5L11 7H5Z" fill="#1D63ED"/>
-              <path d="M18.5 34H23.5L35 7H29L18.5 34Z" fill="#38BDF8"/>
-              <path d="M13 7L20 24L27 7H22L20 12.5L18 7H13Z" fill="#93C5FD" opacity="0.85"/>
-            </svg>
-            <div>
-              <div class="brand-name">VERTAXIS</div>
-              <div class="brand-tagline">LED Display Solutions</div>
-            </div>
-          </div>
-          <button type="button" class="sidebar-close-btn" onclick="toggleMobileSidebar(false)" aria-label="Close menu">✕</button>
-        </div>
-
-        <nav class="nav-list" id="sidebarNav">
-          <button type="button" class="nav-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
-            <span class="nav-btn-inner">
-              <svg class="nav-icon" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
-              <span>Dashboard</span>
-            </span>
-          </button>
-
-          <button type="button" class="nav-btn" data-tab="companies" onclick="switchTab('companies')">
-            <span class="nav-btn-inner">
-              <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-              <span>Companies</span>
-            </span>
-          </button>
-
-          <button type="button" class="nav-btn" data-tab="opportunities" onclick="switchTab('opportunities')">
-            <span class="nav-btn-inner">
-              <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              <span>Opportunities</span>
-            </span>
-          </button>
-
-          <button type="button" class="nav-btn" data-tab="followups" onclick="switchTab('followups')">
-            <span class="nav-btn-inner">
-              <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-              <span>Follow-ups</span>
-            </span>
-            <span id="sidebarFollowupBadge" class="nav-badge hidden">0</span>
-          </button>
-
-          <button type="button" class="nav-btn" data-tab="reports" onclick="switchTab('reports')">
-            <span class="nav-btn-inner">
-              <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-              <span>Reports</span>
-            </span>
-          </button>
-
-          <button type="button" class="nav-btn" data-tab="settings" onclick="switchTab('settings')">
-            <span class="nav-btn-inner">
-              <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              <span>Settings</span>
-            </span>
-          </button>
-
-          <button type="button" class="nav-btn" data-tab="leadspool" onclick="switchTab('leadspool')">
-            <span class="nav-btn-inner">
-              <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-              <span>Leads Pool</span>
-            </span>
-            <span id="sidebarLeadsPoolBadge" class="nav-badge nav-badge-pool hidden">0</span>
-          </button>
-        </nav>
-      </div>
-
-      <!-- Bottom Cityscape + Glowing LED Billboard Banner -->
-      <div class="sidebar-banner">
-        <svg viewBox="0 0 240 205" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="bgSky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#0B172A"/>
-              <stop offset="50%" stop-color="#112B59"/>
-              <stop offset="100%" stop-color="#071226"/>
-            </linearGradient>
-            <linearGradient id="ledBillboard" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#22D3EE"/>
-              <stop offset="45%" stop-color="#6366F1"/>
-              <stop offset="80%" stop-color="#EC4899"/>
-              <stop offset="100%" stop-color="#F59E0B"/>
-            </linearGradient>
-            <linearGradient id="bannerFade" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#0B172A" stop-opacity="0"/>
-              <stop offset="52%" stop-color="#0B172A" stop-opacity="0.72"/>
-              <stop offset="100%" stop-color="#071226" stop-opacity="0.98"/>
-            </linearGradient>
-          </defs>
-          <rect width="240" height="205" fill="url(#bgSky)"/>
-          <rect x="8" y="78" width="26" height="105" fill="#0D2247"/>
-          <rect x="38" y="56" width="30" height="127" fill="#123063"/>
-          <rect x="72" y="90" width="24" height="93" fill="#0B1D3D"/>
-          <polygon points="100,42 240,12 240,175 100,175" fill="#10254D"/>
-          <polygon points="110,68 222,42 222,114 110,128" fill="url(#ledBillboard)" opacity="0.95"/>
-          <line x1="138" y1="61" x2="138" y2="124" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <line x1="166" y1="54" x2="166" y2="120" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <line x1="194" y1="48" x2="194" y2="117" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <line x1="110" y1="88" x2="222" y2="66" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <line x1="110" y1="108" x2="222" y2="89" stroke="#FFFFFF" stroke-opacity="0.24" stroke-width="1"/>
-          <path d="M0 148 Q120 154 240 168" stroke="#38BDF8" stroke-width="1.4" stroke-opacity="0.55" fill="none"/>
-          <path d="M0 156 Q125 166 240 184" stroke="#F472B6" stroke-width="1.2" stroke-opacity="0.45" fill="none"/>
-          <rect x="0" y="75" width="240" height="130" fill="url(#bannerFade)"/>
-        </svg>
-        <div class="sidebar-banner-text">
-          <div class="banner-line-white">Bigger</div>
-          <div class="banner-line-white">Brighter</div>
-          <div class="banner-line-cyan">Smarter</div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- MAIN COLUMN -->
-    <div class="main-column">
-
-      <!-- TOP HEADER BAR -->
-      <header class="topbar">
-        <div class="topbar-left">
-          <button type="button" class="mobile-menu-btn" onclick="toggleMobileSidebar(true)" aria-label="Open menu">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          </button>
-          <div>
-            <h1 id="headerTitle" class="page-title">Sales Dashboard</h1>
-            <p id="headerSubtitle" class="page-subtitle">Track your LED Sales Pipeline at a Glance</p>
-          </div>
-        </div>
-
-        <div class="topbar-controls">
-          <!-- Single Upload Quote PDF button -->
-          <button type="button" class="btn-upload-pdf" onclick="triggerPdfUpload()">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-            <span>Upload Quote PDF</span>
-          </button>
-
-          <!-- Sync Status Pill -->
-          <button type="button" id="syncPill" class="sync-pill" onclick="loadFromSupabase(true)" title="Click to retry sync with Supabase">
-            <span id="syncDot" class="sync-dot syncing"></span>
-            <span id="syncText">Syncing...</span>
-          </button>
-
-          <!-- Period Filter Dropdown -->
-          <div class="period-select-wrap">
-            <svg class="period-select-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <select id="periodSelect" class="period-select" onchange="handlePeriodChange()">
-              <option value="All Time" selected>All Time</option>
-              <option value="This Month">This Month</option>
-              <option value="Last Month">Last Month</option>
-              <option value="This Quarter">This Quarter</option>
-              <option value="Last 6 Months">Last 6 Months</option>
-              <option value="This Year">This Year</option>
-              <option value="Custom Range">Custom Range</option>
-            </select>
-          </div>
-
-          <div class="topbar-divider"></div>
-
-          <!-- User Profile Menu -->
-          <div class="profile-wrap" id="profileWrap">
-            <button type="button" class="profile-btn" onclick="toggleProfileDropdown(event)">
-              <span class="profile-avatar">KP</span>
-              <span class="profile-name">Kiran Patil ▾</span>
-            </button>
-            <div id="profileDropdown" class="profile-dropdown hidden">
-              <div class="profile-dropdown-header">
-                <div class="profile-dropdown-name">Kiran Patil</div>
-                <div class="profile-dropdown-role">VERTAXIS Sales Admin</div>
-              </div>
-              <button type="button" class="dropdown-item" onclick="closeProfileDropdown(); loadFromSupabase(true)">
-                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                <span>Force Sync</span>
-              </button>
-              <button type="button" class="dropdown-item" onclick="closeProfileDropdown(); switchTab('settings')">
-                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                <span>Settings</span>
-              </button>
-              <button type="button" class="dropdown-item danger" onclick="lockDashboard()">
-                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                <span>Lock Dashboard</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- COMPACT CUSTOM RANGE SUB-BAR -->
-      <div id="customRangeBar" class="custom-range-bar hidden">
-        <div class="custom-range-left">
-          <span class="custom-range-label">Custom Period:</span>
-          <label>From <input id="customFrom" type="date" class="date-input" /></label>
-          <label>To <input id="customTo" type="date" class="date-input" /></label>
-          <button type="button" class="btn-sm btn-primary" onclick="applyCustomRange()">Apply</button>
-        </div>
-        <div class="custom-range-left">
-          <span id="customRangeSummary" class="text-muted"></span>
-          <button type="button" class="btn-sm btn-secondary" onclick="resetPeriodAllTime()">All Time</button>
-        </div>
-      </div>
-
-      <!-- ERROR BANNER (Sync & Runtime Errors) -->
-      <div id="syncErrorBanner" class="alert-banner error hidden">
-        <span id="syncErrorMsg">Error message</span>
-        <div class="banner-actions">
-          <button type="button" class="btn-sm btn-danger-soft" onclick="loadFromSupabase(true)">Retry Sync</button>
-          <button type="button" class="btn-sm btn-secondary" onclick="dismissErrorBanner()">Dismiss</button>
-        </div>
-      </div>
-
-      <!-- LOCAL RECOVERY BANNER -->
-      <div id="localRecoveryBanner" class="alert-banner warn hidden">
-        <span id="localRecoveryText">Local data found in this browser while cloud is empty.</span>
-        <div class="banner-actions">
-          <button type="button" class="btn-sm btn-primary" onclick="pushLocalToCloud()">Push Local Data to Cloud</button>
-          <button type="button" class="btn-sm btn-secondary" onclick="document.getElementById('localRecoveryBanner').classList.add('hidden')">Dismiss</button>
-        </div>
-      </div>
-
-      <!-- =========================================================
-           MAIN WORKSPACE VIEWS
-           ========================================================= -->
-      <main class="workspace">
-
-        <!-- VIEW 1: DASHBOARD -->
-        <section id="view-dashboard" class="view-section">
-          <!-- Row 1: 4 Pastel KPI Cards -->
-          <div class="kpi-grid">
-            <div class="kpi-card kpi-blue">
-              <div class="kpi-icon-circle">
-                <svg width="26" height="26" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 11.5L3.8 9.4 2 10.3l10 5 10-5-1.8-.9L12 13.5zm0 4L3.8 13.4 2 14.3l10 5 10-5-1.8-.9L12 17.5z"/></svg>
-              </div>
-              <div class="kpi-body">
-                <div class="kpi-label">Total Pipeline</div>
-                <div id="kpiTotalPipeline" class="kpi-value">₹0.0 L</div>
-                <div id="kpiTotalPipelineSub" class="kpi-sub">0 open deals</div>
-              </div>
-            </div>
-
-            <div class="kpi-card kpi-mint">
-              <div class="kpi-icon-circle">
-                <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22v-9m0 0C12 8.5 8.5 5 4 5c0 4.5 3.5 8 8 8zm0 0c0-4.5 3.5-8 8-8 0 4.5-3.5 8-8 8z"/></svg>
-              </div>
-              <div class="kpi-body">
-                <div class="kpi-label">In Nurturing</div>
-                <div id="kpiNurturing" class="kpi-value">₹0.0 L</div>
-                <div id="kpiNurturingSub" class="kpi-sub">≈ 0% of Pipeline</div>
-              </div>
-            </div>
-
-            <div class="kpi-card kpi-amber">
-              <div class="kpi-icon-circle">
-                <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 9l-2 2-2-2m7.5 3.5l-3.25 3.25a2.121 2.121 0 01-3 0L9.5 14m-5-2l3.5-3.5a2 2 0 012.828 0L12 9.672l1.172-1.172a2 2 0 012.828 0L19.5 12m-15 0l3.25 3.25a2.121 2.121 0 003 0"/></svg>
-              </div>
-              <div class="kpi-body">
-                <div class="kpi-label">Active Opportunities</div>
-                <div id="kpiActive" class="kpi-value">₹0.0 L</div>
-                <div id="kpiActiveSub" class="kpi-sub">≈ 0% of Pipeline</div>
-              </div>
-            </div>
-
-            <div class="kpi-card kpi-green">
-              <div class="kpi-icon-circle">
-                <svg width="26" height="26" fill="currentColor" viewBox="0 0 24 24"><path d="M18 4V2H6v2H2v3c0 2.76 2.24 5 5 5h.18A5.99 5.99 0 0011 15.92V19H8v2h8v-2h-3v-3.08A5.99 5.99 0 0016.82 12H17c2.76 0 5-2.24 5-5V4h-4zM4 7V6h2v4c-1.1 0-2-.9-2-2V7zm16 1c0 1.1-.9 2-2 2V6h2v2z"/></svg>
-              </div>
-              <div class="kpi-body">
-                <div class="kpi-label">Won Revenue</div>
-                <div id="kpiWon" class="kpi-value">₹0.0 L</div>
-                <div id="kpiWonSub" class="kpi-sub">0 deals won</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Row 2: Sales Funnel + Follow-ups -->
-          <div class="mid-grid">
-            <div class="panel-card">
-              <div class="panel-header-dark">
-                <div class="panel-header-title">
-                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M3 4a1 1 0 011-1h16a1 1 0 01.8 1.6L14 13.5V19a1 1 0 01-.55.89l-3 1.5A1 1 0 019 20.5v-7L3.2 4.6A1 1 0 013 4z"/></svg>
-                  <span>Sales Funnel</span>
-                </div>
-                <span class="panel-header-right">Value (₹)</span>
-              </div>
-              <div id="funnelBody" class="funnel-body"></div>
-            </div>
-
-            <div class="panel-card">
-              <div class="panel-header-dark">
-                <div class="panel-header-title">
-                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 002.45-2h-4.9A2.5 2.5 0 0012 22zm6.36-5.5l-1.36-1.36V10a5 5 0 00-4-4.9V4a1 1 0 10-2 0v1.1A5 5 0 007 10v5.14L5.64 16.5A1 1 0 006.35 18.2h11.3a1 1 0 00.71-1.7z"/></svg>
-                  <span>Follow-ups</span>
-                </div>
-                <button type="button" class="link-btn" onclick="switchTab('followups')">View All →</button>
-              </div>
-              <div id="dashboardFollowupsBody" class="followups-body"></div>
-            </div>
-          </div>
-
-          <!-- Row 3: Pipeline Trend Chart -->
-          <div class="trend-card">
-            <div class="trend-header">
-              <div class="trend-title">
-                <svg width="19" height="19" fill="#0E1E3A" viewBox="0 0 24 24"><path d="M5 13h3v7H5v-7zm5.5-5h3v12h-3V8zM16 4h3v16h-3V4z"/></svg>
-                <span>Pipeline Trend</span>
-              </div>
-              <div class="trend-legend">
-                <span class="legend-item"><span class="legend-dot" style="background:#1D63ED;"></span>Pipeline Value</span>
-                <span class="legend-item"><span class="legend-dot" style="background:#16A34A;"></span>Won Revenue</span>
-              </div>
-            </div>
-            <div class="trend-scroll">
-              <div id="trendChartContainer" class="trend-svg-wrap"></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- VIEW 2: COMPANIES -->
-        <section id="view-companies" class="view-section hidden">
-          <div class="section-toolbar">
-            <div>
-              <h2 class="section-heading">Client Companies</h2>
-              <p class="section-sub">Deals count and pipeline values are automatically calculated from Opportunities.</p>
-            </div>
-            <button type="button" class="btn-md btn-primary" onclick="openCompanyModal()">+ Add Company</button>
-          </div>
-
-          <div class="table-card">
-            <div class="table-wrap">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Company Name</th>
-                    <th>Contact Person</th>
-                    <th>Industry</th>
-                    <th class="text-right">Deals</th>
-                    <th class="text-right">Pipeline Value</th>
-                    <th class="text-right">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="companiesTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- VIEW 3: OPPORTUNITIES -->
-        <section id="view-opportunities" class="view-section hidden">
-          <div class="section-toolbar">
-            <div>
-              <h2 class="section-heading">Opportunities &amp; Deals</h2>
-              <p class="section-sub">Search deals, filter by stage, or update pipeline stages inline.</p>
-            </div>
-            <div class="toolbar-actions">
-              <div class="search-box">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/></svg>
-                <input id="oppSearch" type="text" class="input-control" placeholder="Search company, deal, or quote no..." oninput="renderOpportunitiesTable()" />
-              </div>
-              <select id="oppStageFilter" class="select-control" style="width:205px;" onchange="renderOpportunitiesTable()">
-                <option value="All">All Stages</option>
-                <option value="Marketing Qualified Lead">Marketing Qualified Lead</option>
-                <option value="In Nurturing">In Nurturing</option>
-                <option value="Sales Qualified Lead">Sales Qualified Lead</option>
-                <option value="Quotation Sent">Quotation Sent</option>
-                <option value="Negotiation">Negotiation</option>
-                <option value="Won">Won</option>
-              </select>
-              <button type="button" class="btn-md btn-primary" onclick="openOppModal()">+ Add Opportunity</button>
-            </div>
-          </div>
-
-          <div class="table-card">
-            <div class="table-wrap">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Company / Deal Title</th>
-                    <th>Date</th>
-                    <th class="text-right">Value (₹ Lakhs)</th>
-                    <th>Funnel Stage</th>
-                    <th class="text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="opportunitiesTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- VIEW 4: FOLLOW-UPS -->
-        <section id="view-followups" class="view-section hidden">
-          <div class="section-toolbar">
-            <div>
-              <h2 class="section-heading">Follow-up Tasks</h2>
-              <p class="section-sub">Track calls, quotation follow-ups, and site visits.</p>
-            </div>
-            <div class="toolbar-actions">
-              <select id="followupFilter" class="select-control" style="width:150px;" onchange="renderFollowupsView()">
-                <option value="Pending">Pending</option>
-                <option value="All">All Tasks</option>
-                <option value="Completed">Completed</option>
-              </select>
-              <button type="button" class="btn-md btn-primary" onclick="openFollowupModal()">+ Add Follow-up</button>
-            </div>
-          </div>
-
-          <div class="table-card">
-            <div class="panel-header-dark">
-              <span class="panel-header-title">Scheduled Follow-ups</span>
-              <span id="followupsCountLabel" class="panel-header-right">0 pending</span>
-            </div>
-            <div id="allFollowupsContainer"></div>
-          </div>
-        </section>
-
-        <!-- VIEW 5: REPORTS -->
-        <section id="view-reports" class="view-section hidden">
-          <div class="section-toolbar">
-            <div>
-              <h2 class="section-heading">Pipeline Reports</h2>
-              <p class="section-sub">Stage breakdown and conversion metrics for the selected period.</p>
-            </div>
-            <button type="button" class="btn-md btn-green" onclick="exportOpportunitiesCSV()">Export CSV</button>
-          </div>
-
-          <div id="reportsSummaryGrid" class="report-kpi-grid"></div>
-
-          <div class="table-card">
-            <div class="table-wrap">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Funnel Stage</th>
-                    <th class="text-right">Deal Count</th>
-                    <th class="text-right">Total Value (₹ L)</th>
-                    <th class="text-right">% of Pipeline</th>
-                  </tr>
-                </thead>
-                <tbody id="reportsTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Leads Pool Summary by Executive -->
-          <div class="table-card">
-            <div class="panel-header-dark">
-              <span class="panel-header-title">Leads Pool by Executive</span>
-              <span id="reportsPoolSummary" class="panel-header-right">0 leads</span>
-            </div>
-            <div class="table-wrap">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Executive</th>
-                    <th class="text-right">Leads Assigned</th>
-                    <th class="text-right">Total Pool Value (₹ L)</th>
-                    <th class="text-right">Share of Pool</th>
-                  </tr>
-                </thead>
-                <tbody id="reportsLeadsPoolBody"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- VIEW 6: SETTINGS -->
-        <section id="view-settings" class="view-section hidden">
-          <div>
-            <h2 class="section-heading">Settings &amp; Cloud Sync</h2>
-            <p class="section-sub">Manage your security PIN, Supabase sync, and JSON backups.</p>
-          </div>
-
-          <div class="settings-grid">
-            <!-- 4-Digit PIN -->
-            <div class="settings-card">
-              <div class="settings-row">
-                <div>
-                  <div class="settings-title">4-Digit Security PIN</div>
-                  <div class="settings-desc">Synced to Supabase so your PIN works across all your devices.</div>
-                </div>
-                <button type="button" class="btn-sm btn-secondary" onclick="lockDashboard()">Lock Now</button>
-              </div>
-              <form id="pinChangeForm" class="pin-form-grid" onsubmit="updateSecurityPin(event)">
-                <div>
-                  <label class="field-label">Current PIN</label>
-                  <input id="curPinInput" type="password" inputmode="numeric" maxlength="4" required placeholder="••••" class="input-control" />
-                </div>
-                <div>
-                  <label class="field-label">New 4-Digit PIN</label>
-                  <input id="newPinInput" type="password" inputmode="numeric" maxlength="4" required placeholder="••••" class="input-control" />
-                </div>
-                <button type="submit" class="btn-md btn-primary">Save PIN</button>
-              </form>
-            </div>
-
-            <!-- Manual Cloud Sync -->
-            <div class="settings-card">
-              <div class="settings-row">
-                <div>
-                  <div class="settings-title">Supabase Cloud Sync</div>
-                  <div class="settings-desc">Table: <strong>dashboard_state</strong> (Row #1) • Status: <strong id="settingsSyncStatus">Syncing...</strong></div>
-                </div>
-                <div class="toolbar-actions">
-                  <button type="button" class="btn-sm btn-secondary" onclick="loadFromSupabase(true)">Pull from Cloud</button>
-                  <button type="button" class="btn-sm btn-primary" onclick="saveToSupabase(true)">Push to Cloud</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Backup & Reset -->
-            <div class="settings-card">
-              <div class="settings-row">
-                <div>
-                  <div class="settings-title">Backup &amp; Restore</div>
-                  <div class="settings-desc">Export your full pipeline as JSON or import an earlier backup.</div>
-                </div>
-                <div class="toolbar-actions">
-                  <button type="button" class="btn-sm btn-secondary" onclick="exportDataJSON()">Export JSON Backup</button>
-                  <label class="btn-sm btn-secondary" style="cursor:pointer;">
-                    Import JSON Backup
-                    <input type="file" accept=".json" class="hidden" onchange="importDataJSON(event)" />
-                  </label>
-                </div>
-              </div>
-              <hr style="border:none;border-top:1px solid #F1F5F9;" />
-              <div class="settings-row">
-                <div>
-                  <div class="settings-title" style="color:var(--danger);">Reset All Data to Zero</div>
-                  <div class="settings-desc">Clears all companies, opportunities, follow-ups, and leads pool locally and in Supabase.</div>
-                </div>
-                <button type="button" class="btn-sm btn-danger-soft" onclick="openModal('clearConfirmModal')">Reset All Data to Zero</button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- VIEW 7: LEADS POOL (BELOW SETTINGS) -->
-        <section id="view-leadspool" class="view-section hidden">
-          <!-- Top Summary Strip -->
-          <div class="report-kpi-grid">
-            <div class="stat-card">
-              <div class="stat-label">Total Forwarded Leads</div>
-              <div id="lpTotalCount" class="stat-val">0</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Total Pool Value</div>
-              <div id="lpTotalValue" class="stat-val" style="color:#1D63ED;">₹0.0 L</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Active Executives</div>
-              <div id="lpExecCount" class="stat-val" style="color:#15803D;">0</div>
-            </div>
-          </div>
-
-          <!-- Toolbar -->
-          <div class="section-toolbar">
-            <div>
-              <h2 class="section-heading">Leads Pool</h2>
-              <p class="section-sub">Track and manage leads forwarded to junior sales executives.</p>
-            </div>
-            <div class="toolbar-actions">
-              <div class="search-box">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/></svg>
-                <input id="lpSearch" type="text" class="input-control" placeholder="Search company, sector, or executive..." oninput="renderLeadsPoolView()" />
-              </div>
-              <select id="lpExecFilter" class="select-control" style="width:185px;" onchange="renderLeadsPoolView()">
-                <option value="All">All Executives</option>
-              </select>
-              <button type="button" class="btn-md btn-primary" onclick="openLeadModal()">+ Add Lead</button>
-            </div>
-          </div>
-
-          <!-- Leads Pool Table -->
-          <div class="table-card">
-            <div class="table-wrap">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th style="width:72px;">Sr. No.</th>
-                    <th>Date</th>
-                    <th>Company</th>
-                    <th>Sector</th>
-                    <th>Assigned To</th>
-                    <th class="text-right">Amount</th>
-                    <th class="text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="leadsPoolTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-      </main>
-    </div>
-  </div>
+  <!-- Hidden File Input for WhatsApp / Snip Image Upload -->
+  <input id="snipImageInput" type="file" accept="image/png,image/jpeg,image/webp,image/*" class="hidden" onchange="handleSnipFileSelected(event)" />
 
   <!-- =========================================================
        MODALS
@@ -2135,12 +1667,12 @@
         </div>
         <div>
           <label class="field-label">Deal Title / LED Display Requirement</label>
-          <input id="oppTitle" type="text" required placeholder="e.g., Pitch 4 Outdoor LED Display" class="input-control" />
-        </div>
-        <div class="form-grid-2">
-          <div>
-            <label class="field-label">Quotation No (Optional)</label>
-            <input id="oppQuoteNo" type="text" placeholder="e.g., VA-26-27-2135" class="input-control" />
+              <select id="lpExecFilter" class="select-control" style="width:185px;" onchange="renderLeadsPoolView()">
+                <option value="All">All Executives</option>
+              </select>
+              <button type="button" class="btn-md btn-green" onclick="openSnipImportModal()">📋 Import WhatsApp / Snip</button>
+              <button type="button" class="btn-md btn-primary" onclick="openLeadModal()">+ Add Lead</button>
+            </div>
           </div>
           <div>
             <label class="field-label">Value (₹ Lakhs)</label>
@@ -2355,15 +1887,16 @@
             <label class="field-label">Sector</label>
             <input id="leadSector" list="sectorDatalist" type="text" required placeholder="e.g., Retail" class="input-control" />
             <datalist id="sectorDatalist">
-              <option value="Retail"></option>
-              <option value="Jewellery"></option>
-              <option value="Real Estate"></option>
-              <option value="Manufacturing"></option>
-              <option value="Hospitality"></option>
+              <option value="Retail & Showroom"></option>
               <option value="Healthcare"></option>
               <option value="Education"></option>
+              <option value="Hospitality"></option>
+              <option value="Manufacturing"></option>
               <option value="AV Integrator"></option>
-              <option value="OOH Media"></option>
+              <option value="Real Estate"></option>
+              <option value="Religious / Trust"></option>
+              <option value="Government"></option>
+              <option value="DOOH / Advertising"></option>
               <option value="Corporate"></option>
             </datalist>
           </div>
@@ -2380,6 +1913,93 @@
         <div class="modal-footer">
           <button type="button" class="btn-sm btn-secondary" onclick="closeModal('leadModal')">Cancel</button>
           <button type="submit" class="btn-sm btn-primary">Save Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Import Lead from WhatsApp / Snip Modal -->
+  <div id="snipImportModal" class="modal-backdrop hidden">
+    <div class="modal-box" style="max-width:560px;">
+      <div class="modal-header">
+        <span class="modal-title">Import Lead from WhatsApp / Snip</span>
+        <button type="button" class="modal-close" onclick="closeModal('snipImportModal')">✕</button>
+      </div>
+      <form id="snipImportForm" class="modal-body" onsubmit="saveSnipLead(event)">
+        <!-- Step 1: Drop / Paste Zone -->
+        <div id="snipDropzone" class="snip-dropzone" onclick="triggerSnipImageUpload()" ondragover="handleSnipDragOver(event)" ondragleave="handleSnipDragLeave(event)" ondrop="handleSnipDrop(event)">
+          <div id="snipDropPrompt">
+            <svg width="28" height="28" fill="none" stroke="#1D63ED" stroke-width="1.9" viewBox="0 0 24 24" style="margin:0 auto 4px;display:block;"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <div class="snip-dropzone-title">Press Ctrl+V to paste Snip, Drag &amp; Drop, or Click to Upload</div>
+            <div class="snip-dropzone-sub">Supports Windows Snipping Tool screenshots (PNG / JPG / WEBP)</div>
+          </div>
+          <div id="snipPreviewWrap" class="snip-preview-wrap hidden" onclick="event.stopPropagation()">
+            <img id="snipPreviewImg" class="snip-preview-img" alt="Pasted screenshot preview" />
+            <div style="display:flex;gap:8px;">
+              <button type="button" class="btn-sm btn-secondary" onclick="triggerSnipImageUpload()">Change Image</button>
+              <button type="button" class="btn-sm btn-danger-soft" onclick="clearSnipPreview()">Clear</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Live OCR Progress Bar -->
+        <div id="ocrProgressWrap" class="ocr-progress-wrap hidden">
+          <div class="ocr-progress-top">
+            <span id="ocrStatusText">Loading OCR engine...</span>
+            <span id="ocrPercentText">0%</span>
+          </div>
+          <div class="ocr-progress-track">
+            <div id="ocrProgressFill" class="ocr-progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- Step 3: Extracted / Paste WhatsApp Text Box -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+            <label class="field-label" style="margin-bottom:0;">Extracted / Paste WhatsApp Chat Text</label>
+            <button type="button" class="btn-sm btn-secondary" style="height:26px;font-size:11.5px;padding:0 10px;" onclick="reparseSnipText()">Re-parse Text</button>
+          </div>
+          <textarea id="snipRawText" class="textarea-control" placeholder="Paste WhatsApp forwarded message text directly here for instant detection, or paste/upload a screenshot above..." oninput="handleSnipTextInput()"></textarea>
+        </div>
+
+        <!-- Detection Status Badge -->
+        <div id="snipDetectStatus" class="detect-status-bar">
+          <span>Paste a WhatsApp message or screenshot to auto-fill fields below.</span>
+        </div>
+
+        <!-- Step 4: Editable Review Form -->
+        <div class="form-grid-2">
+          <div>
+            <label class="field-label">Date</label>
+            <input id="snipDate" type="date" required class="input-control" />
+          </div>
+          <div>
+            <label class="field-label">Amount (₹ Lakhs)</label>
+            <input id="snipAmount" type="number" step="0.01" min="0" required placeholder="e.g., 4.50" class="input-control" />
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Company Name</label>
+          <input id="snipCompany" list="companyDatalist" type="text" required placeholder="e.g., Shree Jewellers Pune" class="input-control" />
+        </div>
+        <div class="form-grid-2">
+          <div>
+            <label class="field-label">Sector</label>
+            <input id="snipSector" list="sectorDatalist" type="text" required placeholder="e.g., Retail & Showroom" class="input-control" />
+          </div>
+          <div>
+            <label class="field-label">Assigned To (Executive)</label>
+            <input id="snipAssignedTo" list="execDatalist" type="text" required placeholder="e.g., Rupesh Wadile" class="input-control" />
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Remarks / Notes (Optional)</label>
+          <input id="snipNotes" type="text" placeholder="Auto-filled from WhatsApp message" class="input-control" />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-sm btn-secondary" onclick="closeModal('snipImportModal')">Cancel</button>
+          <button type="submit" class="btn-sm btn-green">Add to Leads Pool</button>
         </div>
       </form>
     </div>
@@ -2443,8 +2063,8 @@
       // ==========================================
       var SUPABASE_URL = 'https://vpqzjqjgekxgizmvccuq.supabase.co/rest/v1/dashboard_state';
       var SUPABASE_KEY = 'sb_publishable_5iBt0ud3A-fDu0g7z3GFug_9wqyMr8f';
-      var LOCAL_STORAGE_KEY = 'vertaxis_sales_v3';
-      var LEGACY_KEYS = ['vertaxis_sales_data_v1', 'vertaxis_led_sales_dashboard_v1', 'vertaxis_dashboard_state'];
+      var LOCAL_STORAGE_KEY = 'vertaxis_dashboard_v2';
+      var LEGACY_KEYS = ['vertaxis_sales_v3', 'vertaxis_sales_data_v1', 'vertaxis_led_sales_dashboard_v1', 'vertaxis_dashboard_state'];
       var UNLOCK_SESSION_KEY = 'vertaxis_unlocked';
 
       var FUNNEL_STAGES = [
@@ -2479,8 +2099,10 @@
       var customFromDate = '';
       var customToDate = '';
       var pdfJsPromise = null;
+      var tesseractPromise = null;
       var toastTimer = null;
       var extractedQuoteItems = [];
+      var snipParseDebounce = null;
 
       // ==========================================
       // 2. UTILITIES & DATA NORMALIZATION
@@ -2596,8 +2218,7 @@
               };
             }).filter(function (l) { return l.company.length > 0; })
           : [];
-
-        var rawPin = raw.pin || (raw.settings && raw.settings.pin) || '1234';
+        var rawPin = raw.securityPin || raw.pin || (raw.settings && raw.settings.pin) || '1234';
         var pin = /^\d{4}$/.test(String(rawPin)) ? String(rawPin) : '1234';
 
         return {
@@ -2605,7 +2226,8 @@
           opportunities: opportunities,
           followUps: followUps,
           leadsPool: leadsPool,
-          pin: pin
+          pin: pin,
+          securityPin: pin
         };
       }
 
@@ -2887,6 +2509,7 @@
           return;
         }
         state.pin = nxt;
+        state.securityPin = nxt;
         var pinForm = document.getElementById('pinChangeForm');
         if (pinForm) pinForm.reset();
         updatePinHelperVisibility();
@@ -3651,6 +3274,484 @@
         saveToSupabase(false);
         showToast('Lead removed from pool');
       }
+
+      // ==========================================
+      // 7C. WHATSAPP / SNIPPING TOOL LEAD AUTO-IMPORT (TESSERACT.JS v5 + SMART PARSER)
+      // ==========================================
+      function loadTesseractJs() {
+        if (window.Tesseract) return Promise.resolve(window.Tesseract);
+        if (tesseractPromise) return tesseractPromise;
+
+        tesseractPromise = new Promise(function (resolve, reject) {
+          var script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+          script.async = true;
+          script.onload = function () {
+            if (window.Tesseract) resolve(window.Tesseract);
+            else reject(new Error('Tesseract.js failed to initialize'));
+          };
+          script.onerror = function () { reject(new Error('Could not load Tesseract.js OCR library')); };
+          document.head.appendChild(script);
+        });
+        return tesseractPromise;
+      }
+
+      function openSnipImportModal() {
+        var form = document.getElementById('snipImportForm');
+        if (form) form.reset();
+        clearSnipPreview();
+        hideOcrProgress();
+        document.getElementById('snipDate').value = toIsoDate(new Date());
+        document.getElementById('snipRawText').value = '';
+        setSnipDetectStatus('neutral', 'Paste a WhatsApp message or screenshot (Ctrl+V) to auto-fill fields below.');
+        openModal('snipImportModal');
+      }
+
+      function triggerSnipImageUpload() {
+        var input = document.getElementById('snipImageInput');
+        if (input) {
+          input.value = '';
+          input.click();
+        }
+      }
+
+      function clearSnipPreview() {
+        var img = document.getElementById('snipPreviewImg');
+        var wrap = document.getElementById('snipPreviewWrap');
+        var prompt = document.getElementById('snipDropPrompt');
+        if (img) img.removeAttribute('src');
+        if (wrap) wrap.classList.add('hidden');
+        if (prompt) prompt.classList.remove('hidden');
+      }
+
+      function showOcrProgress(text, pct) {
+        var wrap = document.getElementById('ocrProgressWrap');
+        var statusEl = document.getElementById('ocrStatusText');
+        var pctEl = document.getElementById('ocrPercentText');
+        var fillEl = document.getElementById('ocrProgressFill');
+        if (wrap) wrap.classList.remove('hidden');
+        if (statusEl) statusEl.textContent = text;
+        var safePct = Math.max(0, Math.min(100, Math.round(pct || 0)));
+        if (pctEl) pctEl.textContent = safePct + '%';
+        if (fillEl) fillEl.style.width = safePct + '%';
+      }
+
+      function hideOcrProgress() {
+        var wrap = document.getElementById('ocrProgressWrap');
+        if (wrap) wrap.classList.add('hidden');
+      }
+
+      function setSnipDetectStatus(mode, text) {
+        var el = document.getElementById('snipDetectStatus');
+        if (!el) return;
+        el.className = 'detect-status-bar' + (mode === 'good' ? ' good' : (mode === 'partial' ? ' partial' : ''));
+        el.innerHTML = '<span>' + escapeHTML(text) + '</span>';
+      }
+
+      function handleSnipDragOver(e) {
+        e.preventDefault();
+        var dz = document.getElementById('snipDropzone');
+        if (dz) dz.classList.add('dragover');
+      }
+
+      function handleSnipDragLeave(e) {
+        e.preventDefault();
+        var dz = document.getElementById('snipDropzone');
+        if (dz) dz.classList.remove('dragover');
+      }
+
+      function handleSnipDrop(e) {
+        e.preventDefault();
+        var dz = document.getElementById('snipDropzone');
+        if (dz) dz.classList.remove('dragover');
+        var files = e.dataTransfer && e.dataTransfer.files;
+        if (files && files[0] && files[0].type.indexOf('image/') === 0) {
+          processSnipImageFile(files[0]);
+        } else {
+          showToast('Please drop an image file (PNG / JPG / WEBP)');
+        }
+      }
+
+      function handleSnipFileSelected(e) {
+        var file = e.target.files && e.target.files[0];
+        if (file) processSnipImageFile(file);
+      }
+
+      async function processSnipImageFile(file) {
+        // Show crisp thumbnail preview immediately
+        try {
+          var reader = new FileReader();
+          reader.onload = function (ev) {
+            var img = document.getElementById('snipPreviewImg');
+            var wrap = document.getElementById('snipPreviewWrap');
+            var prompt = document.getElementById('snipDropPrompt');
+            if (img) img.src = ev.target.result;
+            if (wrap) wrap.classList.remove('hidden');
+            if (prompt) prompt.classList.add('hidden');
+          };
+          reader.readAsDataURL(file);
+        } catch (err) {
+          console.warn('Preview read warning:', err);
+        }
+
+        showOcrProgress('Loading OCR engine...', 10);
+        try {
+          var Tesseract = await loadTesseractJs();
+          showOcrProgress('Reading screenshot...', 22);
+
+          var result = await Tesseract.recognize(file, 'eng', {
+            logger: function (m) {
+              if (!m) return;
+              if (m.status === 'recognizing text') {
+                var p = Math.round((m.progress || 0) * 100);
+                showOcrProgress('Reading screenshot... ' + p + '%', Math.max(25, p));
+              } else if (m.status === 'loading language traineddata') {
+                showOcrProgress('Loading language model...', 18);
+              }
+            }
+          });
+
+          var text = (result && result.data && result.data.text) ? result.data.text.trim() : '';
+          document.getElementById('snipRawText').value = text;
+          showOcrProgress('Auto-filled fields!', 100);
+          setTimeout(hideOcrProgress, 1400);
+
+          if (text) {
+            applyParsedWhatsAppLead(text);
+            showToast('Screenshot scanned & fields auto-filled!');
+          } else {
+            setSnipDetectStatus('partial', 'No readable text found in screenshot — paste text or fill fields manually.');
+          }
+        } catch (err) {
+          console.error('OCR Error:', err);
+          hideOcrProgress();
+          setSnipDetectStatus('partial', 'OCR failed (' + (err && err.message ? err.message : 'network error') + '). Paste WhatsApp text below instead.');
+        }
+      }
+
+      function inferSectorFromText(text) {
+        var lower = text.toLowerCase();
+        var rules = [
+          { sector: 'Healthcare',         re: /\b(hospital|clinic|medical|pharma|healthcare|dental|diagnostic|diagnostics|nursing\s*home|medicare)\b/i },
+          { sector: 'Education',          re: /\b(school|college|classes|institute|academy|university|coaching|vidyalaya|campus|education)\b/i },
+          { sector: 'Retail & Showroom',  re: /\b(mall|showroom|jeweller|jewellers|jewellery|shop|store|retail|mart|boutique|supermarket|hypermarket|garment|textile|saraf)\b/i },
+          { sector: 'Hospitality',        re: /\b(hotel|resort|restaurant|cafe|banquet|lounge|club|hospitality|inn|motel|dhaba)\b/i },
+          { sector: 'Manufacturing',      re: /\b(factory|plant|mfg|manufacturing|industrial|engineering|auto|automobile|steel|forge|foundr|midc|industries|works)\b/i },
+          { sector: 'AV Integrator',      re: /\b(av\s*integrator|integrator|audio\s*visual|event|events|sound|stage|rental|broadcast|studio|digital\s*solutions)\b/i },
+          { sector: 'Real Estate',        re: /\b(builder|builders|infra|infrastructure|real\s*estate|developer|developers|realty|construction|township|properties|housing)\b/i },
+          { sector: 'Religious / Trust',  re: /\b(temple|mandir|trust|gurudwara|church|mosque|ashram|foundation|samiti|sanstha)\b/i },
+          { sector: 'Government',         re: /\b(govt|government|municipal|corporation|smart\s*city|pwd|police|railway|pmc|pcmc|nmc|cantonment|collector)\b/i },
+          { sector: 'DOOH / Advertising', re: /\b(hoarding|hoardings|outdoor\s*ad|advertising|ooh|dooh|signage|billboard|media\s*agency|publicity|ad\s*agency)\b/i }
+        ];
+        for (var i = 0; i < rules.length; i++) {
+          if (rules[i].re.test(lower)) return rules[i].sector;
+        }
+        return '';
+      }
+
+      function parseWhatsAppLeadText(rawText) {
+        var text = String(rawText || '').replace(/\r/g, '');
+        var lines = text.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+        var flat = lines.join(' ');
+
+        var detected = {
+          date: '',
+          amount: '',
+          company: '',
+          sector: '',
+          assignedTo: '',
+          notes: '',
+          count: 0
+        };
+
+        // 1. DATE DETECTION
+        var monthMap = { jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06', jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12' };
+        var dmyM = flat.match(/\b(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})\b/);
+        var dMonM = flat.match(/\b(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s,]*(\d{2,4})?\b/i);
+        var isoM = flat.match(/\b(20\d{2})-(\d{2})-(\d{2})\b/);
+
+        if (isoM) {
+          detected.date = isoM[1] + '-' + isoM[2] + '-' + isoM[3];
+        } else if (dmyM) {
+          var dd = parseInt(dmyM[1], 10);
+          var mm = parseInt(dmyM[2], 10);
+          var yy = dmyM[3].length === 2 ? ('20' + dmyM[3]) : dmyM[3];
+          if (dd >= 1 && dd <= 31 && mm >= 1 && mm <= 12) {
+            detected.date = yy + '-' + String(mm).padStart(2, '0') + '-' + String(dd).padStart(2, '0');
+          }
+        } else if (dMonM) {
+          var d2 = String(parseInt(dMonM[1], 10)).padStart(2, '0');
+          var m2 = monthMap[dMonM[2].toLowerCase().slice(0, 3)] || '01';
+          var y2 = dMonM[3] ? (dMonM[3].length === 2 ? ('20' + dMonM[3]) : dMonM[3]) : String(new Date().getFullYear());
+          detected.date = y2 + '-' + m2 + '-' + d2;
+        } else if (/\byesterday\b/i.test(flat)) {
+          var yest = new Date();
+          yest.setDate(yest.getDate() - 1);
+          detected.date = toIsoDate(yest);
+        }
+
+        // 2. AMOUNT DETECTION (Convert to ₹ Lakhs; ignore phone numbers, years, dimensions, timestamps)
+        var sanitizedForAmt = text
+          // Strip Indian phone numbers (+91 / 10-digit starting 6-9 with optional spaces/dashes)
+          .replace(/(?:\+91[\s\-]?)?[6-9]\d{4}[\s\-]?\d{5}\b/g, ' ')
+          .replace(/(?:\+91[\s\-]?)?[6-9]\d{2}[\s\-]?\d{3}[\s\-]?\d{4}\b/g, ' ')
+          // Strip dates & timestamps
+          .replace(/\b\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}\b/g, ' ')
+          .replace(/\b\d{1,2}:\d{2}\s*(?:am|pm)?\b/gi, ' ')
+          // Strip pixel/mm/ft dimensions & pitch tags (e.g., 2560x1280, 8 x 4 ft, P2.5, P4)
+          .replace(/\b\d+(?:\.\d+)?\s*(?:mm|cm|ft|feet|mtr|m)?\s*[xX\u00D7]\s*\d+(?:\.\d+)?\s*(?:mm|cm|ft|feet|mtr|m)?\b/gi, ' ')
+          .replace(/\b(?:pitch\s*|p)\s*\d+(?:\.\d+)?\b/gi, ' ')
+          .replace(/\b\d+(?:\.\d+)?\s*(?:sq\.?\s*ft|sqft|mm|hz|nits|watt|hrs)\b/gi, ' ');
+
+        var amtLakhs = null;
+        // Priority A: Explicit Lakh / Lac / L pattern (e.g., "4.5L", "4.5 lakh", "₹ 2.5 L", "3.25 lacs")
+        var lakhM = sanitizedForAmt.match(/(?:₹|Rs\.?|INR)?\s*(\d{1,3}(?:\.\d{1,2})?)\s*(?:lakhs?|lacs?|L\b)/i);
+        if (lakhM) {
+          amtLakhs = parseFloat(lakhM[1]);
+        }
+        // Priority B: Thousand / K pattern (e.g., "85k", "120k", "₹75K")
+        if (amtLakhs === null) {
+          var kM = sanitizedForAmt.match(/(?:₹|Rs\.?|INR)?\s*(\d{1,4}(?:\.\d{1,2})?)\s*[kK]\b/);
+          if (kM) {
+            amtLakhs = parseFloat(kM[1]) / 100;
+          }
+        }
+        // Priority C: Indian comma-formatted INR (e.g., "₹1,65,000", "2,50,000", "85,000")
+        if (amtLakhs === null) {
+          var commaM = sanitizedForAmt.match(/(?:₹|Rs\.?|INR)?\s*(\d{1,2},\d{2},\d{3}|\d{2,3},\d{3})(?:\.\d{1,2})?/i);
+          if (commaM) {
+            var rawInr = parseFloat(commaM[1].replace(/,/g, ''));
+            if (rawInr >= 10000) amtLakhs = rawInr / 100000;
+          }
+        }
+        // Priority D: Labeled plain number (e.g., "Amount: 350000", "Budget: 250000", "Rs 180000", "Value: 3.5")
+        if (amtLakhs === null) {
+          var lblAmtM = sanitizedForAmt.match(/(?:amount|amt|budget|value|price|quote|approx|est\.?|total|₹|Rs\.?|INR)\s*[:\-]?\s*(\d{1,7}(?:\.\d{1,2})?)\b/i);
+          if (lblAmtM) {
+            var nVal = parseFloat(lblAmtM[1]);
+            if (nVal >= 2020 && nVal <= 2035) {
+              // ignore year
+            } else if (nVal >= 10000) {
+              amtLakhs = nVal / 100000;
+            } else if (nVal > 0 && nVal < 500) {
+              amtLakhs = nVal;
+            }
+          }
+        }
+        if (amtLakhs !== null && !isNaN(amtLakhs) && amtLakhs > 0) {
+          detected.amount = Number(amtLakhs.toFixed(2));
+        }
+
+        // 3. ASSIGNED TO (EXECUTIVE) DETECTION
+        var execLabelRe = /(?:assigned\s*to|forwarded\s*to|forward\s*to|executive|exec|owner|sales\s*rep|rep|handled\s*by)\s*[:\-]\s*([A-Za-z][A-Za-z.\s]{1,35})/i;
+        for (var eIdx = 0; eIdx < lines.length; eIdx++) {
+          var em = lines[eIdx].match(execLabelRe);
+          if (em && em[1]) {
+            detected.assignedTo = em[1].replace(/\b(sir|ji|please|pls|follow.*|call.*)$/i, '').trim();
+            break;
+          }
+        }
+        if (!detected.assignedTo) {
+          var atM = flat.match(/@([A-Za-z][A-Za-z.\s]{1,28}?)(?=[,\n\r]|\s+(?:please|pls|call|follow|check|lead|budget|amount|sector)|$)/i);
+          if (atM && atM[1]) detected.assignedTo = atM[1].trim();
+        }
+        if (!detected.assignedTo && Array.isArray(state.leadsPool)) {
+          // Match any existing executive name already in state.leadsPool
+          var existingExecs = [];
+          var seenExec = {};
+          for (var p = 0; p < state.leadsPool.length; p++) {
+            var exName = (state.leadsPool[p].assignedTo || '').trim();
+            if (exName && exName !== 'Unassigned' && !seenExec[exName.toLowerCase()]) {
+              seenExec[exName.toLowerCase()] = true;
+              existingExecs.push(exName);
+            }
+          }
+          existingExecs.sort(function (a, b) { return b.length - a.length; });
+          for (var x = 0; x < existingExecs.length; x++) {
+            var firstWord = existingExecs[x].split(/\s+/)[0];
+            var reFull = new RegExp('\\b' + existingExecs[x].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+            var reFirst = firstWord.length >= 4 ? new RegExp('\\b' + firstWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i') : null;
+            if (reFull.test(flat) || (reFirst && reFirst.test(flat))) {
+              detected.assignedTo = existingExecs[x];
+              break;
+            }
+          }
+        }
+
+        // 4. SECTOR DETECTION (Explicit label OR smart keyword inference)
+        var sectorLabelRe = /(?:sector|industry|segment|category|vertical)\s*[:\-]\s*([A-Za-z&\s\/\-]{2,35})/i;
+        for (var sIdx = 0; sIdx < lines.length; sIdx++) {
+          var sm = lines[sIdx].match(sectorLabelRe);
+          if (sm && sm[1]) {
+            detected.sector = sm[1].trim();
+            break;
+          }
+        }
+        if (!detected.sector) {
+          detected.sector = inferSectorFromText(flat);
+        }
+
+        // 5. COMPANY NAME DETECTION
+        var compLabelRe = /(?:company|client|party|lead|customer|business|firm|organization|account|m\/s\.?)\s*[:\-]?\s*([A-Za-z0-9&.\-\s()]{2,65})/i;
+        for (var cIdx = 0; cIdx < lines.length; cIdx++) {
+          var cl = lines[cIdx].replace(/^\[?\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}[,\s]+\d{1,2}:\d{2}\s*(?:am|pm)?\]?\s*[\-:]?\s*/i, '').trim();
+          var cm = cl.match(compLabelRe);
+          if (cm && cm[1]) {
+            var cand = cm[1]
+              .replace(/\b(?:sector|industry|amount|budget|assigned|forwarded|date|phone|mob|contact)\b.*$/i, '')
+              .replace(/[\-|,:]+$/, '')
+              .trim();
+            if (cand.length >= 2) {
+              detected.company = cand;
+              break;
+            }
+          }
+        }
+
+        // Fallback: pick cleanest business/client line stripping WhatsApp UI noise
+        if (!detected.company) {
+          var waNoiseRe = /^(forwarded|forwarded\s+many\s+times|type\s+a\s+message|today|yesterday|unread|search|online|last\s+seen|messages\s+and\s+calls|end-to-end|hi|hello|dear|please\s+check|pls\s+check|fyi|ok|thanks|thank\s+you|\d{1,2}:\d{2}\s*(?:am|pm)?)$/i;
+          var labelOnlyRe = /^(date|amount|amt|budget|value|sector|industry|assigned\s*to|forwarded\s*to|executive|exec|phone|mobile|mob|contact|call|email)\s*[:\-]/i;
+
+          for (var fIdx = 0; fIdx < lines.length; fIdx++) {
+            var line = lines[fIdx]
+              .replace(/^\[?\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}[,\s]+\d{1,2}:\d{2}\s*(?:am|pm)?\]?\s*/i, '')
+              .replace(/\b\d{1,2}:\d{2}\s*(?:am|pm)\b/gi, '')
+              .replace(/(?:\+91[\s\-]?)?[6-9]\d{4}[\s\-]?\d{5}\b/g, '')
+              .replace(/https?:\/\/\S+/gi, '')
+              .replace(/^[•\-*►▪\s]+/, '')
+              .trim();
+
+            if (line.length < 3 || line.length > 65) continue;
+            if (waNoiseRe.test(line) || labelOnlyRe.test(line)) continue;
+            if (/^[\d\s,₹.\-\/]+(?:l|lac|lakh|k)?$/i.test(line)) continue;
+            if (detected.assignedTo && line.toLowerCase() === detected.assignedTo.toLowerCase()) continue;
+            if (detected.sector && line.toLowerCase() === detected.sector.toLowerCase()) continue;
+            if (/[A-Za-z]{3,}/.test(line)) {
+              detected.company = line.replace(/[\-|,:]+$/, '').trim();
+              break;
+            }
+          }
+        }
+
+        // 6. REMARKS / NOTES SUMMARY
+        var compactNotes = flat
+          .replace(/\bforwarded\b/gi, '')
+          .replace(/\b\d{1,2}:\d{2}\s*(?:am|pm)\b/gi, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+        detected.notes = compactNotes.length > 110 ? (compactNotes.slice(0, 107) + '...') : compactNotes;
+
+        // Count detected fields out of 5
+        var c = 0;
+        if (detected.date) c++;
+        if (detected.company) c++;
+        if (detected.sector) c++;
+        if (detected.assignedTo) c++;
+        if (detected.amount !== '') c++;
+        detected.count = c;
+
+        return detected;
+      }
+
+      function applyParsedWhatsAppLead(rawText) {
+        var parsed = parseWhatsAppLeadText(rawText);
+        document.getElementById('snipDate').value = parsed.date || toIsoDate(new Date());
+        if (parsed.company) document.getElementById('snipCompany').value = parsed.company;
+        if (parsed.sector) document.getElementById('snipSector').value = parsed.sector;
+        if (parsed.assignedTo) document.getElementById('snipAssignedTo').value = parsed.assignedTo;
+        if (parsed.amount !== '') document.getElementById('snipAmount').value = parsed.amount;
+        if (parsed.notes) document.getElementById('snipNotes').value = parsed.notes;
+
+        if (parsed.count >= 4) {
+          setSnipDetectStatus('good', 'Auto-detected ' + parsed.count + '/5 fields — review & click Add to Leads Pool.');
+        } else if (parsed.count >= 1) {
+          setSnipDetectStatus('partial', 'Auto-detected ' + parsed.count + '/5 fields — please complete the remaining fields.');
+        } else {
+          setSnipDetectStatus('partial', 'Could not auto-detect structured fields — please enter details below.');
+        }
+      }
+
+      function handleSnipTextInput() {
+        clearTimeout(snipParseDebounce);
+        snipParseDebounce = setTimeout(function () {
+          var txt = document.getElementById('snipRawText').value.trim();
+          if (txt.length >= 4) applyParsedWhatsAppLead(txt);
+        }, 320);
+      }
+
+      function reparseSnipText() {
+        var txt = document.getElementById('snipRawText').value.trim();
+        if (!txt) {
+          showToast('Paste WhatsApp text first');
+          return;
+        }
+        applyParsedWhatsAppLead(txt);
+        showToast('Re-parsed WhatsApp text');
+      }
+
+      function saveSnipLead(e) {
+        e.preventDefault();
+        var date = document.getElementById('snipDate').value || toIsoDate(new Date());
+        var company = document.getElementById('snipCompany').value.trim();
+        var sector = document.getElementById('snipSector').value.trim() || 'General';
+        var assignedTo = document.getElementById('snipAssignedTo').value.trim() || 'Unassigned';
+        var amount = parseFloat(document.getElementById('snipAmount').value) || 0;
+        var notes = document.getElementById('snipNotes').value.trim();
+
+        if (!company) return;
+        if (!Array.isArray(state.leadsPool)) state.leadsPool = [];
+
+        state.leadsPool.unshift({
+          id: 'lp_' + Date.now(),
+          date: date,
+          company: company,
+          sector: sector,
+          assignedTo: assignedTo,
+          amount: Number(amount.toFixed(2)),
+          notes: notes
+        });
+
+        closeModal('snipImportModal');
+        renderAll();
+        saveToSupabase(false);
+        showToast('Lead imported to Leads Pool & synced!');
+      }
+
+      // Global Ctrl+V Paste Listener for Windows Snipping Tool screenshots
+      document.addEventListener('paste', function (e) {
+        var pinOverlay = document.getElementById('pinOverlay');
+        if (pinOverlay && !pinOverlay.classList.contains('hidden')) return;
+
+        var modal = document.getElementById('snipImportModal');
+        var isModalOpen = modal && !modal.classList.contains('hidden');
+
+        // Only handle global paste when on Leads Pool tab OR when snipImportModal is open
+        if (!isModalOpen && currentTab !== 'leadspool') return;
+
+        var activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+        var isTypingField = activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select';
+
+        var items = e.clipboardData && e.clipboardData.items;
+        if (!items) return;
+
+        var imageFile = null;
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].type && items[i].type.indexOf('image/') === 0) {
+            imageFile = items[i].getAsFile();
+            break;
+          }
+        }
+
+        if (imageFile) {
+          // If pasting an image while on Leads Pool (not typing) OR anywhere inside snipImportModal
+          if (isModalOpen || !isTypingField) {
+            e.preventDefault();
+            if (!isModalOpen) openSnipImportModal();
+            processSnipImageFile(imageFile);
+          }
+        }
+      });
 
       function jumpToStage(stageName) {
         document.getElementById('oppStageFilter').value = stageName;
@@ -4445,6 +4546,16 @@
       window.saveLead = saveLead;
       window.deleteLead = deleteLead;
       window.renderLeadsPoolView = renderLeadsPoolView;
+      window.openSnipImportModal = openSnipImportModal;
+      window.triggerSnipImageUpload = triggerSnipImageUpload;
+      window.clearSnipPreview = clearSnipPreview;
+      window.handleSnipDragOver = handleSnipDragOver;
+      window.handleSnipDragLeave = handleSnipDragLeave;
+      window.handleSnipDrop = handleSnipDrop;
+      window.handleSnipFileSelected = handleSnipFileSelected;
+      window.handleSnipTextInput = handleSnipTextInput;
+      window.reparseSnipText = reparseSnipText;
+      window.saveSnipLead = saveSnipLead;
       window.triggerPdfUpload = triggerPdfUpload;
       window.handlePdfFileSelected = handlePdfFileSelected;
       window.toggleQuoteBreakdownItem = toggleQuoteBreakdownItem;
