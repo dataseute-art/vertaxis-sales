@@ -340,6 +340,12 @@
       justify-content: center;
     }
 
+    .nav-badge-pool {
+      background: rgba(56, 189, 248, 0.22);
+      color: #BAE6FD;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+
     .sidebar-banner {
       position: relative;
       height: 205px;
@@ -867,12 +873,15 @@
       align-items: center;
       justify-content: center;
       color: #FFFFFF;
-      font-size: 13px;
+      font-size: 12.2px;
       font-weight: 600;
       letter-spacing: -0.01em;
       transition: filter 0.16s, transform 0.16s;
-      padding: 0 12px;
+      padding: 0 10px;
       text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .funnel-row:hover .funnel-bar {
@@ -1137,6 +1146,33 @@
       font-weight: 700;
       white-space: nowrap;
       margin-left: 6px;
+    }
+
+    .sector-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      color: #334155;
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .exec-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      color: #1D4ED8;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
     }
 
     .inline-stage-select {
@@ -1543,6 +1579,14 @@
               <span>Settings</span>
             </span>
           </button>
+
+          <button type="button" class="nav-btn" data-tab="leadspool" onclick="switchTab('leadspool')">
+            <span class="nav-btn-inner">
+              <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              <span>Leads Pool</span>
+            </span>
+            <span id="sidebarLeadsPoolBadge" class="nav-badge nav-badge-pool hidden">0</span>
+          </button>
         </nav>
       </div>
 
@@ -1832,11 +1876,11 @@
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/></svg>
                 <input id="oppSearch" type="text" class="input-control" placeholder="Search company, deal, or quote no..." oninput="renderOpportunitiesTable()" />
               </div>
-              <select id="oppStageFilter" class="select-control" style="width:170px;" onchange="renderOpportunitiesTable()">
+              <select id="oppStageFilter" class="select-control" style="width:205px;" onchange="renderOpportunitiesTable()">
                 <option value="All">All Stages</option>
-                <option value="Prospect Identified">Prospect Identified</option>
+                <option value="Marketing Qualified Lead">Marketing Qualified Lead</option>
                 <option value="In Nurturing">In Nurturing</option>
-                <option value="Qualified">Qualified</option>
+                <option value="Sales Qualified Lead">Sales Qualified Lead</option>
                 <option value="Quotation Sent">Quotation Sent</option>
                 <option value="Negotiation">Negotiation</option>
                 <option value="Won">Won</option>
@@ -1916,6 +1960,27 @@
               </table>
             </div>
           </div>
+
+          <!-- Leads Pool Summary by Executive -->
+          <div class="table-card">
+            <div class="panel-header-dark">
+              <span class="panel-header-title">Leads Pool by Executive</span>
+              <span id="reportsPoolSummary" class="panel-header-right">0 leads</span>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Executive</th>
+                    <th class="text-right">Leads Assigned</th>
+                    <th class="text-right">Total Pool Value (₹ L)</th>
+                    <th class="text-right">Share of Pool</th>
+                  </tr>
+                </thead>
+                <tbody id="reportsLeadsPoolBody"></tbody>
+              </table>
+            </div>
+          </div>
         </section>
 
         <!-- VIEW 6: SETTINGS -->
@@ -1981,10 +2046,67 @@
               <div class="settings-row">
                 <div>
                   <div class="settings-title" style="color:var(--danger);">Reset All Data to Zero</div>
-                  <div class="settings-desc">Clears all companies, opportunities, and follow-ups locally and in Supabase.</div>
+                  <div class="settings-desc">Clears all companies, opportunities, follow-ups, and leads pool locally and in Supabase.</div>
                 </div>
                 <button type="button" class="btn-sm btn-danger-soft" onclick="openModal('clearConfirmModal')">Reset All Data to Zero</button>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 7: LEADS POOL (BELOW SETTINGS) -->
+        <section id="view-leadspool" class="view-section hidden">
+          <!-- Top Summary Strip -->
+          <div class="report-kpi-grid">
+            <div class="stat-card">
+              <div class="stat-label">Total Forwarded Leads</div>
+              <div id="lpTotalCount" class="stat-val">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Total Pool Value</div>
+              <div id="lpTotalValue" class="stat-val" style="color:#1D63ED;">₹0.0 L</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Active Executives</div>
+              <div id="lpExecCount" class="stat-val" style="color:#15803D;">0</div>
+            </div>
+          </div>
+
+          <!-- Toolbar -->
+          <div class="section-toolbar">
+            <div>
+              <h2 class="section-heading">Leads Pool</h2>
+              <p class="section-sub">Track and manage leads forwarded to junior sales executives.</p>
+            </div>
+            <div class="toolbar-actions">
+              <div class="search-box">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/></svg>
+                <input id="lpSearch" type="text" class="input-control" placeholder="Search company, sector, or executive..." oninput="renderLeadsPoolView()" />
+              </div>
+              <select id="lpExecFilter" class="select-control" style="width:185px;" onchange="renderLeadsPoolView()">
+                <option value="All">All Executives</option>
+              </select>
+              <button type="button" class="btn-md btn-primary" onclick="openLeadModal()">+ Add Lead</button>
+            </div>
+          </div>
+
+          <!-- Leads Pool Table -->
+          <div class="table-card">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width:72px;">Sr. No.</th>
+                    <th>Date</th>
+                    <th>Company</th>
+                    <th>Sector</th>
+                    <th>Assigned To</th>
+                    <th class="text-right">Amount</th>
+                    <th class="text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="leadsPoolTableBody"></tbody>
+              </table>
             </div>
           </div>
         </section>
@@ -2033,9 +2155,9 @@
           <div>
             <label class="field-label">Funnel Stage</label>
             <select id="oppStage" class="select-control">
-              <option value="Prospect Identified">Prospect Identified</option>
+              <option value="Marketing Qualified Lead">Marketing Qualified Lead</option>
               <option value="In Nurturing">In Nurturing</option>
-              <option value="Qualified">Qualified</option>
+              <option value="Sales Qualified Lead">Sales Qualified Lead</option>
               <option value="Quotation Sent">Quotation Sent</option>
               <option value="Negotiation">Negotiation</option>
               <option value="Won">Won</option>
@@ -2155,53 +2277,68 @@
           <div>
             <label class="field-label">Funnel Stage</label>
             <select id="qiStage" class="select-control">
-              <option value="Prospect Identified">Prospect Identified</option>
+              <option value="Marketing Qualified Lead">Marketing Qualified Lead</option>
               <option value="In Nurturing">In Nurturing</option>
-              <option value="Qualified">Qualified</option>
+              <option value="Sales Qualified Lead">Sales Qualified Lead</option>
               <option value="Quotation Sent" selected>Quotation Sent</option>
               <option value="Negotiation">Negotiation</option>
               <option value="Won">Won</option>
             </select>
           </div>
         </div>
-
-        <!-- Smart 3-Tier Detected Price Breakdown -->
-        <div id="qiBreakdownBox" class="breakdown-box">
-          <div class="breakdown-header">
-            <span class="breakdown-title">Detected Price Breakdown</span>
-            <span id="qiTierBadge" class="breakdown-badge badge-manual">Manual Entry</span>
+  <!-- Add / Edit Lead Modal (Leads Pool) -->
+  <div id="leadModal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span id="leadModalTitle" class="modal-title">Add Lead to Pool</span>
+        <button type="button" class="modal-close" onclick="closeModal('leadModal')">✕</button>
+      </div>
+      <form id="leadForm" class="modal-body" onsubmit="saveLead(event)">
+        <input type="hidden" id="leadEditId" value="" />
+        <div class="form-grid-2">
+          <div>
+            <label class="field-label">Date</label>
+            <input id="leadDate" type="date" required class="input-control" />
           </div>
-          <div id="qiBreakdownList" class="breakdown-list"></div>
-        </div>
-
-        <div class="gst-box">
-          <div class="form-grid-2">
-            <div>
-              <label class="field-label">Base Amount (₹ INR)</label>
-              <input id="qiBaseInr" type="number" step="1" min="0" class="input-control" oninput="recalcQuoteLakhs()" />
-            </div>
-            <div>
-              <label class="field-label">Deal Value (₹ Lakhs)</label>
-              <input id="qiValueLakhs" type="number" step="0.01" min="0" required class="input-control" style="font-weight:700;color:#1D63ED;" />
-            </div>
+          <div>
+            <label class="field-label">Amount (₹ Lakhs)</label>
+            <input id="leadAmount" type="number" step="0.01" min="0" required placeholder="e.g., 3.50" class="input-control" />
           </div>
-          <label class="checkbox-row">
-            <input id="qiIncludeGst" type="checkbox" onchange="recalcQuoteLakhs()" />
-            <span>Include 18% GST (multiplies base amount × 1.18)</span>
-          </label>
         </div>
-
-        <div class="gst-box">
-          <label class="checkbox-row">
-            <input id="qiAutoFollowup" type="checkbox" checked />
-            <span>Auto-create Follow-up (+3 days, High priority)</span>
-          </label>
-          <input id="qiFollowupTask" type="text" class="input-control" placeholder="Follow-up note..." />
+        <div>
+          <label class="field-label">Company Name</label>
+          <input id="leadCompany" list="companyDatalist" type="text" required placeholder="e.g., Shree Jewellers Pune" class="input-control" />
         </div>
-
+        <div class="form-grid-2">
+          <div>
+            <label class="field-label">Sector</label>
+            <input id="leadSector" list="sectorDatalist" type="text" required placeholder="e.g., Retail" class="input-control" />
+            <datalist id="sectorDatalist">
+              <option value="Retail"></option>
+              <option value="Jewellery"></option>
+              <option value="Real Estate"></option>
+              <option value="Manufacturing"></option>
+              <option value="Hospitality"></option>
+              <option value="Healthcare"></option>
+              <option value="Education"></option>
+              <option value="AV Integrator"></option>
+              <option value="OOH Media"></option>
+              <option value="Corporate"></option>
+            </datalist>
+          </div>
+          <div>
+            <label class="field-label">Assigned To (Executive)</label>
+            <input id="leadAssignedTo" list="execDatalist" type="text" required placeholder="e.g., Rupesh Wadile" class="input-control" />
+            <datalist id="execDatalist"></datalist>
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Remarks / Notes (Optional)</label>
+          <input id="leadNotes" type="text" placeholder="e.g., Outdoor P4 inquiry, forwarded for site visit" class="input-control" />
+        </div>
         <div class="modal-footer">
-          <button type="button" class="btn-sm btn-secondary" onclick="closeModal('quoteImportModal')">Cancel</button>
-          <button type="submit" class="btn-sm btn-green">Import &amp; Update Dashboard</button>
+          <button type="button" class="btn-sm btn-secondary" onclick="closeModal('leadModal')">Cancel</button>
+          <button type="submit" class="btn-sm btn-primary">Save Lead</button>
         </div>
       </form>
     </div>
@@ -2216,7 +2353,7 @@
       </div>
       <div class="modal-body">
         <p style="font-size:13.5px;color:#334155;line-height:1.5;">
-          This will clear all Companies, Opportunities, and Follow-ups both locally and in your Supabase database. Your 4-digit security PIN will remain unchanged.
+          This will clear all Companies, Opportunities, Follow-ups, and Leads Pool records both locally and in your Supabase database. Your 4-digit security PIN will remain unchanged.
         </p>
         <div class="modal-footer">
           <button type="button" class="btn-sm btn-secondary" onclick="closeModal('clearConfirmModal')">Cancel</button>
@@ -2270,13 +2407,18 @@
       var UNLOCK_SESSION_KEY = 'vertaxis_unlocked';
 
       var FUNNEL_STAGES = [
-        { name: 'Prospect Identified', color: '#1D63ED', topW: 100, botW: 89 },
-        { name: 'In Nurturing',        color: '#06B6D4', topW: 88,  botW: 77 },
-        { name: 'Qualified',           color: '#16A34A', topW: 76,  botW: 65 },
-        { name: 'Quotation Sent',      color: '#F59E0B', topW: 64,  botW: 54 },
-        { name: 'Negotiation',         color: '#8B5CF6', topW: 53,  botW: 43 },
-        { name: 'Won',                 color: '#15803D', topW: 42,  botW: 32 }
+        { name: 'Marketing Qualified Lead', color: '#1D63ED', topW: 100, botW: 89 },
+        { name: 'In Nurturing',             color: '#00A8CC', topW: 88,  botW: 77 },
+        { name: 'Sales Qualified Lead',     color: '#22A85A', topW: 76,  botW: 65 },
+        { name: 'Quotation Sent',           color: '#F2911B', topW: 64,  botW: 54 },
+        { name: 'Negotiation',              color: '#8B5CF6', topW: 53,  botW: 43 },
+        { name: 'Won',                      color: '#15803D', topW: 42,  botW: 32 }
       ];
+
+      var LEGACY_STAGE_MAP = {
+        'Prospect Identified': 'Marketing Qualified Lead',
+        'Qualified': 'Sales Qualified Lead'
+      };
 
       var SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -2285,6 +2427,7 @@
           companies: [],
           opportunities: [],
           followUps: [],
+          leadsPool: [],
           pin: /^\d{4}$/.test(String(existingPin || '')) ? String(existingPin) : '1234'
         };
       }
@@ -2363,10 +2506,11 @@
 
         var opportunities = Array.isArray(raw.opportunities)
           ? raw.opportunities.map(function (o, idx) {
-              var stageName = o && o.stage ? String(o.stage) : 'Prospect Identified';
-              var validStage = FUNNEL_STAGES.some(function (s) { return s.name === stageName; })
-                ? stageName
-                : 'Prospect Identified';
+              var rawStage = o && o.stage ? String(o.stage).trim() : 'Marketing Qualified Lead';
+              var mappedStage = LEGACY_STAGE_MAP[rawStage] || rawStage;
+              var validStage = FUNNEL_STAGES.some(function (s) { return s.name === mappedStage; })
+                ? mappedStage
+                : 'Marketing Qualified Lead';
               var rawDate = String((o && o.date) || '');
               return {
                 id: String((o && o.id) || ('o_' + idx + '_' + Date.now())),
@@ -2397,10 +2541,31 @@
           };
         }).filter(function (f) { return f.company.length > 0 || f.task.length > 0; });
 
+        var leadsPool = Array.isArray(raw.leadsPool)
+          ? raw.leadsPool.map(function (l, idx) {
+              var rawDate = String((l && l.date) || '');
+              return {
+                id: String((l && l.id) || ('lp_' + idx + '_' + Date.now())),
+                date: /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : toIsoDate(new Date()),
+                company: String((l && l.company) || '').trim(),
+                sector: String((l && l.sector) || 'General').trim(),
+                assignedTo: String((l && l.assignedTo) || 'Unassigned').trim(),
+                amount: Number(parseFloat(l && l.amount) || 0),
+                notes: String((l && l.notes) || '').trim()
+              };
+            }).filter(function (l) { return l.company.length > 0; })
+          : [];
+
         var rawPin = raw.pin || (raw.settings && raw.settings.pin) || '1234';
         var pin = /^\d{4}$/.test(String(rawPin)) ? String(rawPin) : '1234';
 
-        return { companies: companies, opportunities: opportunities, followUps: followUps, pin: pin };
+        return {
+          companies: companies,
+          opportunities: opportunities,
+          followUps: followUps,
+          leadsPool: leadsPool,
+          pin: pin
+        };
       }
 
       function hasAnyRecords(st) {
@@ -2408,7 +2573,8 @@
           st && (
             (st.companies && st.companies.length > 0) ||
             (st.opportunities && st.opportunities.length > 0) ||
-            (st.followUps && st.followUps.length > 0)
+            (st.followUps && st.followUps.length > 0) ||
+            (st.leadsPool && st.leadsPool.length > 0)
           )
         );
       }
@@ -2695,12 +2861,13 @@
         opportunities: ['Opportunities', 'Search, edit, or move deals through your sales funnel'],
         followups:     ['Follow-ups', 'Stay on top of quotations, brochures, and site visits'],
         reports:       ['Reports', 'Stage-wise pipeline breakdown and conversion metrics'],
-        settings:      ['Settings', 'Security PIN, cloud sync, and data backups']
+        settings:      ['Settings', 'Security PIN, cloud sync, and data backups'],
+        leadspool:     ['Leads Pool', 'Track leads forwarded to junior sales executives']
       };
 
       function switchTab(tabName) {
         currentTab = tabName;
-        var tabs = ['dashboard', 'companies', 'opportunities', 'followups', 'reports', 'settings'];
+        var tabs = ['dashboard', 'companies', 'opportunities', 'followups', 'reports', 'settings', 'leadspool'];
         for (var i = 0; i < tabs.length; i++) {
           var sec = document.getElementById('view-' + tabs[i]);
           if (sec) sec.classList.toggle('hidden', tabs[i] !== tabName);
@@ -2877,8 +3044,8 @@
         var wonVal = stageTotals['Won'];
         var wonCount = stageCounts['Won'];
         var nurturingVal = stageTotals['In Nurturing'];
-        var activeVal = stageTotals['Qualified'] + stageTotals['Quotation Sent'] + stageTotals['Negotiation'];
-        var openPipeline = stageTotals['Prospect Identified'] + nurturingVal + activeVal;
+        var activeVal = stageTotals['Sales Qualified Lead'] + stageTotals['Quotation Sent'] + stageTotals['Negotiation'];
+        var openPipeline = stageTotals['Marketing Qualified Lead'] + nurturingVal + activeVal;
         var openCount = opps.length - wonCount;
         var totalAll = openPipeline + wonVal;
         var denom = totalAll > 0 ? totalAll : 1;
@@ -3251,6 +3418,195 @@
             '<td class="text-right text-muted font-bold">' + pct + '%</td>' +
           '</tr>';
         }).join('');
+
+        // Leads Pool by Executive breakdown
+        var pool = Array.isArray(state.leadsPool) ? state.leadsPool : [];
+        var poolSummaryEl = document.getElementById('reportsPoolSummary');
+        var poolBodyEl = document.getElementById('reportsLeadsPoolBody');
+        if (poolSummaryEl) {
+          poolSummaryEl.textContent = pool.length + (pool.length === 1 ? ' lead' : ' leads');
+        }
+        if (poolBodyEl) {
+          if (pool.length === 0) {
+            poolBodyEl.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:26px;color:#64748B;">No leads forwarded to executives yet.</td></tr>';
+          } else {
+            var execMap = {};
+            var totalPoolVal = 0;
+            for (var p = 0; p < pool.length; p++) {
+              var execName = pool[p].assignedTo || 'Unassigned';
+              var amt = Number(pool[p].amount) || 0;
+              totalPoolVal += amt;
+              if (!execMap[execName]) execMap[execName] = { name: execName, count: 0, value: 0 };
+              execMap[execName].count += 1;
+              execMap[execName].value += amt;
+            }
+            var execRows = Object.keys(execMap)
+              .map(function (k) { return execMap[k]; })
+              .sort(function (a, b) { return b.value - a.value || b.count - a.count; });
+
+            poolBodyEl.innerHTML = execRows.map(function (er) {
+              var share = totalPoolVal > 0 ? Math.round((er.value / totalPoolVal) * 100) : 0;
+              return '<tr>' +
+                '<td><span class="exec-pill">' + escapeHTML(er.name) + '</span></td>' +
+                '<td class="text-right font-bold">' + er.count + '</td>' +
+                '<td class="text-right font-bold nowrap">' + formatLakhs(er.value) + '</td>' +
+                '<td class="text-right text-muted font-bold">' + share + '%</td>' +
+              '</tr>';
+            }).join('');
+          }
+        }
+      }
+
+      // ==========================================
+      // 7B. LEADS POOL VIEW & CRUD
+      // ==========================================
+      function renderLeadsPoolView() {
+        var pool = Array.isArray(state.leadsPool) ? state.leadsPool : [];
+
+        // Sidebar count badge
+        var lpBadge = document.getElementById('sidebarLeadsPoolBadge');
+        if (lpBadge) {
+          lpBadge.textContent = String(pool.length);
+          lpBadge.classList.toggle('hidden', pool.length === 0);
+        }
+
+        // Dynamic executive list for filter & datalist
+        var execSet = {};
+        var totalVal = 0;
+        for (var i = 0; i < pool.length; i++) {
+          var ex = (pool[i].assignedTo || '').trim();
+          if (ex) execSet[ex] = true;
+          totalVal += Number(pool[i].amount) || 0;
+        }
+        var executives = Object.keys(execSet).sort();
+
+        document.getElementById('lpTotalCount').textContent = String(pool.length);
+        document.getElementById('lpTotalValue').textContent = formatLakhs(totalVal);
+        document.getElementById('lpExecCount').textContent = String(executives.length);
+
+        var execSelect = document.getElementById('lpExecFilter');
+        var prevSelected = execSelect ? execSelect.value : 'All';
+        if (execSelect) {
+          execSelect.innerHTML = '<option value="All">All Executives</option>' +
+            executives.map(function (name) {
+              return '<option value="' + escapeHTML(name) + '">' + escapeHTML(name) + '</option>';
+            }).join('');
+          execSelect.value = executives.indexOf(prevSelected) !== -1 ? prevSelected : 'All';
+        }
+
+        var execDatalist = document.getElementById('execDatalist');
+        if (execDatalist) {
+          execDatalist.innerHTML = executives.map(function (name) {
+            return '<option value="' + escapeHTML(name) + '"></option>';
+          }).join('');
+        }
+
+        var searchEl = document.getElementById('lpSearch');
+        var searchVal = searchEl ? (searchEl.value || '').trim().toLowerCase() : '';
+        var execFilter = execSelect ? execSelect.value : 'All';
+
+        var filtered = pool.filter(function (l) {
+          if (execFilter !== 'All' && l.assignedTo !== execFilter) return false;
+          if (searchVal) {
+            var hay = (l.company + ' ' + l.sector + ' ' + l.assignedTo + ' ' + (l.notes || '')).toLowerCase();
+            if (hay.indexOf(searchVal) === -1) return false;
+          }
+          return true;
+        });
+
+        var tbody = document.getElementById('leadsPoolTableBody');
+        if (!tbody) return;
+        if (filtered.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:34px;color:#64748B;">No forwarded leads yet. Click "+ Add Lead" to assign a lead to an executive.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(function (l, idx) {
+          var notesHtml = l.notes ? '<div class="text-muted" style="margin-top:2px;">' + escapeHTML(l.notes) + '</div>' : '';
+          return '<tr>' +
+            '<td class="font-bold text-muted">' + (idx + 1) + '</td>' +
+            '<td class="nowrap text-muted" style="font-weight:600;color:#475569;">' + escapeHTML(l.date) + '</td>' +
+            '<td><div class="font-bold">' + escapeHTML(l.company) + '</div>' + notesHtml + '</td>' +
+            '<td><span class="sector-pill">' + escapeHTML(l.sector) + '</span></td>' +
+            '<td><span class="exec-pill">' + escapeHTML(l.assignedTo) + '</span></td>' +
+            '<td class="text-right font-bold nowrap">' + formatLakhs(l.amount) + '</td>' +
+            '<td class="text-right nowrap">' +
+              '<button type="button" class="action-link edit" onclick="openEditLeadModal(\'' + escapeHTML(l.id) + '\')">Edit</button>' +
+              '<button type="button" class="action-link delete" onclick="deleteLead(\'' + escapeHTML(l.id) + '\')">Delete</button>' +
+            '</td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function openLeadModal() {
+        document.getElementById('leadForm').reset();
+        document.getElementById('leadEditId').value = '';
+        document.getElementById('leadModalTitle').textContent = 'Add Lead to Pool';
+        document.getElementById('leadDate').value = toIsoDate(new Date());
+        openModal('leadModal');
+      }
+
+      function openEditLeadModal(id) {
+        var lead = state.leadsPool.find(function (l) { return l.id === id; });
+        if (!lead) return;
+        document.getElementById('leadEditId').value = lead.id;
+        document.getElementById('leadModalTitle').textContent = 'Edit Forwarded Lead';
+        document.getElementById('leadDate').value = lead.date;
+        document.getElementById('leadCompany').value = lead.company;
+        document.getElementById('leadSector').value = lead.sector;
+        document.getElementById('leadAssignedTo').value = lead.assignedTo;
+        document.getElementById('leadAmount').value = lead.amount;
+        document.getElementById('leadNotes').value = lead.notes || '';
+        openModal('leadModal');
+      }
+
+      function saveLead(e) {
+        e.preventDefault();
+        var editId = document.getElementById('leadEditId').value;
+        var date = document.getElementById('leadDate').value || toIsoDate(new Date());
+        var company = document.getElementById('leadCompany').value.trim();
+        var sector = document.getElementById('leadSector').value.trim() || 'General';
+        var assignedTo = document.getElementById('leadAssignedTo').value.trim() || 'Unassigned';
+        var amount = parseFloat(document.getElementById('leadAmount').value) || 0;
+        var notes = document.getElementById('leadNotes').value.trim();
+
+        if (!company) return;
+
+        if (!Array.isArray(state.leadsPool)) state.leadsPool = [];
+
+        if (editId) {
+          var existing = state.leadsPool.find(function (l) { return l.id === editId; });
+          if (existing) {
+            existing.date = date;
+            existing.company = company;
+            existing.sector = sector;
+            existing.assignedTo = assignedTo;
+            existing.amount = Number(amount.toFixed(2));
+            existing.notes = notes;
+          }
+        } else {
+          state.leadsPool.unshift({
+            id: 'lp_' + Date.now(),
+            date: date,
+            company: company,
+            sector: sector,
+            assignedTo: assignedTo,
+            amount: Number(amount.toFixed(2)),
+            notes: notes
+          });
+        }
+
+        closeModal('leadModal');
+        renderAll();
+        saveToSupabase(false);
+        showToast(editId ? 'Lead updated & synced' : 'Lead added to pool & synced');
+      }
+
+      function deleteLead(id) {
+        state.leadsPool = state.leadsPool.filter(function (l) { return l.id !== id; });
+        renderAll();
+        saveToSupabase(false);
+        showToast('Lead removed from pool');
       }
 
       function jumpToStage(stageName) {
@@ -4005,6 +4361,7 @@
           renderOpportunitiesTable();
           renderFollowupsView();
           renderReportsView(filteredOpps, metrics);
+          renderLeadsPoolView();
         } catch (err) {
           console.error('Render error:', err);
           showErrorBanner('Render Error: ' + (err && err.message ? err.message : String(err)));
@@ -4037,6 +4394,11 @@
       window.saveFollowup = saveFollowup;
       window.toggleFollowupDone = toggleFollowupDone;
       window.deleteFollowup = deleteFollowup;
+      window.openLeadModal = openLeadModal;
+      window.openEditLeadModal = openEditLeadModal;
+      window.saveLead = saveLead;
+      window.deleteLead = deleteLead;
+      window.renderLeadsPoolView = renderLeadsPoolView;
       window.triggerPdfUpload = triggerPdfUpload;
       window.handlePdfFileSelected = handlePdfFileSelected;
       window.toggleQuoteBreakdownItem = toggleQuoteBreakdownItem;
