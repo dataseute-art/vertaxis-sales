@@ -2286,6 +2286,47 @@
             </select>
           </div>
         </div>
+
+        <!-- Smart 3-Tier Extracted Breakdown -->
+        <div class="breakdown-box">
+          <div class="breakdown-header">
+            <span class="breakdown-title">Extracted Pricing Breakdown</span>
+            <span id="qiTierBadge" class="breakdown-badge badge-manual">Manual Entry</span>
+          </div>
+          <div id="qiBreakdownList" class="breakdown-list"></div>
+        </div>
+
+        <div class="form-grid-2">
+          <div>
+            <label class="field-label">Base Amount (₹ INR)</label>
+            <input id="qiBaseInr" type="number" step="1" min="0" placeholder="e.g., 411213" class="input-control" oninput="recalcQuoteLakhs()" />
+          </div>
+          <div>
+            <label class="field-label">Final Deal Value (₹ Lakhs)</label>
+            <input id="qiValueLakhs" type="number" step="0.01" min="0" required class="input-control" />
+          </div>
+        </div>
+
+        <div class="gst-box">
+          <label class="checkbox-row">
+            <input id="qiIncludeGst" type="checkbox" onchange="recalcQuoteLakhs()" />
+            <span>Include 18% GST in Deal Value</span>
+          </label>
+          <label class="checkbox-row">
+            <input id="qiAutoFollowup" type="checkbox" checked />
+            <span>Auto-create Follow-up Reminder (+3 Days)</span>
+          </label>
+          <input id="qiFollowupTask" type="text" placeholder="Follow-up task description..." class="input-control" />
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-sm btn-secondary" onclick="closeModal('quoteImportModal')">Cancel</button>
+          <button type="submit" class="btn-sm btn-green">Import &amp; Update Dashboard</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Add / Edit Lead Modal (Leads Pool) -->
   <div id="leadModal" class="modal-backdrop hidden">
     <div class="modal-box">
@@ -2846,7 +2887,8 @@
           return;
         }
         state.pin = nxt;
-        document.getElementById('pinChangeForm').reset();
+        var pinForm = document.getElementById('pinChangeForm');
+        if (pinForm) pinForm.reset();
         updatePinHelperVisibility();
         await saveToSupabase(false);
         showToast('Security PIN updated & synced');
@@ -3539,7 +3581,8 @@
       }
 
       function openLeadModal() {
-        document.getElementById('leadForm').reset();
+        var form = document.getElementById('leadForm');
+        if (form) form.reset();
         document.getElementById('leadEditId').value = '';
         document.getElementById('leadModalTitle').textContent = 'Add Lead to Pool';
         document.getElementById('leadDate').value = toIsoDate(new Date());
@@ -3618,7 +3661,8 @@
       // 8. CRUD ACTIONS (OPPORTUNITIES, COMPANIES, FOLLOW-UPS)
       // ==========================================
       function openOppModal() {
-        document.getElementById('oppForm').reset();
+        var form = document.getElementById('oppForm');
+        if (form) form.reset();
         document.getElementById('oppEditId').value = '';
         document.getElementById('oppModalTitle').textContent = 'Add Opportunity';
         document.getElementById('oppDate').value = toIsoDate(new Date());
@@ -3705,7 +3749,8 @@
       }
 
       function openCompanyModal() {
-        document.getElementById('companyForm').reset();
+        var form = document.getElementById('companyForm');
+        if (form) form.reset();
         openModal('companyModal');
       }
 
@@ -3731,7 +3776,8 @@
       }
 
       function openFollowupModal() {
-        document.getElementById('followupForm').reset();
+        var form = document.getElementById('followupForm');
+        if (form) form.reset();
         document.getElementById('fuDueDate').value = toIsoDate(new Date());
         openModal('followupModal');
       }
